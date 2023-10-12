@@ -1,0 +1,22 @@
+.pagination{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 5px;
+    padding-top: 15px;
+}
+
+.fas.fa-user {
+    font-size: 2em;
+    color: #307BDD;
+}
+
+.flex{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.contain{
+    margin-left: 160px;
+}

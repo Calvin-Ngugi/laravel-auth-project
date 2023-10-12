@@ -1,0 +1,24 @@
+body{
+    margin: 0;
+}
+
+.divide{
+    display: flex;
+}
+
+.content {
+    margin-top: 10px;
+}
+
+.green a{
+    color: honeydew;
+}
+
+.green a:hover{
+    text-decoration: none;
+}
+
+.fas.fa-user {
+    font-size: 1.5em;
+    color: #007BFF; /* Change the color as needed */
+}
