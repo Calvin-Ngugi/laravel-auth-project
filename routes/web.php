@@ -50,3 +50,7 @@ Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 Route::get('/password/change', [AuthController::class, 'showPasswordChangeForm'])->name('password.change');
 
 Route::post('/password/change', [AuthController::class, 'changePassword'])->name('password.change.post');
+
+Route::get('/super-admin/roles', [App\Http\Controllers\AdminController::class, 'showRoles'])->middleware('role:super-admin')->name('admin.showRoles');
+
+Route::post('/super-admin/assign-role', [App\Http\Controllers\AdminController::class, 'assignRole'])->middleware('role:super-admin')->name('admin.showRoles.post');

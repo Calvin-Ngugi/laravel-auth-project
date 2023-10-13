@@ -63,13 +63,18 @@
             </div>
         </div>
     </nav>
-    <div class="nav flex-column nav-pills bg-dark navbar-dark pr-3 pl-3 pb-5 position-fixed justify-content-center h-100"
-        id="v-pills-tab" role="tablist" aria-orientation="vertical">
+    <div class="nav flex-column nav-pills bg-dark navbar-dark pr-3 pl-3 pb-5 position-fixed pt-5 h-100" id="v-pills-tab"
+        role="tablist" aria-orientation="vertical">
         <a class="nav-link {{ Route::currentRouteName() === 'listings' ? 'active' : '' }}"
             href="{{ route('listings') }}">Home</a>
-        <a class="nav-link {{ Route::currentRouteName() === 'users.index' ? 'active' : '' }}"
-            href="{{ route('users.index') }}">User Management</a>
-        <a class="nav-link" href="#v-pills-messages">Messages</a>
+        @auth
+            <a class="nav-link {{ Route::currentRouteName() === 'users.index' ? 'active' : '' }}"
+                href="{{ route('users.index') }}">User Management</a>
+            @if (Auth::user()->role == 'super-admin')
+                <a class="nav-link {{ Route::currentRouteName() === 'admin.showRoles' ? 'active' : '' }}"
+                    href="{{ route('admin.showRoles') }}">Roles</a>
+            @endif
+        @endauth
         <a class="nav-link" href="#v-pills-settings">Settings</a>
     </div>
     </div>

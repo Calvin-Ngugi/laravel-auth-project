@@ -40,6 +40,7 @@ class AuthController extends Controller
             'first_name' => $validatedData['fname'],
             'last_name' => $validatedData['lname'],
             'password' => Hash::make($defaultPassword),
+            'role' => 'user',
             'created_at' => now(),
             'updated_at' => now(),
         ];

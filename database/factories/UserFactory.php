@@ -22,6 +22,7 @@ class UserFactory extends Factory
             'first_name' => 'Calvin',
             'last_name' => 'Ngugi',
             'change_pass' => 1,
+            'role' => 'super-admin',
             'created_at' => now(),
             'updated_at' => now(),
         ];
