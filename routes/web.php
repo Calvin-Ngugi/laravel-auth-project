@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ListingController;
 use App\Models\Listing;
 use Illuminate\Support\Facades\Route;
@@ -39,7 +40,7 @@ Route::get('/users', [AuthController::class, 'index'])->name('users.index');
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
-Route::post('/register', 'App\Http\Controllers\AuthController@register')->name('register');
+Route::post('/register', [AuthController::class, 'register'])->name('register');
 
 Route::get('/otp-verify', [AuthController::class, 'showOtpVerificationForm'])->name('otp_verify');
 
@@ -51,6 +52,6 @@ Route::get('/password/change', [AuthController::class, 'showPasswordChangeForm']
 
 Route::post('/password/change', [AuthController::class, 'changePassword'])->name('password.change.post');
 
-Route::get('/super-admin/roles', [App\Http\Controllers\AdminController::class, 'showRoles'])->middleware('role:super-admin')->name('admin.showRoles');
+Route::get('/super-admin/roles', [AdminController::class, 'showRoles'])->middleware('role:super-admin')->name('admin.showRoles');
 
-Route::post('/super-admin/assign-role', [App\Http\Controllers\AdminController::class, 'assignRole'])->middleware('role:super-admin')->name('admin.showRoles.post');
+Route::post('/super-admin/assign-role', [AdminController::class, 'assignRole'])->middleware('role:super-admin')->name('admin.assignRole.post');

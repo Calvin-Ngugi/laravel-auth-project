@@ -22,7 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
             $table->string('verification_token')->nullable();
             $table->string('change_pass')->default(0);
-            $table->string('role');
+            $table->string('roles');
             $table->timestamps();
         });
     }

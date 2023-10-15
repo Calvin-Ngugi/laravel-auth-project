@@ -70,7 +70,7 @@
         @auth
             <a class="nav-link {{ Route::currentRouteName() === 'users.index' ? 'active' : '' }}"
                 href="{{ route('users.index') }}">User Management</a>
-            @if (Auth::user()->role == 'super-admin')
+            @if (Auth::user()->roles == 'super-admin')
                 <a class="nav-link {{ Route::currentRouteName() === 'admin.showRoles' ? 'active' : '' }}"
                     href="{{ route('admin.showRoles') }}">Roles</a>
             @endif

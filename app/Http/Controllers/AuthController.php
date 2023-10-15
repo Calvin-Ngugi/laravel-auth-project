@@ -8,10 +8,10 @@ use App\Models\Otp;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Spatie\Permission\Models\Role;
 
 class AuthController extends Controller
 {
@@ -24,15 +24,20 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
+        $roles = Role::all();
+        $users = User::all();
+
         $validatedData = $request->validate([
             'username' => 'required',
             'email' => 'required|email',
             'fname' => 'required',
             'lname' => 'required',
+            'role' => ''
         ]);
 
         // Insert the user data into the database
         $defaultPassword = 'Password';
+        $role = $validatedData['role'] ?: 'user';
 
         $insertData = [
             'username' => $validatedData['username'],
@@ -40,7 +45,7 @@ class AuthController extends Controller
             'first_name' => $validatedData['fname'],
             'last_name' => $validatedData['lname'],
             'password' => Hash::make($defaultPassword),
-            'role' => 'user',
+            'role' => $role,
             'created_at' => now(),
             'updated_at' => now(),
         ];
@@ -54,7 +59,7 @@ class AuthController extends Controller
 
         Mail::to($validatedData['email'])->send(new WelcomeMail($emailData));
 
-        return redirect()->route('users.index');
+        return view('register', compact('roles', 'users'));
     }
 
     public function login(Request $request)

@@ -22,38 +22,39 @@
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-        <a class="navbar-brand" href="#">Calvo's org</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+            <a class="navbar-brand" href="#">Calvo's org</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" href="{{ route('listings') }}">Home <span class="sr-only">(current)</span></a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{{ route('users.index') }}">Users</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link disabled" href="#">Profile</a>
-                </li>
-            </ul>
-            <ul class="navbar-nav">
-                @auth
-                    <li class="nav-item mr-2">
-                        <a class="btn btn-danger green" href="{{ route('logout') }}">Logout</a>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ route('listings') }}">Home <span
+                                class="sr-only">(current)</span></a>
                     </li>
-                @endauth
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('users.index') }}">Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#">Profile</a>
+                    </li>
+                </ul>
+                <ul class="navbar-nav">
+                    @auth
+                        <li class="nav-item mr-2">
+                            <a class="btn btn-danger green" href="{{ route('logout') }}">Logout</a>
+                        </li>
+                    @endauth
 
-                @guest
-                    <li class="nav-item mr-2">
-                        <a class="btn btn-info green" href="{{ route('login') }}">Login</a>
-                    </li>
-                @endguest
-            </ul>
-        </div>
+                    @guest
+                        <li class="nav-item mr-2">
+                            <a class="btn btn-info green" href="{{ route('login') }}">Login</a>
+                        </li>
+                    @endguest
+                </ul>
+            </div>
         </div>
     </nav>
     <div class="align">
@@ -62,14 +63,14 @@
             <h1 class="title">Add New User</h1>
             {{-- error handling --}}
             <div class="errors">
-            @if (session('error'))
-                <div class="alert alert-danger">
-                    {{ session('error') }}
-                </div>
-            @endif
-            @error('email')
-                <span class="alert alert-danger" role="alert" class="text-danger">{{ $message }}</span>
-            @enderror
+                @if (session('error'))
+                    <div class="alert alert-danger">
+                        {{ session('error') }}
+                    </div>
+                @endif
+                @error('email')
+                    <span class="alert alert-danger" role="alert" class="text-danger">{{ $message }}</span>
+                @enderror
             </div>
 
             <div class="column">
@@ -82,6 +83,16 @@
                 <input type="text" name="fname" class="form-control" id="Fname" placeholder="Enter first Name">
                 <label for="lname">Last Name</label>
                 <input type="text" name="lname" class="form-control" id="Lname" placeholder="Enter last Name">
+                @auth
+                    @if ($roles && Auth::user() && Auth::user()->role === 'super-admin')
+                        <label for="role">Role</label>
+                        <select name="role" id="role" class="form-control">
+                            @foreach ($roles as $role)
+                                <option value="{{ $role->id }}">{{ $role->name }}</option>
+                            @endforeach
+                        </select>
+                    @endif
+                @endauth
             </div>
             <button class="btn btn-success" type="submit">Submit</button>
         </form>

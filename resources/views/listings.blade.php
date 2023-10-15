@@ -14,7 +14,7 @@
 
     @section('content')
         <div class="contain">
-            <h1>Lorem texts</h1>
+            <h2>Lorem texts</h2>
             @unless (count($listings) == 0)
                 @foreach ($listings as $listing)
                     <div class="card mt-2 mb-3">
