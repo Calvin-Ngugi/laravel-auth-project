@@ -32,12 +32,10 @@ class AuthController extends Controller
             'email' => 'required|email',
             'fname' => 'required',
             'lname' => 'required',
-            'role' => ''
         ]);
 
         // Insert the user data into the database
         $defaultPassword = 'Password';
-        $role = $validatedData['role'] ?: 'user';
 
         $insertData = [
             'username' => $validatedData['username'],
@@ -45,7 +43,7 @@ class AuthController extends Controller
             'first_name' => $validatedData['fname'],
             'last_name' => $validatedData['lname'],
             'password' => Hash::make($defaultPassword),
-            'role' => $role,
+            'roles' => 'user',
             'created_at' => now(),
             'updated_at' => now(),
         ];
@@ -59,7 +57,7 @@ class AuthController extends Controller
 
         Mail::to($validatedData['email'])->send(new WelcomeMail($emailData));
 
-        return view('register', compact('roles', 'users'));
+        return redirect()->route('listings');
     }
 
     public function login(Request $request)

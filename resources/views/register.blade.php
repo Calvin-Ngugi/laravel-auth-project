@@ -83,16 +83,6 @@
                 <input type="text" name="fname" class="form-control" id="Fname" placeholder="Enter first Name">
                 <label for="lname">Last Name</label>
                 <input type="text" name="lname" class="form-control" id="Lname" placeholder="Enter last Name">
-                @auth
-                    @if ($roles && Auth::user() && Auth::user()->role === 'super-admin')
-                        <label for="role">Role</label>
-                        <select name="role" id="role" class="form-control">
-                            @foreach ($roles as $role)
-                                <option value="{{ $role->id }}">{{ $role->name }}</option>
-                            @endforeach
-                        </select>
-                    @endif
-                @endauth
             </div>
             <button class="btn btn-success" type="submit">Submit</button>
         </form>
