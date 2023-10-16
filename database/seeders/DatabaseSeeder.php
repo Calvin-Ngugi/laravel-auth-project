@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Listing;
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
 
@@ -48,7 +49,16 @@ class DatabaseSeeder extends Seeder
         ]);
 
         // Create a super admin user
-        $superAdminUser = User::factory()->create();
+        $superAdminUser = User::create([
+            'username' => 'Valcin',
+            'email' => 'ncalvin67@gmail.com',
+            'password' => Hash::make('Protection'),
+            'first_name' => 'Calvin',
+            'last_name' => 'Ngugi',
+            'change_pass' => 1,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
         $superAdminUser->assignRole('super-admin');
         
         // Create listings

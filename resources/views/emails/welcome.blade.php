@@ -4,7 +4,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../css/email.css" title="Welcome">
     <style>
         body {
             background-color: bisque;
@@ -34,7 +33,7 @@
         }
 
         a {
-            background-color: rgb(77, 233, 236);
+            color: rgb(77, 233, 236);
             text-decoration: none;
         }
         a :hover{

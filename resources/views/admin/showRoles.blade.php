@@ -13,13 +13,14 @@
     @extends('layout')
 
     @section('content')
-        <div class="contain pt-2">
-            <h2>Roles and Permissions</h2>
-
+        <div class="contain mr-3 pt-3">
+            <h2 class="mb-3">Roles and Permissions</h2>
             @foreach ($roles as $role)
                 <div class="card mb-3">
                     <div class="card-header">
-                        Role: {{ $role->name }}
+                        <h5>
+                            Role: {{ $role->name }}
+                        </h5>
                     </div>
                     <div class="card-body">
                         <h5 class="card-title">Permissions:</h5>

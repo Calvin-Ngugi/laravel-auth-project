@@ -40,9 +40,4 @@ class User extends Authenticatable
     {
         return $this->hasOne(Otp::class);
     }
-
-    public function roles()
-    {
-        return $this->belongsToMany('Spatie\Permission\Models\Role');
-    }
 }

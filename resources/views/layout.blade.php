@@ -23,7 +23,7 @@
 
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-        <div class="container">
+        <div class="container-fluid">
             @auth
                 <a href="#" class="navbar-brand">
                     Welcome {{ Auth::user()->username }}
@@ -63,23 +63,21 @@
             </div>
         </div>
     </nav>
-    <div class="nav flex-column nav-pills bg-dark navbar-dark pr-3 pl-3 pb-5 position-fixed pt-5 h-100" id="v-pills-tab"
+    <div class="nav flex-column nav-pills bg-dark navbar-dark pr-5 pl-5 pb-5 position-fixed pt-5 h-100" id="v-pills-tab"
         role="tablist" aria-orientation="vertical">
         <a class="nav-link {{ Route::currentRouteName() === 'listings' ? 'active' : '' }}"
             href="{{ route('listings') }}">Home</a>
         @auth
             <a class="nav-link {{ Route::currentRouteName() === 'users.index' ? 'active' : '' }}"
                 href="{{ route('users.index') }}">User Management</a>
-            @if (Auth::user()->roles == 'super-admin')
-                <a class="nav-link {{ Route::currentRouteName() === 'admin.showRoles' ? 'active' : '' }}"
-                    href="{{ route('admin.showRoles') }}">Roles</a>
-            @endif
+            <a class="nav-link {{ Route::currentRouteName() === 'admin.showRoles' ? 'active' : '' }}"
+                href="{{ route('admin.showRoles') }}">Roles</a>
         @endauth
         <a class="nav-link" href="#v-pills-settings">Settings</a>
     </div>
     </div>
 
-    <div class="content container">
+    <div class="content">
         @yield('content')
     </div>
 

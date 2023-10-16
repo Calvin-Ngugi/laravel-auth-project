@@ -8,6 +8,8 @@ body{
 
 .content {
     margin-top: 10px;
+    width: calc(100% - 200px);
+    margin-left: 150px;
 }
 
 .green a{

@@ -43,11 +43,9 @@ class AuthController extends Controller
             'first_name' => $validatedData['fname'],
             'last_name' => $validatedData['lname'],
             'password' => Hash::make($defaultPassword),
-            'roles' => 'user',
             'created_at' => now(),
             'updated_at' => now(),
         ];
-
         User::insert($insertData);
 
         // Send a welcome email to the user

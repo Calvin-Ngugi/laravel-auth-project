@@ -37,7 +37,7 @@
 
 <body>
     <div class="container">
-        <h1 style="color: white; text-align: center">Calvo's Org</h1>
+        <h1 style="color: rgb(6, 6, 6); text-align: center">Calvo's Org</h1>
         <div class="contain">
             <h1>OTP Verification Code</h1>
             <p>Your OTP code is: {{ $otp }}</p>
