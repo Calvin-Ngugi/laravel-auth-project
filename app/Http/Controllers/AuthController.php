@@ -11,7 +11,6 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
-use Spatie\Permission\Models\Role;
 
 class AuthController extends Controller
 {
@@ -19,14 +18,11 @@ class AuthController extends Controller
     {
         $user= Auth::user();
         $users = User::paginate(5);
-        return view('users.users', compact('users'));
+        return view('users.users', compact('users', 'user'));
     }
 
     public function register(Request $request)
     {
-        $roles = Role::all();
-        $users = User::all();
-
         $validatedData = $request->validate([
             'username' => 'required',
             'email' => 'required|email',
@@ -46,7 +42,9 @@ class AuthController extends Controller
             'created_at' => now(),
             'updated_at' => now(),
         ];
-        User::insert($insertData);
+        
+        $user = User::create($insertData);
+        $user->assignRole('user');
 
         // Send a welcome email to the user
         $emailData = [

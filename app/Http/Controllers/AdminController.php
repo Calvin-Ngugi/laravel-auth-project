@@ -18,6 +18,7 @@ class AdminController extends Controller
     public function assignRole(Request $request)
     {
         $user = User::findOrFail($request->user_id);
+        $user->roles()->detach();
         $user->assignRole($request->role_id);
 
         return redirect()->back()->with('success', 'Role assigned successfully');

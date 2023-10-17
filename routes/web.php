@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ListingController;
 use App\Models\Listing;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -18,7 +19,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 //Single listings
-Route::get('/listings/{id}', function($id) {
+Route::get('/listings/{id}', function ($id) {
     return view('listing', [
         'listing' => Listing::find($id)
     ]);
@@ -31,7 +32,7 @@ Route::get('/login', function () {
 
 Route::get('/register', function () {
     return view('register');
-});
+})->middleware('permission:create users');
 
 
 Route::get('/', [ListingController::class, 'index'])->name('listings');
@@ -40,7 +41,7 @@ Route::get('/users', [AuthController::class, 'index'])->name('users.index');
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
-Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::post('/register', [AuthController::class, 'register'])->middleware('permission:create users')->name('register');
 
 Route::get('/otp-verify', [AuthController::class, 'showOtpVerificationForm'])->name('otp_verify');
 

@@ -26,11 +26,13 @@
         <div class="container-fluid">
             @auth
                 <a href="#" class="navbar-brand">
+                    <img src="{{ asset('logo-light.svg') }}" alt="img" width="50px">
                     Welcome {{ Auth::user()->username }}
                 </a>
             @endauth
             @guest
                 <a href="#" class="navbar-brand">
+                    <img src="{{ asset('logo-light.svg') }}" alt="img" width="50px">
                     Calvo's Org
                 </a>
             @endguest
@@ -66,12 +68,12 @@
     <div class="nav flex-column nav-pills bg-dark navbar-dark pr-5 pl-5 pb-5 position-fixed pt-5 h-100" id="v-pills-tab"
         role="tablist" aria-orientation="vertical">
         <a class="nav-link {{ Route::currentRouteName() === 'listings' ? 'active' : '' }}"
-            href="{{ route('listings') }}">Home</a>
+            href="{{ route('listings') }}">Dashboard</a>
         @auth
             <a class="nav-link {{ Route::currentRouteName() === 'users.index' ? 'active' : '' }}"
                 href="{{ route('users.index') }}">User Management</a>
             <a class="nav-link {{ Route::currentRouteName() === 'admin.showRoles' ? 'active' : '' }}"
-                href="{{ route('admin.showRoles') }}">Roles</a>
+                href="{{ route('admin.showRoles') }}">Roles & Permissions</a>
         @endauth
         <a class="nav-link" href="#v-pills-settings">Settings</a>
     </div>
