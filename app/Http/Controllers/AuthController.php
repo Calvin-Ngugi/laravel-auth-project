@@ -21,6 +21,17 @@ class AuthController extends Controller
         return view('users.users', compact('users', 'user'));
     }
 
+    public function editUser($id)
+    {
+        // Fetch the user based on the provided ID
+        $user = User::findOrFail($id);
+
+        // Add your logic for editing the user here
+
+        // Return a view for editing the user (replace with your actual view)
+        return view('edit_user', compact('user'));
+    }
+
     public function register(Request $request)
     {
         $validatedData = $request->validate([
@@ -28,11 +39,13 @@ class AuthController extends Controller
             'email' => 'required|email',
             'fname' => 'required',
             'lname' => 'required',
+            'role' => ''
         ]);
 
         // Insert the user data into the database
         $defaultPassword = 'Password';
-
+        $role = $validatedData['role'] ?: 'user';
+        
         $insertData = [
             'username' => $validatedData['username'],
             'email' => $validatedData['email'],
@@ -44,7 +57,7 @@ class AuthController extends Controller
         ];
         
         $user = User::create($insertData);
-        $user->assignRole('user');
+        $user->assignRole($role);
 
         // Send a welcome email to the user
         $emailData = [
@@ -177,5 +190,22 @@ class AuthController extends Controller
 
         // Redirect to the login page
         return redirect()->route('login')->with('change_pass', 1);
+    }
+
+    public function updateUser(Request $request, $id)
+    {
+        $user = User::findOrFail($id);
+
+        // Validate the form data
+        $editedData = $request->validate([
+            'username' => 'required',
+            'first_name' => 'required',
+            'last_name' => 'required',
+        ]);
+
+        // Update user details
+        $user->update($editedData);
+
+        return redirect()->route('users.index')->with('success', 'User updated successfully');
     }
 }

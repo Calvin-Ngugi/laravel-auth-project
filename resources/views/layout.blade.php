@@ -65,7 +65,7 @@
             </div>
         </div>
     </nav>
-    <div class="nav flex-column nav-pills bg-dark navbar-dark pr-5 pl-5 pb-5 position-fixed pt-5 h-100" id="v-pills-tab"
+    <div class="nav flex-column nav-pills bg-dark navbar-dark pr-4 pl-5 pb-5 position-fixed pt-5 h-100" id="v-pills-tab"
         role="tablist" aria-orientation="vertical">
         <a class="nav-link {{ Route::currentRouteName() === 'listings' ? 'active' : '' }}"
             href="{{ route('listings') }}">Dashboard</a>

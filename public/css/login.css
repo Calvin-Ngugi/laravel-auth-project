@@ -20,17 +20,11 @@ body{
     align-items: center;
     width: 30%;
     margin: auto;
-    gap: 15px;
+    gap: 5px;
     border: 1px solid;
     box-shadow: 1px 2px rgb(0, 0, 0);
     padding: 20px;
     border-radius: 10px;
-}
-
-.column {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
 }
 
 label {

@@ -74,15 +74,33 @@
             </div>
 
             <div class="column">
-                <label for="name">Username</label>
-                <input type="text" name="username" class="form-control" id="Name" placeholder="Enter username">
-                <label for="name">Email</label>
-                <input type="email" name="email" class="form-control" id="exampleInputEmail1"
-                    aria-describedby="emailHelp" placeholder="Enter email">
-                <label for="fname">First Name</label>
-                <input type="text" name="fname" class="form-control" id="Fname" placeholder="Enter first Name">
-                <label for="lname">Last Name</label>
-                <input type="text" name="lname" class="form-control" id="Lname" placeholder="Enter last Name">
+                <div class="form-group">
+                    <label for="name">Username:</label>
+                    <input type="text" name="username" class="form-control" id="Name"
+                        placeholder="Enter username">
+                </div>
+                <div class="form-group">
+                    <label for="name">Email:</label>
+                    <input type="email" name="email" class="form-control" id="exampleInputEmail1"
+                        aria-describedby="emailHelp" placeholder="Enter email">
+                </div>
+                <div class="form-group">
+                    <label for="fname">First Name:</label>
+                    <input type="text" name="fname" class="form-control" id="Fname"
+                        placeholder="Enter first Name">
+                </div>
+                <div class="form-group">
+                    <label for="lname">Last Name:</label>
+                    <input type="text" name="lname" class="form-control" id="Lname"
+                        placeholder="Enter last Name">
+                </div>
+                <div class="form-group">
+                    <label for="role">Role:</label>
+                    <select class="form-control" name="role">
+                        <option value="user">User</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
             </div>
             <button class="btn btn-success" type="submit">Submit</button>
         </form>

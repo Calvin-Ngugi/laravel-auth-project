@@ -37,7 +37,7 @@ Route::get('/register', function () {
 
 Route::get('/', [ListingController::class, 'index'])->name('listings');
 
-Route::get('/users', [AuthController::class, 'index'])->name('users.index');
+Route::get('/users', [AuthController::class, 'index'])->middleware('permission:view users')->name('users.index');
 
 Route::post('/login', [AuthController::class, 'login'])->name('login');
 
@@ -56,3 +56,7 @@ Route::post('/password/change', [AuthController::class, 'changePassword'])->name
 Route::get('/super-admin/roles', [AdminController::class, 'showRoles'])->middleware('role:super-admin')->name('admin.showRoles');
 
 Route::post('/super-admin/assign-role', [AdminController::class, 'assignRole'])->middleware('role:super-admin')->name('admin.assignRole.post');
+
+Route::get('/users/{id}/edit', [AuthController::class, 'editUser'])->middleware('permission:edit users')->name('editUser');
+
+Route::put('/users/{id}', [AuthController::class, 'updateUser'])->middleware('permission:edit users')->name('updateUser');

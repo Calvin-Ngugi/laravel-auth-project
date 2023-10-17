@@ -1,0 +1,21 @@
+.align {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 90vh;
+    width: 100%;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    background-color: white;
+    align-items: center;
+    width: 30%;
+    margin: auto;
+    gap: 5px;
+    border: 1px solid;
+    box-shadow: 1px 2px rgb(0, 0, 0);
+    padding: 20px;
+    border-radius: 10px;
+}

@@ -23,6 +23,8 @@ class DatabaseSeeder extends Seeder
         Permission::create(['name' => 'create users']);
         Permission::create(['name' => 'view listings']);
         Permission::create(['name' => 'edit user roles']);
+        Permission::create(['name' => 'edit users']);
+        Permission::create(['name' => 'delete users']);
 
         // Create roles
         $superAdminRole = Role::create(['name' => 'super-admin']);
@@ -35,12 +37,16 @@ class DatabaseSeeder extends Seeder
             'create users',
             'view listings',
             'edit user roles',
+            'edit users',
+            'delete users'
         ]);
 
         $adminRole->syncPermissions([
             'view users',
             'create users',
             'view listings',
+            'edit users',
+            'delete users'
         ]);
 
         $userRole->syncPermissions([
