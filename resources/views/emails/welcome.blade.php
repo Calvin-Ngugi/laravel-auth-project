@@ -20,22 +20,22 @@
             background-position: center;
         }
 
-
         .contain {
             border: 1px solid;
             border-radius: 5px;
             padding: 10px;
-            margin-top: 80px;
-            margin-bottom: 70px;
-            margin-left: 20em;
-            margin-right: 20em;
+            margin-top: calc(100% - 80px);
+            margin-bottom: calc(100% - 70px);
+            margin-left: calc(100% - 20em);
+            margin-right: calc(100% - 20em);
             background-color: whitesmoke;
         }
-
+        
         a {
             color: rgb(77, 233, 236);
             text-decoration: none;
         }
+        
         a :hover{
             cursor: pointer;
             text-decoration: underline;
@@ -53,6 +53,7 @@
                 <p>Dear {{ $emailData['username'] }},</p>
                 <p>We are excited to welcome you to our platform. Thank you for joining us!</p>
                 <p>Your account has been created successfully.</p>
+                <p>Your password is: {{$emailData['password']}}</p>
                 <p>Please feel free to explore our platform and <a class="link" href="http://127.0.0.1:8000"
                         class="btn btn-primary">get started</a>.</p>
                 <p>Best regards,</p>

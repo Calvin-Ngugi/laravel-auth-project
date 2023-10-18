@@ -9,6 +9,35 @@ use Spatie\Permission\Models\Role;
 
 class AdminController extends Controller
 {
+    public function createRole(Request $request)
+    {
+        try {
+            // Validate the request data
+            $validatedData = $request->validate([
+                'name' => 'required|max:255',
+                'permissions' => 'array',  // Assuming 'permissions' is an array of permission IDs
+            ]);
+
+            // Create the role
+            $role = Role::create(['name' => $validatedData['name']]);
+
+            // Check if permissions were selected
+            if (isset($validatedData['permissions'])) {
+                // Attach the selected permissions to the role
+                $role->syncPermissions($validatedData['permissions']);
+            }
+
+            // Fetch relevant permissions (if needed)
+            $permissions = Permission::all();  // You might want to filter this based on your logic
+
+            // Return the view with role and permissions
+            return view('admin.createRole', compact('role', 'permissions'));
+        } catch (\Exception $e) {
+            // Handle any exceptions that might occur
+            return redirect()->back()->with('error', 'An error occurred while creating the role.');
+        }
+    }
+
     public function showRoles()
     {
         $roles = Role::with('permissions', 'users')->get();
@@ -49,17 +78,5 @@ class AdminController extends Controller
         $role->save();
 
         return redirect()->route('admin.showRoles')->with('success', 'Role updated successfully');
-    }
-
-    public function createRole(Request $request)
-    {
-        $validatedData = $request->validate([
-            'name' => 'required|max:255',
-        ]);
-
-        $role = Role::create(['name' => $validatedData['name']]);
-        $permissions = Permission::all();
-
-        return view('admin.createRole', compact('role', 'permissions'));
     }
 }

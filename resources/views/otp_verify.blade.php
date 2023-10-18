@@ -50,7 +50,7 @@
                 <label for="otp">Enter OTP sent to your email:</label>
                 <input type="text" id="otp" name="otp" required placeholder="Enter OTP"
                     class="form-control">
-                <button type="submit" class="btn btn-primary">Verify OTP</button>
+                <button type="submit" class="btn btn-primary mt-2">Verify OTP</button>
             </div>
         </form>
     </div>

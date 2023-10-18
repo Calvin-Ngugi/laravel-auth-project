@@ -5,7 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <link rel="stylesheet" href="../css/roles.css" title="roles">
+    <title>Create Roles</title>
 </head>
 
 <body>
@@ -14,7 +15,7 @@
     @section('content')
         <div class="contain mr-2 pt-3">
             <h2>Create Role</h2>
-            <form action="{{ route('createRole.post') }}" method="POST">
+            <form class="form" action="{{ route('admin.createRole.post') }}" method="post">
                 @csrf
                 <div class="form-group">
                     <label for="name">Role Name:</label>

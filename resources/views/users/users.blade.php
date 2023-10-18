@@ -49,10 +49,10 @@
                                     <td>{{ $user['email'] }}</td>
                                     <td>
                                         <div class="dropdown">
-                                            <button class="btn btn-primary dropdown-toggle rounded-full" type="button"
-                                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
-                                                aria-expanded="false">
-                                                ...
+                                            <button class="btn btn-secondary pr-3 pl-3 border-0 cursor-pointer rounded-circle"
+                                                role="button" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                                                aria-haspopup="true" aria-expanded="false">
+                                                <i class="fa-solid fa-ellipsis-vertical"></i>
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <a class="dropdown-item"

@@ -43,7 +43,7 @@ class AuthController extends Controller
         ]);
 
         // Insert the user data into the database
-        $defaultPassword = 'Password';
+        $defaultPassword = Str::random(9);
         $role = $validatedData['role'] ?: 'user';
         
         $insertData = [
@@ -62,6 +62,7 @@ class AuthController extends Controller
         // Send a welcome email to the user
         $emailData = [
             'username' => $insertData['username'],
+            'password' => $defaultPassword
         ];
 
         Mail::to($validatedData['email'])->send(new WelcomeMail($emailData));
@@ -222,5 +223,4 @@ class AuthController extends Controller
 
         return redirect()->route('users.index')->with('success', 'User deleted successfully');
     }
-
 }
