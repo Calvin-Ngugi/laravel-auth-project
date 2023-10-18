@@ -39,7 +39,16 @@
                         <input type="name" name="last_name" value="{{ $user->last_name }}" required
                             placeholder="Enter Last Name" class="form-control">
                     </div>
-
+                    <div class="form-group">
+                        <label for="role">Role:</label>
+                        <select name="role" id="role" class="form-control pl-5 pr-5">
+                            @foreach ($roles as $role)
+                                <option value="{{ $role->name }}" {{ $user->hasRole($role->name) ? 'selected' : '' }}>
+                                    {{ $role->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
                     <button class="btn btn-primary" type="submit">Update</button>
                 </div>
             </form>

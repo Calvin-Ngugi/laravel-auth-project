@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Str;
+use Spatie\Permission\Models\Role;
 
 class AuthController extends Controller
 {
@@ -26,10 +27,9 @@ class AuthController extends Controller
         // Fetch the user based on the provided ID
         $user = User::findOrFail($id);
 
-        // Add your logic for editing the user here
+        $roles = Role::all();
 
-        // Return a view for editing the user (replace with your actual view)
-        return view('edit_user', compact('user'));
+        return view('edit_user', compact('user', 'roles'));
     }
 
     public function register(Request $request)
@@ -203,9 +203,24 @@ class AuthController extends Controller
             'last_name' => 'required',
         ]);
 
+        $role = $request->validate(['role'=> 'required']);
+        
         // Update user details
         $user->update($editedData);
+        $user->roles()->detach();
+        $user->assignRole($role);
 
         return redirect()->route('users.index')->with('success', 'User updated successfully');
     }
+
+    public function deleteUser($id)
+    {
+        $user = User::findOrFail($id);
+
+        // Delete the user
+        $user->delete();
+
+        return redirect()->route('users.index')->with('success', 'User deleted successfully');
+    }
+
 }

@@ -55,9 +55,11 @@
                                                 ...
                                             </button>
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                                <a class="dropdown-item" href="{{ route('editUser', ['id' => $user['id']]) }}">Edit</a>
-                                                <a class="dropdown-item" href="#">Delete</a>
+                                                <a class="dropdown-item"
+                                                    href="{{ route('editUser', ['id' => $user['id']]) }}">Edit</a>
                                                 <a class="dropdown-item" href="{{ route('users.index') }}">View</a>
+                                                <a class="dropdown-item" href="{{ route('users.index') }}"
+                                                    onclick="confirmDelete({{ $user['id'] }})">Delete</a>
                                             </div>
                                         </div>
                                     </td>
@@ -74,5 +76,27 @@
         </div>
     @endsection
 </body>
+<script>
+    function confirmDelete(id) {
+        if (confirm('Are you sure you want to delete this user?')) {
+            // If user confirms, send a DELETE request
+            fetch(`/users/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    }
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Reload the page or update the UI as needed
+                        window.location.reload();
+                    } else {
+                        alert('Failed to delete the user.');
+                    }
+                });
+        }
+    }
+</script>
 
 </html>
