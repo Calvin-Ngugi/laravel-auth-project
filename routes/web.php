@@ -61,15 +61,15 @@ Route::get('/admin/create-role', [AdminController::class, 'createRole'])->middle
 
 Route::post('/admin/create-role', [AdminController::class, 'createRole'])->middleware('permission:create roles')->name('admin.createRole.post');
 
-Route::get('/admin/roles', [AdminController::class, 'showRoles'])->middleware('permission:edit user roles')->name('admin.showRoles');
+Route::get('/admin/roles', [AdminController::class, 'showRoles'])->middleware('permission:view roles')->name('admin.showRoles');
 
 Route::delete('/users/{id}', [AuthController::class, 'deleteUser'])->middleware('permission:delete users')->name('deleteUser');
 
-Route::post('/admin/assign-role', [AdminController::class, 'assignRole'])->middleware('permission:edit user roles')->name('admin.assignRole.post');
+Route::post('/admin/assign-role', [AdminController::class, 'assignRole'])->middleware('permission:edit roles')->name('admin.assignRole.post');
 
-Route::get('/admin/roles/{id}/edit', [AdminController::class, 'editRole'])->middleware('permission:edit user roles')->name('admin.editRole');
+Route::get('/admin/roles/{id}/edit', [AdminController::class, 'editRole'])->middleware('permission:edit roles')->name('admin.editRole');
 
-Route::get('/admin/roles/{id}', [AdminController::class, 'viewRole'])->middleware('permission:edit user roles')->name('admin.viewRole');
+Route::get('/admin/roles/{id}', [AdminController::class, 'viewRole'])->middleware('permission:view roles')->name('admin.viewRole');
 
-Route::put('/admin/roles/{id}', [AdminController::class, 'updateRole'])->middleware('permission:edit user roles')->name('admin.updateRole');
+Route::put('/admin/roles/{id}', [AdminController::class, 'updateRole'])->middleware('permission:edit roles')->name('admin.updateRole');
 
