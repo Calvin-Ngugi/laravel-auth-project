@@ -68,6 +68,7 @@ class DatabaseSeeder extends Seeder
             'first_name' => 'Calvin',
             'last_name' => 'Ngugi',
             'change_pass' => 1,
+            'status' => 'active',
             'created_at' => now(),
             'updated_at' => now(),
         ]);

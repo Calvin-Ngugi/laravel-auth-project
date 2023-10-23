@@ -36,6 +36,9 @@
                                     Email
                                 </th>
                                 <th scope="col">
+                                    Status  
+                                </th>
+                                <th scope="col">
                                     Actions
                                 </th>
                             </tr>
@@ -47,6 +50,7 @@
                                     <td>{{ $user['first_name'] }}</td>
                                     <td>{{ $user['last_name'] }}</td>
                                     <td>{{ $user['email'] }}</td>
+                                    <td>{{ $user['status'] }}</td>
                                     <td>
                                         <div class="dropdown">
                                             <button class="btn btn-secondary px-3 border-0 cursor-pointer rounded-circle"
