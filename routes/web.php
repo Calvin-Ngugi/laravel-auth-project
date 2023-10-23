@@ -73,3 +73,6 @@ Route::get('/admin/roles/{id}', [AdminController::class, 'viewRole'])->middlewar
 
 Route::put('/admin/roles/{id}', [AdminController::class, 'updateRole'])->middleware('permission:edit roles')->name('admin.updateRole');
 
+Route::delete('/admin/remove-permission', [AdminController::class, 'removePermission'])->name('admin.removePermission');
+
+Route::get('/users/{id}/delete', [AuthController::class, 'deleteUser'])->name('deleteUser');

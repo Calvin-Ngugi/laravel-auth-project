@@ -33,8 +33,9 @@ class AdminController extends Controller
 
     public function editRole($id)
     {
+        $permissions = Permission::all();
         $role = Role::findOrFail($id);
-        return view('admin.editRole', compact('role'));
+        return view('admin.editRole', compact('role', 'permissions'));
     }
 
     public function updateRole(Request $request, $id)
@@ -43,12 +44,23 @@ class AdminController extends Controller
 
         $validatedData = $request->validate([
             'name' => 'required|max:255',
+            'permissions' => 'array',  // Assuming 'permissions' is an array of permission names
         ]);
 
         $role->name = $validatedData['name'];
         $role->save();
 
-        return redirect()->route('admin.showRoles')->with('success', 'Role updated successfully');
+        // Check if permissions were selected in the form
+        if (isset($validatedData['permissions'])) {
+            foreach ($validatedData['permissions'] as $permissionName) {
+                // Attach the selected permissions to the role if they are not already attached
+                if (!$role->hasPermissionTo($permissionName)) {
+                    $role->givePermissionTo($permissionName);
+                }
+            }
+        }
+
+        return redirect()->back()->with('success', 'Role updated successfully');
     }
 
     public function createRole(Request $request)
@@ -78,5 +90,17 @@ class AdminController extends Controller
             // Handle any exceptions that might occur
             return view('admin.createRole', compact('permissions'))->with('error', 'An error occurred while creating the role.');
         }
+    }
+
+    public function removePermission(Request $request)
+    {
+        $role = Role::findOrFail($request->input('id'));
+
+        $permissionName = $request->input('permission');
+
+        // Revoke the specified permission from the role
+        $role->revokePermissionTo($permissionName);
+
+        return redirect()->back()->with('success', 'Permission removed from the role.');
     }
 }

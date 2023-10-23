@@ -86,44 +86,47 @@ class AuthController extends Controller
             return redirect()->route('login')->with('error', 'User not found.');
         }
 
-        if ($user['change_pass'] == 0) {
-            // Redirect to password change page
-            session(['email' => $credentials['email']]);
-            return redirect()->route('password.change');
-        }
+        if ($user->status === 'active') {
+            if ($user->change_pass == 0) {
+                // Redirect to password change page
+                session(['email' => $credentials['email']]);
+                return redirect()->route('password.change');
+            }
 
-        // Generate and store OTP
+            // Generate and store OTP
+            if (Auth::validate($credentials)) {
+                $otp = mt_rand(100000, 999999); // Generate a 6-digit OTP
+                $verification_token = Str::random(70);
 
-        if (Auth::validate($credentials)) {
-            $otp = mt_rand(100000, 999999); // Generate a 6-digit OTP
-            $verification_token = Str::random(70);
+                User::where('email', $credentials['email'])->update([
+                    'verification_token' => $verification_token,
+                    'updated_at' => now()
+                ]);
 
-            User::where('email', $credentials['email'])->update([
-                'verification_token' => $verification_token,
-                'updated_at' => now()
-            ]);
+                // Create Otp record
+                $otpRecord = Otp::create([
+                    'user_id' => $user->id,
+                    'verification_token' => $verification_token,
+                    'otp_code' => $otp,
+                    'isUsed' => 0,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                ]);
 
-            // Create Otp record
-            $otpRecord = Otp::create([
-                'user_id' => $user->id,
-                'verification_token' => $verification_token,
-                'otp_code' => $otp,
-                'isUsed' => 0,
-                'created_at' => now(),
-                'updated_at' => now(),
-            ]);
+                // Check if OTP record was successfully created
+                if ($otpRecord) {
+                    // Create OtpMail class
+                    Mail::to($user->email)->send(new OtpMail($otp));
 
-            // Check if OTP record was successfully created
-            if ($otpRecord) {
-                // Create OtpMail class
-                Mail::to($user->email)->send(new OtpMail($otp));
-
-                return redirect()->route('otp_verify');
+                    return redirect()->route('otp_verify');
+                } else {
+                    return redirect()->route('login')->with('error', 'Failed to generate OTP.');
+                }
             } else {
-                return redirect()->route('login')->with('error', 'Failed to generate OTP.');
+                return redirect()->route('login')->with('error', 'Invalid credentials.');
             }
         } else {
-            return redirect()->route('login')->with('error', 'Invalid credentials.');
+            return abort(401); // Return 401 Unauthorized if the user is not active
         }
     }
 
@@ -218,9 +221,10 @@ class AuthController extends Controller
     {
         $user = User::findOrFail($id);
 
-        // Delete the user
-        $user->delete();
+        // Update the user's status to "pending" instead of deleting
+        $user->status = 'pending';
+        $user->update();
 
-        return redirect()->route('users.index')->with('success', 'User deleted successfully');
+        return redirect()->back()->with('warning', 'Pending deletion approval');
     }
 }

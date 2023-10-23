@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
         Permission::create(['name' => 'delete users']);
         Permission::create(['name' => 'create roles']);
         Permission::create(['name' => 'view roles']);
+        Permission::create(['name' => 'approve changes']);
 
         // Create roles
         $superAdminRole = Role::create(['name' => 'super-admin']);

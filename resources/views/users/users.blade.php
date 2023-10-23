@@ -36,7 +36,7 @@
                                     Email
                                 </th>
                                 <th scope="col">
-                                    Status  
+                                    Status
                                 </th>
                                 <th scope="col">
                                     Actions
@@ -50,7 +50,12 @@
                                     <td>{{ $user['first_name'] }}</td>
                                     <td>{{ $user['last_name'] }}</td>
                                     <td>{{ $user['email'] }}</td>
-                                    <td>{{ $user['status'] }}</td>
+                                    <td>
+                                        <span
+                                            class="px-2 rounded-3 py-1 {{ $user->status === 'active' ? 'bg-success' : ($user->status === 'pending' ? 'bg-warning' : 'bg-danger') }}">
+                                            {{ $user['status'] }}
+                                        </span>
+                                    </td>
                                     <td>
                                         <div class="dropdown">
                                             <button class="btn btn-secondary px-3 border-0 cursor-pointer rounded-circle"
@@ -62,8 +67,8 @@
                                                 <a class="dropdown-item"
                                                     href="{{ route('editUser', ['id' => $user['id']]) }}">Edit</a>
                                                 <a class="dropdown-item" href="{{ route('users.index') }}">View</a>
-                                                <a class="dropdown-item" href="{{ route('users.index') }}"
-                                                    onclick="confirmDelete({{ $user['id'] }})">Delete</a>
+                                                <a class="dropdown-item"
+                                                    href="{{ route('deleteUser', ['id' => $user['id']]) }}">Delete</a>
                                             </div>
                                         </div>
                                     </td>
@@ -80,27 +85,5 @@
         </div>
     @endsection
 </body>
-<script>
-    function confirmDelete(id) {
-        if (confirm('Are you sure you want to delete this user?')) {
-            // If user confirms, send a DELETE request
-            fetch(`/users/${id}`, {
-                    method: 'DELETE',
-                    headers: {
-                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
-                    }
-                })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.success) {
-                        // Reload the page or update the UI as needed
-                        window.location.reload();
-                    } else {
-                        alert('Failed to delete the user.');
-                    }
-                });
-        }
-    }
-</script>
 
 </html>
