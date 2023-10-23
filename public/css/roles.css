@@ -1,5 +1,9 @@
 .contain{
-    margin-top: 15px;
-    margin-left: 290px;
-    width: calc(100% - 400px);
+    margin-top: 5px;
+    gap: 10px;
+    width: calc(100% - 100px);
+}
+
+.contain button{
+    margin-top: 7px;
 }

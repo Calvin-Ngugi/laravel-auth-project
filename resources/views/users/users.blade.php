@@ -21,7 +21,7 @@
             @unless (count($users) == 0)
                 @if (count($users) > 0)
                     <table class="table table-striped mt-3">
-                        <thead class="thead-dark">
+                        <thead class="thead-dark table-dark">
                             <tr>
                                 <th scope="col">
                                     Username
@@ -49,7 +49,7 @@
                                     <td>{{ $user['email'] }}</td>
                                     <td>
                                         <div class="dropdown">
-                                            <button class="btn btn-secondary pr-3 pl-3 border-0 cursor-pointer rounded-circle"
+                                            <button class="btn btn-secondary px-3 border-0 cursor-pointer rounded-circle"
                                                 role="button" type="button" id="dropdownMenuButton" data-toggle="dropdown"
                                                 aria-haspopup="true" aria-expanded="false">
                                                 <i class="fa-solid fa-ellipsis-vertical"></i>

@@ -27,8 +27,8 @@
             padding: 10px;
             margin-top: 80px;
             margin-bottom: 70px;
-            margin-left: 20em;
-            margin-right: 20em;
+            margin-left: 15em;
+            margin-right: 15em;
             background-color: whitesmoke;
         }
     </style>

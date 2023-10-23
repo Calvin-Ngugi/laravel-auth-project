@@ -12,7 +12,6 @@
     @section('content')
         <div class="align">
             <form action="{{ route('updateUser', ['id' => $user->id]) }}" method="POST">
-                <i class="fas fa-arrow-left rounded-circle border p-2"></i>
                 <div class="form">
                     <h1>Edit User</h1>
                     <div class="errors">
@@ -41,7 +40,7 @@
                     </div>
                     <div class="form-group">
                         <label for="role">Role:</label>
-                        <select name="role" id="role" class="form-control pl-5 pr-5">
+                        <select name="role" id="role" class="form-control px-5">
                             @foreach ($roles as $role)
                                 <option value="{{ $role->name }}" {{ $user->hasRole($role->name) ? 'selected' : '' }}>
                                     {{ $role->name }}

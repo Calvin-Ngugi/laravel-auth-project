@@ -19,7 +19,7 @@
                     <a class="btn btn-success" href="{{ route('admin.createRole') }}">Add New Role</a>
             </div>
             <table class="table table-striped mt-3">
-                <thead class="thead-dark">
+                <thead class="table-dark">
                     <tr>
                         <th scope="col">
                             Role
@@ -35,7 +35,7 @@
                             <td>{{ $role['name'] }}</td>
                             <td class="text-center">
                                 <div class="dropdown">
-                                    <button class="btn btn-secondary pr-3 pl-3 border-0 cursor-pointer rounded-circle" role="button" type="button"
+                                    <button class="btn btn-secondary px-3 border-0 cursor-pointer rounded-circle" role="button" type="button"
                                         id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                                         aria-expanded="false">
                                         <i class="fa-solid fa-ellipsis-vertical"></i>

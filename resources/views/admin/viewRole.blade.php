@@ -17,7 +17,7 @@
                 <h2>Role Name: {{ $role->name }}</h2> 
             </div>
             <table class="table table-striped mt-3">
-                <thead class="thead-dark">
+                <thead class="table-dark">
                     <tr>
                         <th scope="col">
                             Permissions

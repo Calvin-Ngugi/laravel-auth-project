@@ -13,7 +13,7 @@
     @extends('layout')
 
     @section('content')
-        <div class="contain">
+        <div>
             <h2>Lorem texts</h2>
             @unless (count($listings) == 0)
                 @foreach ($listings as $listing)

@@ -5,6 +5,146 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
+    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+    <title>Document</title>
+</head>
+
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
+        <div class="container-fluid">
+            @auth
+                <a href="#" class="navbar-brand">
+                    <img src="{{ asset('logo-light.svg') }}" alt="img" width="40px">
+                    <span class="ms-1 d-none d-sm-inline">Welcome {{ Auth::user()->username }}</span>
+                </a>
+            @endauth
+            @guest
+                <a href="#" class="navbar-brand">
+                    <img src="{{ asset('logo-light.svg') }}" alt="img" width="50px">
+                    Calvo's Org
+                </a>
+            @endguest
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse justify-content-between" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    @auth
+                        <li class="nav-item">
+                            <a href="#" class="navbar-brand"></a>
+                        </li>
+                    @endauth
+                </ul>
+                <ul class="navbar-nav">
+                    @auth
+                        <li class="nav-item mr-2">
+                            <a class="btn btn-danger green" href="{{ route('logout') }}">Logout</a>
+                        </li>
+                    @endauth
+
+                    @guest
+                        <li class="nav-item mr-2">
+                            <a class="btn btn-info green" href="{{ route('login') }}">Login</a>
+                        </li>
+                    @endguest
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container-fluid">
+        <div class="row flex-nowrap">
+            <div class="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
+                <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-5 text-white min-vh-100">
+                    <ul class="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
+                        id="menu">
+                        <div style="height: 74vh">
+                            <li class="nav-item">
+                                <a class="nav-link align-middle {{ Route::currentRouteName() === 'listings' ? 'active' : '' }}"
+                                    href="{{ route('listings') }}"><i class="fs-4 bi-house"></i> <span
+                                        class="ms-1 d-none d-sm-inline">Home</span>
+                                </a>
+                            </li>
+                            @auth
+                                <li class="nav-item">
+                                    <a class="nav-link align-middle {{ Route::currentRouteName() === 'users.index' ? 'active' : '' }}"
+                                        href="{{ route('users.index') }}"><i class="fs-4 bi-people"></i><span
+                                            class="ms-1 d-none d-sm-inline">User Management</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link align-middle {{ Route::currentRouteName() === 'admin.showRoles' ? 'active' : '' }}"
+                                        href="{{ route('admin.showRoles') }}"><i class="fs-4 bi-database-lock"></i><span
+                                            class="ms-1 d-none d-sm-inline">Roles & Permissions</span></a>
+                                </li>
+                                <li class="nav-item">
+                                    <a href="#" class="nav-link align-middle">
+                                        <i class="fs-4 bi-table"></i> <span
+                                            class="ms-1 d-none d-sm-inline">Profile</span></a>
+                                </li>
+                            </div>
+                            <hr>
+                            <div class="dropdown">
+                                <a href="#"
+                                    class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
+                                    id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30"
+                                        class="rounded-circle">
+                                    <span class="d-none d-sm-inline mx-2">{{ Auth::user()->username }}</span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+                                    <li><a class="dropdown-item" href="#">New project...</a></li>
+                                    <li><a class="dropdown-item" href="#">Settings</a></li>
+                                    <li><a class="dropdown-item" href="#">Profile</a></li>
+                                    <li>
+                                        <hr class="dropdown-divider">
+                                    </li>
+                                    <li><a class="dropdown-item" href="#"><a class="dropdown-item"
+                                                href="{{ route('logout') }}">Logout</a></a></li>
+                                </ul>
+                            </div>
+                        </ul>
+                    </div>
+                @endauth
+            </div>
+            <div class="col py-3">
+                <div class="ml-25 container">
+                    <div class="content">
+                        @yield('content')
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
+{{-- 
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
         integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -85,4 +225,4 @@
 
 </body>
 
-</html>
+</html> --}}

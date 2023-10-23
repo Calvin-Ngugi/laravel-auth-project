@@ -67,7 +67,7 @@ class AuthController extends Controller
 
         Mail::to($validatedData['email'])->send(new WelcomeMail($emailData));
 
-        return redirect()->route('listings');
+        return redirect()->route('users.index');
     }
 
     public function login(Request $request)
