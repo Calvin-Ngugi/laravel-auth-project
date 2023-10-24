@@ -66,9 +66,24 @@
                                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                                 <a class="dropdown-item"
                                                     href="{{ route('editUser', ['id' => $user['id']]) }}">Edit</a>
-                                                <a class="dropdown-item" href="{{ route('users.index') }}">View</a>
                                                 <a class="dropdown-item"
-                                                    href="{{ route('deleteUser', ['id' => $user['id']]) }}">Delete</a>
+                                                    href="{{ route('users.single', ['id' => $user['id']]) }}">View</a>
+                                                @can('delete users')
+                                                    @if ($user['status'] === 'active')
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('deleteUser', ['id' => $user['id']]) }}">Delete</a>
+                                                    @endif
+                                                @endcan
+                                                @can('approve changes')
+                                                    @if ($user['status'] === 'pending')
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('disableUser', ['id' => $user['id']]) }}">Disable</a>
+                                                    @endif
+                                                    @if ($user['status'] === 'pending' || $user['status'] === 'disabled')
+                                                        <a class="dropdown-item"
+                                                            href="{{ route('enableUser', ['id' => $user['id']]) }}">Enable</a>
+                                                    @endif
+                                                @endcan
                                             </div>
                                         </div>
                                     </td>

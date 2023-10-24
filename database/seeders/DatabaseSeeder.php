@@ -43,7 +43,8 @@ class DatabaseSeeder extends Seeder
             'edit users',
             'delete users',
             'create roles',
-            'view roles'
+            'view roles',
+            'approve changes'
         ]);
 
         $adminRole->syncPermissions([

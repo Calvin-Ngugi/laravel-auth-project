@@ -22,6 +22,12 @@ class AuthController extends Controller
         return view('users.users', compact('users', 'user'));
     }
 
+    public function single($id)
+    {
+        $user = User::findOrFail($id);
+        return view('users.user', compact('user'));
+    }
+
     public function editUser($id)
     {
         // Fetch the user based on the provided ID
@@ -205,6 +211,7 @@ class AuthController extends Controller
             'username' => 'required',
             'first_name' => 'required',
             'last_name' => 'required',
+            'status' => '',
         ]);
 
         $role = $request->validate(['role'=> 'required']);
@@ -222,9 +229,38 @@ class AuthController extends Controller
         $user = User::findOrFail($id);
 
         // Update the user's status to "pending" instead of deleting
-        $user->status = 'pending';
+        if($user->status === 'active'){
+            $user->status = 'pending';
+        }
         $user->update();
 
         return redirect()->back()->with('warning', 'Pending deletion approval');
+    }
+
+    public function disableUser($id)
+    {
+        $user = User::findOrFail($id);
+
+        // Update the user's status to "pending" instead of deleting
+        if ($user->status === 'pending') {
+            $user->status = 'disabled';
+        }
+        $user->update();
+
+        return redirect()->back()->with('warning', 'User disabled successfully');
+    }
+
+    public function enableUser($id)
+    {
+        $user = User::findOrFail($id);
+
+        if ($user->status === 'disabled') {
+            $user->status = 'active';
+        }elseif($user->status === 'pending'){
+            $user->status = 'active';
+        }
+        $user->update();
+
+        return redirect()->back()->with('success', 'User enabled');
     }
 }

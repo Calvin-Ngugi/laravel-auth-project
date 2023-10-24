@@ -4,6 +4,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ListingController;
 use App\Models\Listing;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -34,6 +35,7 @@ Route::get('/register', function () {
     return view('register');
 })->middleware('permission:create users');
 
+Route::get('/users/{id}', [AuthController::class, 'single'])->middleware('permission:view users')->name('users.single');
 
 Route::get('/', [ListingController::class, 'index'])->name('listings');
 
@@ -63,7 +65,7 @@ Route::post('/admin/create-role', [AdminController::class, 'createRole'])->middl
 
 Route::get('/admin/roles', [AdminController::class, 'showRoles'])->middleware('permission:view roles')->name('admin.showRoles');
 
-Route::delete('/users/{id}', [AuthController::class, 'deleteUser'])->middleware('permission:delete users')->name('deleteUser');
+Route::delete('/users/{id}/delete', [AuthController::class, 'deleteUser'])->middleware('permission:delete users')->name('deleteUser');
 
 Route::post('/admin/assign-role', [AdminController::class, 'assignRole'])->middleware('permission:edit roles')->name('admin.assignRole.post');
 
@@ -75,4 +77,12 @@ Route::put('/admin/roles/{id}', [AdminController::class, 'updateRole'])->middlew
 
 Route::delete('/admin/remove-permission', [AdminController::class, 'removePermission'])->name('admin.removePermission');
 
-Route::get('/users/{id}/delete', [AuthController::class, 'deleteUser'])->name('deleteUser');
+Route::get('/users/{id}/delete', [AuthController::class, 'deleteUser'])->middleware('permission:delete users')->name('deleteUser');
+
+Route::get('/users/{id}/enable', [AuthController::class, 'enableUser'])->middleware('permission:approve changes')->name('enableUser');
+
+Route::post('/users/{id}/enable', [AuthController::class, 'enableUser'])->middleware('permission:approve changes')->name('enableUser');
+
+Route::get('/users/{id}/disable', [AuthController::class, 'disableUser'])->middleware('permission:approve changes')->name('disableUser');
+
+Route::delete('/users/{id}/disable', [AuthController::class, 'disableUser'])->middleware('permission:approve changes')->name('disableUser');
