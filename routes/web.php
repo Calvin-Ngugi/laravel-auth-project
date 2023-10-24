@@ -37,19 +37,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/users', [AuthController::class, 'index'])->middleware('permission:view users')->name('users.index');
 
-    Route::post('/login', [AuthController::class, 'login'])->name('login');
-
     Route::post('/register', [AuthController::class, 'register'])->middleware('permission:create users')->name('register');
-
-    Route::get('/otp-verify', [AuthController::class, 'showOtpVerificationForm'])->name('otp_verify');
-
-    Route::post('/otp-verify', [AuthController::class, 'verifyOtp'])->name('otp_verify.post');
-
+ 
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
-
-    Route::get('/password/change', [AuthController::class, 'showPasswordChangeForm'])->name('password.change');
-
-    Route::post('/password/change', [AuthController::class, 'changePassword'])->name('password.change.post');
 
     Route::get('/users/{id}/edit', [AuthController::class, 'editUser'])->middleware('permission:edit users')->name('editUser');
 
@@ -89,3 +79,13 @@ Route::middleware(['auth'])->group(function () {
 Route::get('/login', function () {
     return view('login');
 });
+
+Route::post('/login', [AuthController::class, 'login'])->name('login');
+
+Route::get('/otp-verify', [AuthController::class, 'showOtpVerificationForm'])->name('otp_verify');
+
+Route::post('/otp-verify', [AuthController::class, 'verifyOtp'])->name('otp_verify.post');
+
+Route::get('/password/change', [AuthController::class, 'showPasswordChangeForm'])->name('password.change');
+
+Route::post('/password/change', [AuthController::class, 'changePassword'])->name('password.change.post');
