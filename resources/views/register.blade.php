@@ -99,6 +99,7 @@
                     <select class="form-control" name="role">
                         <option value="user">User</option>
                         <option value="admin">Admin</option>
+                        <option value="admin">Checker</option>
                     </select>
                 </div>
             </div>

@@ -69,9 +69,11 @@
                                                 <a class="dropdown-item"
                                                     href="{{ route('users.single', ['id' => $user['id']]) }}">View</a>
                                                 @can('delete users')
-                                                    @if ($user['status'] === 'active')
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('deleteUser', ['id' => $user['id']]) }}">Delete</a>
+                                                    @if (!($user['role'] == 'superuser'))
+                                                        @if ($user['status'] === 'active')
+                                                            <a class="dropdown-item"
+                                                                href="{{ route('deleteUser', ['id' => $user['id']]) }}">Delete</a>
+                                                        @endif
                                                     @endif
                                                 @endcan
                                                 @can('approve changes')

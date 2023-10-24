@@ -107,8 +107,8 @@
                                 <a href="#"
                                     class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
                                     id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30"
-                                        class="rounded-circle">
+                                    <img src="https://media.istockphoto.com/id/610003972/vector/vector-businessman-black-silhouette-isolated.jpg?s=612x612&w=0&k=20&c=Iu6j0zFZBkswfq8VLVW8XmTLLxTLM63bfvI6uXdkacM="
+                                        alt="hugenerd" width="30" height="30" class="rounded-circle">
                                     <span class="d-none d-sm-inline mx-2">{{ Auth::user()->username }}</span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow">

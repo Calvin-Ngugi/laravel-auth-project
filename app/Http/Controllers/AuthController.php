@@ -17,7 +17,7 @@ class AuthController extends Controller
 {
     public function index()
     {
-        $user= Auth::user();
+        $user = Auth::user();
         $users = User::paginate(5);
         return view('users.users', compact('users', 'user'));
     }
@@ -51,7 +51,7 @@ class AuthController extends Controller
         // Insert the user data into the database
         $defaultPassword = Str::random(9);
         $role = $validatedData['role'] ?: 'user';
-        
+
         $insertData = [
             'username' => $validatedData['username'],
             'email' => $validatedData['email'],
@@ -61,7 +61,7 @@ class AuthController extends Controller
             'created_at' => now(),
             'updated_at' => now(),
         ];
-        
+
         $user = User::create($insertData);
         $user->assignRole($role);
 
@@ -214,8 +214,8 @@ class AuthController extends Controller
             'status' => '',
         ]);
 
-        $role = $request->validate(['role'=> 'required']);
-        
+        $role = $request->validate(['role' => 'required']);
+
         // Update user details
         $user->update($editedData);
         $user->roles()->detach();
@@ -228,10 +228,9 @@ class AuthController extends Controller
     {
         $user = User::findOrFail($id);
 
-        // Update the user's status to "pending" instead of deleting
-        if($user->status === 'active'){
-            $user->status = 'pending';
-        }
+        // Update the user's status to "pending" and set the maker_id
+        $user->status = 'pending';
+        $user->maker_Id = Auth::id();
         $user->update();
 
         return redirect()->back()->with('warning', 'Pending deletion approval');
@@ -240,27 +239,30 @@ class AuthController extends Controller
     public function disableUser($id)
     {
         $user = User::findOrFail($id);
-
-        // Update the user's status to "pending" instead of deleting
-        if ($user->status === 'pending') {
+        // Check if the maker_id is the same as the current logged-in user's ID
+        if ($user->maker_Id != Auth::user()->id) {
             $user->status = 'disabled';
-        }
-        $user->update();
+            $user->maker_Id = null;
+            $user->update();
 
-        return redirect()->back()->with('warning', 'User disabled successfully');
+            return redirect()->back()->with('warning', 'User disabled');
+        }
+        return redirect()->back()->with('error', 'You cannot disable your own account.');
     }
 
     public function enableUser($id)
     {
         $user = User::findOrFail($id);
 
-        if ($user->status === 'disabled') {
+        // Check if the maker_id is the same as the current logged-in user's ID
+        if ($user->maker_Id != Auth::user()->id) {
             $user->status = 'active';
-        }elseif($user->status === 'pending'){
-            $user->status = 'active';
-        }
-        $user->update();
+            $user->maker_Id = null;
+            $user->update();
 
-        return redirect()->back()->with('success', 'User enabled');
+            return redirect()->back()->with('success', 'User enabled');
+        }
+
+        return redirect()->back()->with('error', 'You cannot enable your own account.');
     }
 }
