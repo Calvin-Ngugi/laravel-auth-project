@@ -16,7 +16,9 @@
         <div class="contain">
             <div class="d-flex justify-content-between align-items-center w-100">
                 <h2>Users</h1>
-                    <a class="btn btn-success" href="{{ route('register') }}">Add New User</a>
+                    @can('create users')
+                        <a class="btn btn-success" href="{{ route('register') }}">Add New User</a>
+                    @endcan
             </div>
             @unless (count($users) == 0)
                 @if (count($users) > 0)

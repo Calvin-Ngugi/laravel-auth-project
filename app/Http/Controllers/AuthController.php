@@ -93,12 +93,6 @@ class AuthController extends Controller
         }
 
         if ($user->status === 'active') {
-            if ($user->change_pass == 0) {
-                // Redirect to password change page
-                session(['email' => $credentials['email']]);
-                return redirect()->route('password.change');
-            }
-
             // Generate and store OTP
             if (Auth::validate($credentials)) {
                 $otp = mt_rand(100000, 999999); // Generate a 6-digit OTP
@@ -169,8 +163,13 @@ class AuthController extends Controller
             // Clear the OTP and log in the user
             $otp->isUsed = 1;
             $otp->save();
-            Auth::login(User::find($otp->user_id));
-
+            $user = User::find($otp->user_id);
+            Auth::login($user);
+            if ($user->change_pass == 0) {
+                // Redirect to password change page
+                session(['email' => $user['email']]);
+                return redirect()->route('password.change');
+            }
             return redirect()->route('listings');
         } else {
             return redirect()->route('otp_verify')->with('error', 'Invalid OTP.');
@@ -199,7 +198,7 @@ class AuthController extends Controller
         ]);
 
         // Redirect to the login page
-        return redirect()->route('login')->with('change_pass', 1);
+        return redirect()->route('listings')->with('change_pass', 1);
     }
 
     public function updateUser(Request $request, $id)
