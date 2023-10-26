@@ -85,6 +85,8 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/patients/{id}', [PatientController::class, 'update'])->middleware('permission:edit patients')->name('patients.update');
     
     Route::get('/patients/{id}/edit', [PatientController::class, 'edit'])->middleware('permission:edit patients')->name('patients.edit');
+
+    Route::get('/patients/{id}/check-up-history', [PatientController::class, 'checkUpHistory'])->name('patients.check-up-history');
 });
 
 

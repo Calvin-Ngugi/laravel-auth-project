@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\CheckUp;
 use App\Models\Patient;
 use Illuminate\Http\Request;
 
@@ -58,7 +59,9 @@ class PatientController extends Controller
     {
         // Retrieve and display a single patient's details
         $patient = Patient::findOrFail($id);
-        return view('patients.patient', compact('patient'));
+        $checkUps = CheckUp::where('patient_id', $id)->get();
+
+        return view('patients.patient', compact('patient', 'checkUps'));
     }
 
     public function edit($id)
@@ -107,5 +110,13 @@ class PatientController extends Controller
     public function destroy($id)
     {
         // Delete a patient from the database
+    }
+
+    public function checkUpHistory($id)
+    {
+        $patient = Patient::findOrFail($id);
+        $checkUps = CheckUp::where('patient_id', $id)->get();
+
+        return view('patients.check_up_history', compact('patient', 'checkUps'));
     }
 }

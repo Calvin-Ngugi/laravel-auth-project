@@ -52,7 +52,7 @@
                                             <a class="dropdown-item"
                                                 href="{{ route('patients.edit', ['id' => $patient['id']]) }}">Edit</a>
                                             <a class="dropdown-item"
-                                                href="#">View</a>
+                                                href="{{ route('patients.show', ['id' => $patient['id']]) }}">View</a>
                                             {{-- @can('delete users')
                                                 @if (!($user['role'] == 'superuser'))
                                                     @if ($user['status'] === 'active')

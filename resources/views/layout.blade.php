@@ -9,9 +9,6 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
-        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
-    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous">
     </script>
@@ -20,6 +17,9 @@
     </script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+" crossorigin="anonymous">
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
@@ -88,17 +88,17 @@
                             @auth
                                 <li class="nav-item">
                                     <a class="nav-link align-middle {{ Route::currentRouteName() === 'patients.index' ? 'active' : '' }}"
-                                        href="#sub" data-bs-toggle="collapse"><i
-                                            class="fs-4 bi-table"></i><span class="ms-1 d-none d-sm-inline">Patients
+                                        href="#sub" data-toggle="collapse" aria-expanded="false"><i class="fs-4 bi-table"></i><span
+                                            class="ms-1 d-none d-sm-inline">Patients
                                             Management</span></a>
                                     <ul class="collapse nav flex-column ms-1" id="sub" data-bs-parent="#menu">
                                         <li class="w-100">
-                                            <a href="{{ route('patients.index') }}" class="nav-link"> <span
-                                                    class="d-none d-sm-inline">- Patients</span></a>
+                                            <a href="{{ route('patients.index') }}" class="nav-link ">- <span
+                                                    class="d-none d-sm-inline {{ Route::currentRouteName() === 'patients.index' ? 'text-decoration-underline' : '' }}">Patients</span></a>
                                         </li>
                                         <li>
-                                            <a href="#" class="nav-link"> <span
-                                                    class="d-none d-sm-inline">- Checkups</span></a>
+                                            <a href="#" class="nav-link">- <span class="d-none d-sm-inline">
+                                                    Checkups</span></a>
                                         </li>
                                     </ul>
                                 </li>
