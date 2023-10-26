@@ -4,7 +4,7 @@
     <div class="contain">
         <div class="d-flex justify-content-between align-items-center w-100">
             <h2>Patients</h1>
-                @can('create users')
+                @can('create patients')
                     <a class="btn btn-success" href="{{ route('patients.create') }}">Add New Patient</a>
                 @endcan
         </div>
@@ -50,9 +50,9 @@
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                             <a class="dropdown-item"
-                                                href="{{ route('editUser', ['id' => $user['id']]) }}">Edit</a>
+                                                href="{{ route('patients.edit', ['id' => $patient['id']]) }}">Edit</a>
                                             <a class="dropdown-item"
-                                                href="{{ route('users.single', ['id' => $user['id']]) }}">View</a>
+                                                href="#">View</a>
                                             {{-- @can('delete users')
                                                 @if (!($user['role'] == 'superuser'))
                                                     @if ($user['status'] === 'active')
@@ -78,9 +78,9 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{ $users->links('pagination::bootstrap-4') }}
+                {{ $patients->links('pagination::bootstrap-4') }}
             @else
-                <h4>No users found
+                <h4>No patients found
                     </h2>
             @endif
         @endunless

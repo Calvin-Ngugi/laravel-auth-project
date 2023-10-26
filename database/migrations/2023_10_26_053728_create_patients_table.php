@@ -19,7 +19,7 @@ class CreatePatientsTable extends Migration
             $table->string('gender');
             $table->date('dob');
             $table->string('phone_number');
-            $table->string('id_number');
+            $table->string('id_number')->unique();
             $table->string('email')->nullable();
             $table->string('next_of_kin_name');
             $table->string('next_of_kin_phone');

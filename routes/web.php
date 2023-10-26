@@ -39,7 +39,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/users', [AuthController::class, 'index'])->middleware('permission:view users')->name('users.index');
 
     Route::post('/register', [AuthController::class, 'register'])->middleware('permission:create users')->name('register');
- 
+
     Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::get('/users/{id}/edit', [AuthController::class, 'editUser'])->middleware('permission:edit users')->name('editUser');
@@ -74,15 +74,17 @@ Route::middleware(['auth'])->group(function () {
 
     Route::delete('/users/{id}/disable', [AuthController::class, 'disableUser'])->middleware('permission:approve changes')->name('disableUser');
 
-    Route::get('/patients', [PatientController::class, 'index'])->name('patients.index');
+    Route::get('/patients', [PatientController::class, 'index'])->middleware('permission:view patients')->name('patients.index');
 
     Route::get('/patients/create', [PatientController::class, 'create'])->name('patients.create');
 
     Route::post('/patients', [PatientController::class, 'post'])->name('patients.post');
 
-    Route::get('/patients/{id}', 'PatientController@show');
-    Route::get('/patients/{id}/edit', 'PatientController@edit');
-    Route::put('/patients/{id}', 'PatientController@update');
+    Route::get('/patients/{id}', [PatientController::class, 'show'])->middleware('permission:view patients')->name('patients.show');
+
+    Route::put('/patients/{id}', [PatientController::class, 'update'])->middleware('permission:edit patients')->name('patients.update');
+    
+    Route::get('/patients/{id}/edit', [PatientController::class, 'edit'])->middleware('permission:edit patients')->name('patients.edit');
 });
 
 

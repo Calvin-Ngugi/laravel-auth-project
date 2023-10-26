@@ -11,7 +11,7 @@
 
     @section('content')
         <div class="align">
-            <form action="{{ route('updateUser', ['id' => $user->id]) }}" method="POST">
+            <form action="{{ route('updateUser', ['id' => $user->id]) }}" method="post">
                 <div class="form">
                     <h1>Edit User</h1>
                     <div class="errors">
