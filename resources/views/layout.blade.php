@@ -86,6 +86,22 @@
                                 </a>
                             </li>
                             @auth
+                                <li class="nav-item">
+                                    <a class="nav-link align-middle {{ Route::currentRouteName() === 'patients.index' ? 'active' : '' }}"
+                                        href="#sub" data-bs-toggle="collapse"><i
+                                            class="fs-4 bi-table"></i><span class="ms-1 d-none d-sm-inline">Patients
+                                            Management</span></a>
+                                    <ul class="collapse nav flex-column ms-1" id="sub" data-bs-parent="#menu">
+                                        <li class="w-100">
+                                            <a href="{{ route('patients.index') }}" class="nav-link"> <span
+                                                    class="d-none d-sm-inline">- Patients</span></a>
+                                        </li>
+                                        <li>
+                                            <a href="#" class="nav-link"> <span
+                                                    class="d-none d-sm-inline">- Checkups</span></a>
+                                        </li>
+                                    </ul>
+                                </li>
                                 @can('view users')
                                     <li class="nav-item">
                                         <a class="nav-link align-middle {{ Route::currentRouteName() === 'users.index' ? 'active' : '' }}"
@@ -119,7 +135,8 @@
                                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
                                     <li><a class="dropdown-item" href="#">Settings</a></li>
                                     <li><a class="dropdown-item"
-                                            href="{{ route('users.single', ['id' => Auth::user()->id]) }}">Profile</a></li>
+                                            href="{{ route('users.single', ['id' => Auth::user()->id]) }}">Profile</a>
+                                    </li>
                                     <li>
                                         <hr class="dropdown-divider">
                                     </li>

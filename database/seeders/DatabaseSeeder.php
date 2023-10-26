@@ -28,11 +28,18 @@ class DatabaseSeeder extends Seeder
         Permission::create(['name' => 'create roles']);
         Permission::create(['name' => 'view roles']);
         Permission::create(['name' => 'approve changes']);
+        Permission::create(['name' => 'create patients']);
+        Permission::create(['name' => 'edit patients']);
+        Permission::create(['name' => 'view patients']);
 
         // Create roles
         $superAdminRole = Role::create(['name' => 'super-admin']);
-        $adminRole = Role::create(['name' => 'admin']);
-        $userRole = Role::create(['name' => 'user']);
+        $doctorRole = Role::create(['name' => 'doctor']);
+        $nurseRole = Role::create(['name' => 'nurse']);
+        $financeRole = Role::create(['name' => 'finance']);
+        $labTechRole = Role::create(['name' => 'lab-tech']);
+        // $checkerRole = Role::create(['name' => 'checker']);
+        $receptionistRole = Role::create(['name' => 'receptionist']);
 
         // Assign permissions to roles
         $superAdminRole->syncPermissions([
@@ -44,22 +51,33 @@ class DatabaseSeeder extends Seeder
             'delete users',
             'create roles',
             'view roles',
-            'approve changes'
+            'approve changes',
+            'create patients',
+            'edit patients',
+            'view patients',
         ]);
 
-        $adminRole->syncPermissions([
-            'view users',
-            'create users',
+        $doctorRole->syncPermissions([
+            'view users',    
             'view listings',
-            'edit users',
-            'delete users',
-            'view roles',
-            'create roles'
+            'create patients',
+            'edit patients',
+            'view patients',
         ]);
 
-        $userRole->syncPermissions([
+        $nurseRole->syncPermissions([
             'view users',
             'view listings',
+            'create patients',
+            'edit patients',
+            'view patients',
+        ]);
+
+        $receptionistRole->syncPermissions([
+            'view users',
+            'view listings',
+            'view patients',
+            'create patients',
         ]);
 
         // Create a super admin user

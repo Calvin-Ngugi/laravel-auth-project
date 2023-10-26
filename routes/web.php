@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ListingController;
+use App\Http\Controllers\PatientController;
 use App\Models\Listing;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -72,6 +73,16 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/users/{id}/disable', [AuthController::class, 'disableUser'])->middleware('permission:approve changes')->name('disableUser');
 
     Route::delete('/users/{id}/disable', [AuthController::class, 'disableUser'])->middleware('permission:approve changes')->name('disableUser');
+
+    Route::get('/patients', [PatientController::class, 'index'])->name('patients.index');
+
+    Route::get('/patients/create', [PatientController::class, 'create'])->name('patients.create');
+
+    Route::post('/patients', [PatientController::class, 'post'])->name('patients.post');
+
+    Route::get('/patients/{id}', 'PatientController@show');
+    Route::get('/patients/{id}/edit', 'PatientController@edit');
+    Route::put('/patients/{id}', 'PatientController@update');
 });
 
 
