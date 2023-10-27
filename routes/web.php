@@ -93,6 +93,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('checkups/create', [CheckUpController::class, 'create'])->name('checkups.create');
 
     Route::post('/checkups', [CheckUpController::class, 'post'])->name('checkups.post');
+
+    Route::get('/checkups/{id}', [CheckUpController::class, 'show'])->name('checkups.show');
 });
 
 

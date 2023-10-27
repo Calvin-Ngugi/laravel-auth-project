@@ -47,8 +47,9 @@ class CheckUpController extends Controller
 
     public function show($id)
     {
-        $patient = Patient::where('id', $id)->first();
-        $checkup = $patient->checkup;
+        $checkup = CheckUp::findorFail($id);
+
+        return view('checkups.checkup', compact('checkup'));
     }
 
     public function edit($id)

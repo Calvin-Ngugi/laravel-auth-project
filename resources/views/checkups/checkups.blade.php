@@ -57,7 +57,7 @@
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <a class="dropdown-item" href="#">Edit</a>
-                                        <a class="dropdown-item" href="#">View</a>
+                                        <a class="dropdown-item" href="{{route('checkups.show', ['id' => $checkup['id']])}}">View</a>
                                     </div>
                                 </div>
                             </td>
