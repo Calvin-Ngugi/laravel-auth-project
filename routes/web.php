@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\CheckUpController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\PatientController;
+use App\Models\CheckUp;
 use App\Models\Listing;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -86,7 +88,11 @@ Route::middleware(['auth'])->group(function () {
     
     Route::get('/patients/{id}/edit', [PatientController::class, 'edit'])->middleware('permission:edit patients')->name('patients.edit');
 
-    Route::get('/patients/{id}/check-up-history', [PatientController::class, 'checkUpHistory'])->name('patients.check-up-history');
+    Route::get('/checkups', [CheckUpController::class, 'index'])->name('checkups.index');
+
+    Route::get('checkups/create', [CheckUpController::class, 'create'])->name('checkups.create');
+
+    Route::post('/checkups', [CheckUpController::class, 'post'])->name('checkups.post');
 });
 
 

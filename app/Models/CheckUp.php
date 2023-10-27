@@ -13,4 +13,14 @@ class CheckUp extends Model
     {
         return $this->belongsTo(Patient::class);
     }
+
+    protected $fillable = [
+        'patient_id',
+        'height',
+        'weight',
+        'temperature',
+        'blood_pressure',
+        'blood_sugar',
+        'heart_rate',
+    ];
 }

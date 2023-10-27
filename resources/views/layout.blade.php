@@ -87,9 +87,9 @@
                             </li>
                             @auth
                                 <li class="nav-item">
-                                    <a class="nav-link align-middle {{ Route::currentRouteName() === 'patients.index' ? 'active' : '' }}"
-                                        href="#sub" data-toggle="collapse" aria-expanded="false"><i class="fs-4 bi-table"></i><span
-                                            class="ms-1 d-none d-sm-inline">Patients
+                                    <a class="nav-link align-middle {{ Route::currentRouteName() === ('patients.index') ? 'active' : '' }} {{ Route::currentRouteName() === ('checkups.index') ? 'active' : '' }}"
+                                        href="#sub" data-toggle="collapse" aria-expanded="false"><i
+                                            class="fs-4 bi-table"></i><span class="ms-1 d-none d-sm-inline">Patients
                                             Management</span></a>
                                     <ul class="collapse nav flex-column ms-1" id="sub" data-bs-parent="#menu">
                                         <li class="w-100">
@@ -97,7 +97,9 @@
                                                     class="d-none d-sm-inline {{ Route::currentRouteName() === 'patients.index' ? 'text-decoration-underline' : '' }}">Patients</span></a>
                                         </li>
                                         <li>
-                                            <a href="#" class="nav-link">- <span class="d-none d-sm-inline">
+                                            <a href="{{ route('checkups.index') }}" class="nav-link">-
+                                                <span
+                                                    class="d-none d-sm-inline {{ Route::currentRouteName() === 'checkups.index' ? 'text-decoration-underline' : '' }}">
                                                     Checkups</span></a>
                                         </li>
                                     </ul>
