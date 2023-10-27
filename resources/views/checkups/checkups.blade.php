@@ -56,7 +56,7 @@
                                         <i class="fa-solid fa-ellipsis-vertical"></i>
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#">Edit</a>
+                                        <a class="dropdown-item" href="{{route('checkups.edit', ['id' => $checkup['id']])}}">Edit</a>
                                         <a class="dropdown-item" href="{{route('checkups.show', ['id' => $checkup['id']])}}">View</a>
                                     </div>
                                 </div>

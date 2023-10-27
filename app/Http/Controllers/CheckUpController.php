@@ -54,12 +54,26 @@ class CheckUpController extends Controller
 
     public function edit($id)
     {
-        //
+        $checkup = CheckUp::findorFail($id);
+
+        return view('checkups.editCheckup', compact('checkup'));
     }
 
     public function update(Request $request, $id)
     {
-        //
+        $checkup = CheckUp::findorFail($id);
+        $validatedData = $request->validate([
+            'height' => 'required',
+            'weight' => 'required',
+            'temperature' => 'required',
+            'blood_pressure' => 'required',
+            'blood_sugar' => 'required',
+            'heart_rate' => 'required',
+        ]);
+        
+        $checkup->update($validatedData);
+
+        return redirect()->route('checkups.index')->with('success', 'Checkup updated successfully');
     }
 
     public function destroy($id)

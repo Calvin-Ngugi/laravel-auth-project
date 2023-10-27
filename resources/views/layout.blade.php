@@ -24,7 +24,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
-    <title>Document</title>
+    <title>HISP</title>
 </head>
 
 <body>
@@ -129,7 +129,7 @@
                             <div class="dropdown">
                                 <a href="#"
                                     class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-                                    id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    id="dropdownUser1" data-toggle="dropdown">
                                     <img src="https://media.istockphoto.com/id/610003972/vector/vector-businessman-black-silhouette-isolated.jpg?s=612x612&w=0&k=20&c=Iu6j0zFZBkswfq8VLVW8XmTLLxTLM63bfvI6uXdkacM="
                                         alt="hugenerd" width="30" height="30" class="rounded-circle">
                                     <span class="d-none d-sm-inline mx-2">{{ Auth::user()->username }}</span>
@@ -151,13 +151,12 @@
                             <div class="dropdown mt-4">
                                 <a href="#"
                                     class="d-flex align-items-center text-white text-decoration-none dropdown-toggle"
-                                    id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    id="dropdownUser1" data-toggle="dropdown">
                                     <img src="https://github.com/mdo.png" alt="hugenerd" width="30" height="30"
                                         class="rounded-circle">
                                     <span class="d-none d-sm-inline mx-2">Guest</span>
                                 </a>
                                 <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
-                                    <li><a class="dropdown-item" href="#">New project...</a></li>
                                     <li><a class="dropdown-item" href="#">Settings</a></li>
                                     <li><a class="dropdown-item" href="#">Profile</a></li>
                                     <li>

@@ -78,9 +78,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/patients', [PatientController::class, 'index'])->middleware('permission:view patients')->name('patients.index');
 
-    Route::get('/patients/create', [PatientController::class, 'create'])->name('patients.create');
+    Route::get('/patients/create', [PatientController::class, 'create'])->middleware('permission:create patients')->name('patients.create');
 
-    Route::post('/patients', [PatientController::class, 'post'])->name('patients.post');
+    Route::post('/patients', [PatientController::class, 'post'])->middleware('permission:create patients')->name('patients.post');
 
     Route::get('/patients/{id}', [PatientController::class, 'show'])->middleware('permission:view patients')->name('patients.show');
 
@@ -88,13 +88,17 @@ Route::middleware(['auth'])->group(function () {
     
     Route::get('/patients/{id}/edit', [PatientController::class, 'edit'])->middleware('permission:edit patients')->name('patients.edit');
 
-    Route::get('/checkups', [CheckUpController::class, 'index'])->name('checkups.index');
+    Route::get('/checkups', [CheckUpController::class, 'index'])->middleware('permission:view checkups')->name('checkups.index');
 
-    Route::get('checkups/create', [CheckUpController::class, 'create'])->name('checkups.create');
+    Route::get('checkups/create', [CheckUpController::class, 'create'])->middleware('permission:create checkups')->name('checkups.create');
 
-    Route::post('/checkups', [CheckUpController::class, 'post'])->name('checkups.post');
+    Route::post('/checkups', [CheckUpController::class, 'post'])->middleware('permission:create checkups')->name('checkups.post');
 
-    Route::get('/checkups/{id}', [CheckUpController::class, 'show'])->name('checkups.show');
+    Route::get('/checkups/{id}', [CheckUpController::class, 'show'])->middleware('permission:view checkups')->name('checkups.show');
+    
+    Route::get('/checkups/{id}/edit', [CheckUpController::class, 'edit'])->middleware('permission:edit checkups')->name('checkups.edit');
+
+    Route::put('/checkups/{id}', [CheckUpController::class, 'update'])->middleware('permission:edit checkups')->name('checkups.update');
 });
 
 

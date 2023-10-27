@@ -31,6 +31,9 @@ class DatabaseSeeder extends Seeder
         Permission::create(['name' => 'create patients']);
         Permission::create(['name' => 'edit patients']);
         Permission::create(['name' => 'view patients']);
+        Permission::create(['name' => 'view checkups']);
+        Permission::create(['name' => 'create checkups']);
+        Permission::create(['name' => 'edit checkups']);
 
         // Create roles
         $superAdminRole = Role::create(['name' => 'super-admin']);
@@ -55,6 +58,9 @@ class DatabaseSeeder extends Seeder
             'create patients',
             'edit patients',
             'view patients',
+            'view checkups',
+            'create checkups',
+            'edit checkups',
         ]);
 
         $doctorRole->syncPermissions([
@@ -63,6 +69,9 @@ class DatabaseSeeder extends Seeder
             'create patients',
             'edit patients',
             'view patients',
+            'view checkups',
+            'create checkups',
+            'edit checkups',
         ]);
 
         $nurseRole->syncPermissions([
@@ -71,6 +80,9 @@ class DatabaseSeeder extends Seeder
             'create patients',
             'edit patients',
             'view patients',
+            'view checkups',
+            'create checkups',
+            'edit checkups',
         ]);
 
         $receptionistRole->syncPermissions([
