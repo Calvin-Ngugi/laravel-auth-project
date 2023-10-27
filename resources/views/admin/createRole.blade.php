@@ -23,11 +23,14 @@
                 </div>
                 <div class="form-group">
                     <label for="permissions">Permissions:</label>
-                    <select name="permissions[]" id="permissions" class="form-control" multiple>
-                        @foreach ($permissions as $permission)
-                            <option value="{{ $permission->id }}">{{ $permission->name }}</option>
-                        @endforeach
-                    </select>
+                    @foreach ($permissions as $permission)
+                        <div class="form-check">
+                            <input type="checkbox" name="permissions[]" value="{{ $permission->id }}"
+                                id="permission{{ $permission->id }}">
+                            <label for="permission{{ $permission->id }}"
+                                class="form-check-label">{{ $permission->name }}</label>
+                        </div>
+                    @endforeach
                 </div>
                 <button type="submit" class="btn btn-primary">Create Role</button>
             </form>

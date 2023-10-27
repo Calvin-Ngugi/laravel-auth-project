@@ -28,16 +28,20 @@
                     <label for="name">Role Name:</label>
                     <input type="text" class="form-control" id="name" name="name" value="{{ $role->name }}">
                 </div>
+
                 <div class="form-group">
                     <label for="permissions">Permissions:</label>
-                    <select name="permissions[]" id="permissions" class="form-control" multiple>
-                        @foreach ($permissions as $permission)
-                            @if ($role->hasPermissionTo($permission))
-                            @else
-                                <option value="{{ $permission->name }}">{{ $permission->name }}</option>
-                            @endif
-                        @endforeach
-                    </select>
+                    @foreach ($permissions as $permission)
+                        @if ($role->hasPermissionTo($permission))
+                        @else
+                            <div class="form-check">
+                                <input type="checkbox" name="permissions[]" value="{{ $permission->name }}"
+                                    id="permission{{ $permission->id }}">
+                                <label for="permission{{ $permission->id }}"
+                                    class="form-check-label">{{ $permission->name }}</label>
+                            </div>
+                        @endif
+                    @endforeach
                 </div>
                 <button type="submit" class="btn btn-primary">Save Changes</button>
             </form>
