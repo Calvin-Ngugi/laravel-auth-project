@@ -8,13 +8,31 @@ use Illuminate\Http\Request;
 
 class PatientController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        // Retrieve a list of patients from the database
-        $patients = Patient::all();
-        $patients = Patient::paginate(5);
+        $query = Patient::query();
 
-        return view('patients.patients', compact('patients'));
+        // Check if a search term and column are provided
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where('name', 'like', '%' . $search . '%');
+        }
+
+        // Handle sorting
+        $sortColumn = $request->input('sort_by', 'id');
+        $sortOrder = $request->input('sort_order', 'asc');
+
+        if (in_array($sortColumn, ['name', 'gender', 'dob', 'phone_number', 'id_number'])) {
+            $query->orderBy($sortColumn, $sortOrder);
+        } else {
+            $sortColumn = 'id'; // Default sorting column
+            $sortOrder = 'asc';  // Default sorting order
+        }
+
+        // Retrieve paginated patients
+        $patients = $query->paginate(5);
+
+        return view('patients.patients', compact('patients', 'sortColumn', 'sortOrder'));
     }
 
     public function create()

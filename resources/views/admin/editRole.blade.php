@@ -29,7 +29,7 @@
                     <input type="text" class="form-control" id="name" name="name" value="{{ $role->name }}">
                 </div>
 
-                <div class="form-group">
+                <div class="form-group mt-3">
                     <label for="permissions">Permissions:</label>
                     @foreach ($permissions as $permission)
                         @if ($role->hasPermissionTo($permission))
@@ -43,7 +43,7 @@
                         @endif
                     @endforeach
                 </div>
-                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <button type="submit" class="btn btn-primary mb-3">Save Changes</button>
             </form>
             <table class="table table-striped mt-3">
                 <thead class="table-dark">

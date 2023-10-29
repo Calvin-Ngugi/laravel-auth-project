@@ -13,11 +13,30 @@ class CheckUpController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $checkups = CheckUp::all();
-        $checkups = CheckUp::paginate(5);
-        return view('checkups.checkups', compact('checkups'));
+        $query = CheckUp::select('check_ups.*', 'patients.name as patient_name')
+            ->leftJoin('patients', 'check_ups.patient_id', '=', 'patients.id');
+
+        // Check for sorting parameters
+        $sortColumn = $request->input('sort_by', 'patient_id');
+        $sortOrder = $request->input('sort_order', 'asc');
+
+        if ($sortColumn == 'patient_id') {
+            $query->orderBy('patient_id', $sortOrder);
+        } elseif ($sortColumn == 'height') {
+            $query->orderBy('height', $sortOrder);
+        } // Add more conditions for other columns
+
+        // Handle search
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where('patients.name', 'like', '%' . $search . '%');
+        }
+
+        $checkups = $query->paginate(5);
+
+        return view('checkups.checkups', compact('checkups', 'sortColumn', 'sortOrder'));
     }
 
     public function create()
@@ -70,7 +89,7 @@ class CheckUpController extends Controller
             'blood_sugar' => 'required',
             'heart_rate' => 'required',
         ]);
-        
+
         $checkup->update($validatedData);
 
         return redirect()->route('checkups.index')->with('success', 'Checkup updated successfully');
