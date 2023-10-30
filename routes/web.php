@@ -30,9 +30,7 @@ Route::middleware(['auth'])->group(function () {
         ]);
     });
 
-    Route::get('/register', function () {
-        return view('register');
-    })->middleware('permission:create users');
+    Route::get('/register', [AuthController::class, 'signup'])->middleware('permission:create users')->name('register');
 
     Route::get('/users/{id}', [AuthController::class, 'single'])->middleware('permission:view users')->name('users.single');
 

@@ -15,7 +15,7 @@ class CheckUpController extends Controller
      */
     public function index(Request $request)
     {
-        $query = CheckUp::select('check_ups.*', 'patients.name as patient_name')
+        $query = CheckUp::select('check_ups.*', 'patients.id_number as patient_idnumber')
             ->leftJoin('patients', 'check_ups.patient_id', '=', 'patients.id');
 
         // Check for sorting parameters
@@ -31,10 +31,10 @@ class CheckUpController extends Controller
         // Handle search
         if ($request->has('search')) {
             $search = $request->input('search');
-            $query->where('patients.name', 'like', '%' . $search . '%');
+            $query->where('patients.id_number', 'like', '%' . $search . '%');
         }
 
-        $checkups = $query->paginate(5);
+        $checkups = $query->paginate(8);
 
         return view('checkups.checkups', compact('checkups', 'sortColumn', 'sortOrder'));
     }

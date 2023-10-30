@@ -15,7 +15,7 @@ class PatientController extends Controller
         // Check if a search term and column are provided
         if ($request->has('search')) {
             $search = $request->input('search');
-            $query->where('name', 'like', '%' . $search . '%');
+            $query->where('id_number', 'like', '%' . $search . '%');
         }
 
         // Handle sorting
@@ -30,7 +30,7 @@ class PatientController extends Controller
         }
 
         // Retrieve paginated patients
-        $patients = $query->paginate(5);
+        $patients = $query->paginate(8);
 
         return view('patients.patients', compact('patients', 'sortColumn', 'sortOrder'));
     }

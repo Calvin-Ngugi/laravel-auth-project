@@ -7,6 +7,21 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="../../css/login.css" title="Document" />
     <title>Create patient</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script defer>
+        // Attach an input event listener to the phone number input field
+        $('#phone').on('input', function() {
+            // Remove any non-numeric characters (except '+')
+            var phoneNumber = $(this).val().replace(/[^0-9+]/g, '');
+
+            if (!phoneNumber.startsWith('254')) {
+                phoneNumber = '+254' + phoneNumber;
+            }
+
+            // Update the input field value
+            $(this).val(phoneNumber);
+        });
+    </script>
 </head>
 
 <body>
@@ -57,7 +72,7 @@
                     <div class="form-group d-flex mb-2">
                         <div class="me-3">
                             <label for="phone">Phone Number:</label>
-                            <input type="phone" name="phone" class="form-control" id="Phone" required
+                            <input type="phone" name="phone" class="form-control" id="phone" required
                                 placeholder="Enter phone number" value="{{ $patient->phone_number }}">
                         </div>
                         <div class="me-3">

@@ -7,7 +7,7 @@
                 <form action="{{ route('checkups.index') }}" method="GET" class="align-items-end d-flex">
                     <div class="form-group">
                         <input type="text" name="search" id="search" value="{{ request('search') }}" class="form-control"
-                            placeholder="Enter patient's name">
+                            placeholder="Enter patient's id number">
                     </div>
                     <button type="submit" class="btn btn-primary ms-2">Search</button>
                 </form>
@@ -32,6 +32,22 @@
                                     @endif
                                 @endif
                             </a>
+                        </th>
+                        <th scope="col">
+                            <a
+                                href="{{ route('checkups.index', ['sort_by' => 'patients.id_number', 'sort_order' => $sortColumn == 'patients.id_number' && $sortOrder == 'asc' ? 'desc' : 'asc']) }}"
+                                class="text-light text-decoration-none">
+                                Patient Id
+                                @if ($sortColumn == 'patients.id_number')
+                                    @if ($sortOrder == 'asc')
+                                        <i class="bi-caret-up-fill"></i>
+                                    @else
+                                        <i class="bi-caret-down-fill"></i>
+                                    @endif
+                                @endif
+                            </a>
+                        </th>
+                        
                         <th scope="col">
                             <a
                                 href="{{ route('checkups.index', ['sort_by' => 'height', 'sort_order' => $sortColumn == 'height' && $sortOrder == 'asc' ? 'desc' : 'asc']) }}"
@@ -125,6 +141,7 @@
                     @foreach ($checkups as $checkup)
                         <tr>
                             <td>{{ $checkup->patient->name }}</td>
+                            <td>{{ $checkup->patient->id_number }}</td>
                             <td>{{ $checkup['height'] }}</td>
                             <td>{{ $checkup['weight'] }}</td>
                             <td>{{ $checkup['temperature'] }}</td>

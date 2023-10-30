@@ -38,6 +38,12 @@ class AuthController extends Controller
         return view('edit_user', compact('user', 'roles'));
     }
 
+    public function signup()
+    {
+        $roles = Role::all();
+        return view('register', compact('roles'));
+    }
+
     public function register(Request $request)
     {
         $validatedData = $request->validate([
@@ -50,7 +56,7 @@ class AuthController extends Controller
 
         // Insert the user data into the database
         $defaultPassword = Str::random(9);
-        $role = $validatedData['role'] ?: 'user';
+        $role = $validatedData['role'] ?: 'receptionist';
 
         $insertData = [
             'username' => $validatedData['username'],

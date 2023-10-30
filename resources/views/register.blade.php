@@ -96,10 +96,12 @@
                 </div>
                 <div class="form-group">
                     <label for="role">Role:</label>
-                    <select class="form-control" name="role">
-                        <option value="user">User</option>
-                        <option value="admin">Admin</option>
-                        <option value="admin">Checker</option>
+                    <select name="role" id="role" class="form-control px-5">
+                        @foreach ($roles as $role)
+                            <option value="{{ $role->name }}">
+                                {{ $role->name }}
+                            </option>
+                        @endforeach
                     </select>
                 </div>
             </div>

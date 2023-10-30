@@ -7,7 +7,7 @@
                 <form action="{{ route('patients.index') }}" method="GET" class="align-items-end d-flex">
                     <div class="form-group">
                         <input type="text" name="search" id="search" value="{{ request('search') }}" class="form-control"
-                            placeholder="Enter patient name">
+                            placeholder="Enter patient's id number">
                     </div>
                     <button type="submit" class="btn btn-primary ms-2">Search</button>
                 </form>

@@ -24,6 +24,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
         integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
     <title>HISP</title>
 </head>
 
@@ -87,21 +90,25 @@
                             </li>
                             @auth
                                 <li class="nav-item">
-                                    <a class="nav-link align-middle {{ Route::currentRouteName() === ('patients.index') ? 'active' : '' }} {{ Route::currentRouteName() === ('checkups.index') ? 'active' : '' }}"
+                                    <a class="nav-link align-middle {{ Route::currentRouteName() === 'patients.index' ? 'active' : '' }} {{ Route::currentRouteName() === 'checkups.index' ? 'active' : '' }}"
                                         href="#sub" data-toggle="collapse" aria-expanded="false"><i
                                             class="fs-4 bi-table"></i><span class="ms-1 d-none d-sm-inline">Patients
                                             Management</span></a>
                                     <ul class="collapse nav flex-column ms-1" id="sub" data-bs-parent="#menu">
-                                        <li class="w-100">
-                                            <a href="{{ route('patients.index') }}" class="nav-link ">- <span
-                                                    class="d-none d-sm-inline {{ Route::currentRouteName() === 'patients.index' ? 'text-decoration-underline' : '' }}">Patients</span></a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ route('checkups.index') }}" class="nav-link">-
-                                                <span
-                                                    class="d-none d-sm-inline {{ Route::currentRouteName() === 'checkups.index' ? 'text-decoration-underline' : '' }}">
-                                                    Checkups</span></a>
-                                        </li>
+                                        @can('view patients')
+                                            <li class="w-100">
+                                                <a href="{{ route('patients.index') }}" class="nav-link ">- <span
+                                                        class="d-none d-sm-inline {{ Route::currentRouteName() === 'patients.index' ? 'text-decoration-underline' : '' }}">Patients</span></a>
+                                            </li>
+                                        @endcan
+                                        @can('view checkups')
+                                            <li>
+                                                <a href="{{ route('checkups.index') }}" class="nav-link">-
+                                                    <span
+                                                        class="d-none d-sm-inline {{ Route::currentRouteName() === 'checkups.index' ? 'text-decoration-underline' : '' }}">
+                                                        Checkups</span></a>
+                                            </li>
+                                        @endcan
                                     </ul>
                                 </li>
                                 @can('view users')
