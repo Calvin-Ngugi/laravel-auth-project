@@ -6,8 +6,8 @@
             <h2>Patients</h1>
                 <form action="{{ route('patients.index') }}" method="GET" class="align-items-end d-flex">
                     <div class="form-group">
-                        <input type="text" name="search" id="search" value="{{ request('search') }}" class="form-control"
-                            placeholder="Enter patient's id number">
+                        <input type="text" name="search" id="live-search" value="{{ request('search') }}"
+                            class="form-control" placeholder="Enter patient's id number">
                     </div>
                     <button type="submit" class="btn btn-primary ms-2">Search</button>
                 </form>
@@ -85,7 +85,7 @@
                             </th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="live-search-results">
                         @foreach ($patients as $patient)
                             <tr>
                                 <td>{{ $patient['name'] }}</td>
@@ -105,24 +105,6 @@
                                                 href="{{ route('patients.edit', ['id' => $patient['id']]) }}">Edit</a>
                                             <a class="dropdown-item"
                                                 href="{{ route('patients.show', ['id' => $patient['id']]) }}">View</a>
-                                            {{-- @can('delete users')
-                                                @if (!($user['role'] == 'superuser'))
-                                                    @if ($user['status'] === 'active')
-                                                        <a class="dropdown-item"
-                                                            href="{{ route('deleteUser', ['id' => $user['id']]) }}">Delete</a>
-                                                    @endif
-                                                @endif
-                                            @endcan
-                                            @can('approve changes')
-                                                @if ($user['status'] === 'pending')
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('disableUser', ['id' => $user['id']]) }}">Disable</a>
-                                                @endif
-                                                @if ($user['status'] === 'pending' || $user['status'] === 'disabled')
-                                                    <a class="dropdown-item"
-                                                        href="{{ route('enableUser', ['id' => $user['id']]) }}">Enable</a>
-                                                @endif
-                                            @endcan --}}
                                         </div>
                                     </div>
                                 </td>
@@ -137,4 +119,52 @@
             @endif
         @endunless
     </div>
+    <script defer>
+        // Listen to the input event on the search input field
+        document.getElementById('live-search').addEventListener('input', function() {
+            const query = this.value;
+            console.log(query);
+            const resultsContainer = document.getElementById('live-search-results');
+
+            // Make an AJAX request to fetch live search results
+            fetch('{{ route('patients.live-search') }}?query=' + query)
+                .then(response => response.json())
+                .then(results => {
+                    // Clear previous results
+                    resultsContainer.innerHTML = '';
+
+                    // Display the new results within the table format
+                    results.forEach(result => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                        <td>${result.name}</td>
+                        <td>${result.gender}</td>
+                        <td>${result.dob}</td>
+                        <td>${result.phone_number}</td>
+                        <td>${result.id_number}</td>
+                        <td>
+                            <div class="dropdown">
+                                <button class="btn btn-secondary px-3 border-0 cursor-pointer rounded-circle"
+                                    role="button" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                                    aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                                </button>
+                                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                    <a class="dropdown-item"
+                                        href="{{ route('patients.edit', ['id' => $patient['id']]) }}">Edit</a>
+                                    <a class="dropdown-item"
+                                        href="{{ route('patients.show', ['id' => $patient['id']]) }}">View</a>
+                                </div>
+                            </div>
+                        </td>
+                    `;
+                        resultsContainer.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Live search failed:', error);
+                });
+        });
+    </script>
+
 @endsection

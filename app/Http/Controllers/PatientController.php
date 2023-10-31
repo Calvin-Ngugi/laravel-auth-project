@@ -137,4 +137,12 @@ class PatientController extends Controller
 
         return view('patients.check_up_history', compact('patient', 'checkUps'));
     }
+
+    public function liveSearch(Request $request)
+    {
+        $query = $request->input('query');
+        $results = Patient::where('id_number', 'like', '%' . $query . '%')->get();
+
+        return $results;
+    }
 }

@@ -99,4 +99,15 @@ class CheckUpController extends Controller
     {
         //
     }
+
+    public function liveSearch(Request $request)
+    {
+        $query = $request->input('query');
+        $results = CheckUp::select('check_ups.*', 'patients.name', 'patients.id_number')
+        ->leftJoin('patients', 'check_ups.patient_id', '=', 'patients.id')
+        ->where('patients.id_number', 'like', '%' . $query . '%')
+            ->get();
+
+        return $results;
+    }
 }

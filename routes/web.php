@@ -86,17 +86,21 @@ Route::middleware(['auth'])->group(function () {
     
     Route::get('/patients/{id}/edit', [PatientController::class, 'edit'])->middleware('permission:edit patients')->name('patients.edit');
 
+    Route::get('/patients-search', [PatientController::class, 'liveSearch'])->name('patients.live-search');
+    
     Route::get('/checkups', [CheckUpController::class, 'index'])->middleware('permission:view checkups')->name('checkups.index');
-
+    
     Route::get('checkups/create', [CheckUpController::class, 'create'])->middleware('permission:create checkups')->name('checkups.create');
-
+    
     Route::post('/checkups', [CheckUpController::class, 'post'])->middleware('permission:create checkups')->name('checkups.post');
-
+    
     Route::get('/checkups/{id}', [CheckUpController::class, 'show'])->middleware('permission:view checkups')->name('checkups.show');
     
     Route::get('/checkups/{id}/edit', [CheckUpController::class, 'edit'])->middleware('permission:edit checkups')->name('checkups.edit');
-
+    
     Route::put('/checkups/{id}', [CheckUpController::class, 'update'])->middleware('permission:edit checkups')->name('checkups.update');
+    
+    Route::get('/checkups-search', [CheckUpController::class, 'liveSearch'])->name('checkups.live-search');
 });
 
 
