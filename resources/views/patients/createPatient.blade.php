@@ -7,22 +7,6 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="../css/login.css" title="Document" />
     <title>Create patient</title>
-    <script>
-    // Attach an input event listener to the phone number input field
-    $('#phone').on('input', function () {
-        // Remove any non-numeric characters (except '+')
-        var phoneNumber = $(this).val().replace(/[^0-9+]/g, '');
-
-        // Check if the number starts with '0'
-        if (phoneNumber.startsWith('0')) {
-            // Replace '0' with '+254'
-            phoneNumber = '+254' + phoneNumber.slice(1);
-        }
-
-        // Update the input field value
-        $(this).val(phoneNumber);
-    });
-</script>
 </head>
 
 <body>
@@ -69,7 +53,7 @@
                         <div class="me-3">
                             <label for="phone">Phone Number:</label>
                             <input type="phone" name="phone" class="form-control" id="phone" required
-                                placeholder="Enter phone number">
+                                placeholder="0xxxxxxxxx">
                         </div>
                         <div class="me-3">
                             <label for="id">Id Number:</label>
@@ -91,7 +75,7 @@
                         <div class="me-3">
                             <label for="next_of_kin_phone">Next of Kin Phone:</label>
                             <input type="phone" name="nok_phone" class="form-control" id="nok_phone" required
-                                placeholder="Enter next of kin's phone number">
+                                placeholder="0xxxxxxxxx">
                         </div>
                         <div>
                             <label for="next_of_kin_relation">Next of Kin Relationship:</label>

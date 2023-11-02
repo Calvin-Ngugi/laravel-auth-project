@@ -8,20 +8,6 @@
     <link rel="stylesheet" href="../../css/login.css" title="Document" />
     <title>Create patient</title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script defer>
-        // Attach an input event listener to the phone number input field
-        $('#phone').on('input', function() {
-            // Remove any non-numeric characters (except '+')
-            var phoneNumber = $(this).val().replace(/[^0-9+]/g, '');
-
-            if (!phoneNumber.startsWith('254')) {
-                phoneNumber = '+254' + phoneNumber;
-            }
-
-            // Update the input field value
-            $(this).val(phoneNumber);
-        });
-    </script>
 </head>
 
 <body>
@@ -40,7 +26,7 @@
                             {{ session('error') }}
                         </div>
                     @endif
-                    @error('email')
+                    @error('phone')
                         <span class="alert alert-danger" role="alert" class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
@@ -73,7 +59,7 @@
                         <div class="me-3">
                             <label for="phone">Phone Number:</label>
                             <input type="phone" name="phone" class="form-control" id="phone" required
-                                placeholder="Enter phone number" value="{{ $patient->phone_number }}">
+                                placeholder="0xxxxxxxxx" value="{{ $patient->phone_number }}">
                         </div>
                         <div class="me-3">
                             <label for="id">Id Number:</label>
@@ -95,7 +81,7 @@
                         <div class="me-3">
                             <label for="next_of_kin_phone">Next of Kin Phone:</label>
                             <input type="phone" name="nok_phone" class="form-control" id="nok_phone" required
-                                placeholder="Enter next of kin's phone number" value="{{ $patient->next_of_kin_phone }}">
+                                placeholder="0xxxxxxxxx" value="{{ $patient->next_of_kin_phone }}">
                         </div>
                         <div>
                             <label for="next_of_kin_relation">Next of Kin Relationship:</label>

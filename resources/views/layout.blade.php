@@ -89,29 +89,31 @@
                                 </a>
                             </li>
                             @auth
-                                <li class="nav-item">
-                                    <a class="nav-link align-middle {{ Route::currentRouteName() === 'patients.index' ? 'active' : '' }} {{ Route::currentRouteName() === 'checkups.index' ? 'active' : '' }}"
-                                        href="#sub" data-toggle="collapse" aria-expanded="false"><i
-                                            class="fs-4 bi-table"></i><span class="ms-1 d-none d-sm-inline">Patients
-                                            Management</span></a>
-                                    <ul class="collapse nav flex-column ms-1" id="sub" data-bs-parent="#menu">
-                                        @can('view patients')
-                                            <li class="w-100">
-                                                <a href="{{ route('patients.index') }}" class="nav-link ">- <span
-                                                        class="d-none d-sm-inline {{ Route::currentRouteName() === 'patients.index' ? 'text-decoration-underline' : '' }}">Patients</span></a>
-                                            </li>
-                                        @endcan
-                                        @can('view checkups')
-                                            <li>
-                                                <a href="{{ route('checkups.index') }}" class="nav-link">-
-                                                    <span
-                                                        class="d-none d-sm-inline {{ Route::currentRouteName() === 'checkups.index' ? 'text-decoration-underline' : '' }}">
-                                                        Checkups</span></a>
-                                            </li>
-                                        @endcan
-                                    </ul>
-                                </li>
-                                @can('view users')
+                                @can('view patients', 'view checkups')
+                                    <li class="nav-item">
+                                        <a class="nav-link align-middle {{ Route::currentRouteName() === 'patients.index' ? 'active' : '' }} {{ Route::currentRouteName() === 'checkups.index' ? 'active' : '' }}"
+                                            href="#sub" data-toggle="collapse" aria-expanded="false"><i
+                                                class="fs-4 bi-table"></i><span class="ms-1 d-none d-sm-inline">Patients
+                                                Management</span></a>
+                                        <ul class="collapse nav flex-column ms-1" id="sub" data-bs-parent="#menu">
+                                            @can('view patients')
+                                                <li class="w-100">
+                                                    <a href="{{ route('patients.index') }}" class="nav-link ">- <span
+                                                            class="d-none d-sm-inline {{ Route::currentRouteName() === 'patients.index' ? 'text-decoration-underline' : '' }}">Patients</span></a>
+                                                </li>
+                                            @endcan
+                                            @can('view checkups')
+                                                <li>
+                                                    <a href="{{ route('checkups.index') }}" class="nav-link">-
+                                                        <span
+                                                            class="d-none d-sm-inline {{ Route::currentRouteName() === 'checkups.index' ? 'text-decoration-underline' : '' }}">
+                                                            Checkups</span></a>
+                                                </li>
+                                            @endcan
+                                        </ul>
+                                    </li>
+                                @endcan
+                                @can('edit users')
                                     <li class="nav-item">
                                         <a class="nav-link align-middle {{ Route::currentRouteName() === 'users.index' ? 'active' : '' }}"
                                             href="{{ route('users.index') }}"><i class="fs-4 bi-people"></i><span

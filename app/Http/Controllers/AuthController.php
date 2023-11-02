@@ -32,15 +32,14 @@ class AuthController extends Controller
     {
         // Fetch the user based on the provided ID
         $user = User::findOrFail($id);
-
-        $roles = Role::all();
+        $roles = Role::whereNotIn('name', ['super-admin'])->get();
 
         return view('edit_user', compact('user', 'roles'));
     }
 
     public function signup()
     {
-        $roles = Role::all();
+        $roles = Role::whereNotIn('name', ['super-admin'])->get();
         return view('register', compact('roles'));
     }
 

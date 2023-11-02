@@ -46,23 +46,26 @@ class PatientController extends Controller
             'name' => 'required',
             'gender' => 'required',
             'date' => 'required|date',
-            'phone' => 'required',
+            'phone' => 'required|regex:/^0[0-9]{9}$//',
             'idNumber' => 'required',
             'email' => 'nullable',
             'nok_name' => 'required',
-            'nok_phone' => 'required',
+            'nok_phone' => 'required|regex:/^0[0-9]{9}$/',
             'nok_relation' => 'required'
         ]);
+
+        $formattedPhone = str_replace([' ', '-', '+'], '', $validatedData['phone']);
+        $formattedNokPhone = str_replace([' ', '-', '+'], '', $validatedData['nok_phone']);
 
         $insertData = [
             'name' => $validatedData['name'],
             'gender' => $validatedData['gender'],
             'dob' => $validatedData['date'],
-            'phone_number' => $validatedData['phone'],
+            'phone_number' => $formattedPhone,
             'id_number' => $validatedData['idNumber'],
             'email' => $validatedData['email'],
             'next_of_kin_name' => $validatedData['nok_name'],
-            'next_of_kin_phone' => $validatedData['nok_phone'],
+            'next_of_kin_phone' => $formattedNokPhone,
             'next_of_kin_relationship' => $validatedData['nok_relation'],
             'created_at' => now(),
             'updated_at' => now(),
@@ -98,28 +101,32 @@ class PatientController extends Controller
             'name' => 'required',
             'gender' => 'required',
             'date' => 'required|date',
-            'phone' => 'required',
+            'phone' => 'required|regex:/^0[0-9]{9}$/',
             'idNumber' => 'required',
             'email' => 'nullable',
             'nok_name' => 'required',
-            'nok_phone' => 'required',
+            'nok_phone' => 'required|regex:/^0[0-9]{9}$/',
             'nok_relation' => 'required'
         ]);
+
+        $formattedPhone = str_replace([' ', '-', '+'], '', $validatedData['phone']);
+        $formattedNokPhone = str_replace([' ', '-', '+'], '', $validatedData['nok_phone']);
 
         $editedData = [
             'name' => $validatedData['name'],
             'gender' => $validatedData['gender'],
             'dob' => $validatedData['date'],
-            'phone_number' => $validatedData['phone'],
+            'phone_number' => $formattedPhone,
             'id_number' => $validatedData['idNumber'],
             'email' => $validatedData['email'],
             'next_of_kin_name' => $validatedData['nok_name'],
-            'next_of_kin_phone' => $validatedData['nok_phone'],
+            'next_of_kin_phone' => $formattedNokPhone,
             'next_of_kin_relationship' => $validatedData['nok_relation'],
             'updated_at' => now(),
         ];
 
         // Use the update method to update the patient's data
+        
         $patient->update($editedData);
 
         return redirect()->route('patients.index')->with('success', 'Patient updated successfully');

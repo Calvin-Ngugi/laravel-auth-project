@@ -44,19 +44,20 @@ class AdminController extends Controller
 
         $validatedData = $request->validate([
             'name' => 'required|max:255',
-            'permissions' => 'array',  // Assuming 'permissions' is an array of permission names
+            'permissions' => 'array',
         ]);
 
         $role->name = $validatedData['name'];
         $role->save();
 
+        // Detach permissions that are no longer selected in the form
+        $role->permissions()->detach();
+
         // Check if permissions were selected in the form
         if (isset($validatedData['permissions'])) {
             foreach ($validatedData['permissions'] as $permissionName) {
-                // Attach the selected permissions to the role if they are not already attached
-                if (!$role->hasPermissionTo($permissionName)) {
-                    $role->givePermissionTo($permissionName);
-                }
+                // Attach the selected permissions to the role
+                $role->givePermissionTo($permissionName);
             }
         }
 
@@ -65,13 +66,12 @@ class AdminController extends Controller
 
     public function createRole(Request $request)
     {
-        $permissions = Permission::all();  // Fetch all permissions (or filter as needed)
+        $permissions = Permission::all();
 
         try {
-            // Validate the request data
             $validatedData = $request->validate([
                 'name' => 'required|max:255',
-                'permissions' => 'array',  // Assuming 'permissions' is an array of permission IDs
+                'permissions' => 'array'
             ]);
 
             // Create the role
