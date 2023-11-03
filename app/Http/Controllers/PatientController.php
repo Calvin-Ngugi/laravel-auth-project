@@ -46,7 +46,7 @@ class PatientController extends Controller
             'name' => 'required',
             'gender' => 'required',
             'date' => 'required|date',
-            'phone' => 'required|regex:/^0[0-9]{9}$//',
+            'phone' => 'required|regex:/^0[0-9]{9}$/',
             'idNumber' => 'required',
             'email' => 'nullable',
             'nok_name' => 'required',

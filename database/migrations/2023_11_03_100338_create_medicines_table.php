@@ -15,7 +15,7 @@ class CreateMedicinesTable extends Migration
     {
         Schema::create('medicines', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->decimal('unit_cost', 10, 2);
             $table->integer('no_in_inventory')->default(5);
             $table->timestamps();

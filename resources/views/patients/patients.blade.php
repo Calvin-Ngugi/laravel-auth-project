@@ -119,6 +119,8 @@
             @endif
         @endunless
     </div>
+    
+    @unless (count($patients) == 0)
     <script defer>
         // Listen to the input event on the search input field
         document.getElementById('live-search').addEventListener('input', function() {
@@ -166,5 +168,6 @@
                 });
         });
     </script>
+    @endunless
 
 @endsection

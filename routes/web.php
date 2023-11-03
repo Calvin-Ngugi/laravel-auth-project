@@ -106,6 +106,12 @@ Route::middleware(['auth'])->group(function () {
 
     Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
     
+    Route::get('/services/create', [ServiceController::class, 'create'])->name('services.create');
+    
+    Route::post('/services', [ServiceController::class, 'post'])->name('services.post');
+
+    Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
+    
     Route::get('/medicine', [MedicineController::class, 'index'])->name('medicine.index');
 });
 
