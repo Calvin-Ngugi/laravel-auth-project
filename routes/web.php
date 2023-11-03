@@ -4,7 +4,9 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CheckUpController;
 use App\Http\Controllers\ListingController;
+use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\ServiceController;
 use App\Models\CheckUp;
 use App\Models\Listing;
 use App\Models\User;
@@ -101,6 +103,10 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/checkups/{id}', [CheckUpController::class, 'update'])->middleware('permission:edit checkups')->name('checkups.update');
     
     Route::get('/checkups-search', [CheckUpController::class, 'liveSearch'])->name('checkups.live-search');
+
+    Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
+    
+    Route::get('/medicine', [MedicineController::class, 'index'])->name('medicine.index');
 });
 
 
