@@ -25,10 +25,11 @@
                         <div class="alert alert-danger">
                             {{ session('error') }}
                         </div>
-                    @else
+                    @elseif (session('success'))
                         <div class="alert alert-success">
                             {{ session('success') }}
                         </div>
+                    @else
                     @endif
                     @error('phone')
                         <span class="alert alert-danger" role="alert" class="text-danger">{{ $message }}</span>
