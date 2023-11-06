@@ -37,11 +37,9 @@
 
                 <div class="column">
                     <div class="form-group mb-2">
-                        <div>
-                            <label for="name">Name:</label>
-                            <input type="text" name="name" class="form-control" id="name" required
-                                placeholder="Enter services's name">
-                        </div>
+                        <label for="name">Name:</label>
+                        <input type="text" name="name" class="form-control" id="name" required
+                            placeholder="Enter medicine's name">
                     </div>
                     <div class="form-group mb-2">
                         <label for="cost">Unit cost:</label>
@@ -52,6 +50,11 @@
                         <label for="status">Number in Inventory:</label>
                         <input type="text" name="no_in_inventory" class="form-control" id="unit_cost" required
                             placeholder="Enter Number in Inventory">
+                    </div>
+                    <div class="form-group mb-2">
+                        <label for="type">Type:</label>
+                        <input type="text" name="type" class="form-control" id="type" required
+                            placeholder="Enter medicine type">
                     </div>
                 </div>
                 <button class="btn btn-success" type="submit">Submit</button>

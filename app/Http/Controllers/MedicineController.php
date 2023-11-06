@@ -24,13 +24,15 @@ class MedicineController extends Controller
         $validatedData = $request->validate([
             'name' => 'required',
             'unit_cost' => 'required',
-            'no_in_inventory' => 'required'
+            'no_in_inventory' => 'required',
+            'type' => 'required',
         ]);
 
         $insertedData = [
             'name' => $validatedData['name'],
             'unit_cost' => $validatedData['unit_cost'],
-            'no_in_inventory' => $validatedData['status'],
+            'no_in_inventory' => $validatedData['no_in_inventory'],
+            'type' => $validatedData['type'],
             'created_at' => now(),
             'updated_at' => now(),
         ];
@@ -58,13 +60,15 @@ class MedicineController extends Controller
         $validatedData = $request->validate([
             'name' => 'required',
             'unit_cost' => 'required',
-            'no_in_inventory' => 'required'
+            'no_in_inventory' => 'required',
+            'type' => 'required',
         ]);
 
         $insertedData = [
             'name' => $validatedData['name'],
             'unit_cost' => $validatedData['unit_cost'],
-            'no_in_inventory' => $validatedData['status'],
+            'no_in_inventory' => $validatedData['no_in_inventory'],
+            'type' => $validatedData['type'],
             'updated_at' => now(),
         ];
 

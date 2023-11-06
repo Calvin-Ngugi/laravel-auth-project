@@ -17,7 +17,7 @@
             <form class="form" action="{{ route('services.update', ['id' => $service['id']]) }}" method="post">
                 @csrf
                 @method('PUT')
-                <h1 class="title">Add New Service</h1>
+                <h1 class="title">Edit Service</h1>
                 {{-- error handling --}}
                 <div class="errors">
                     @if (session('error'))

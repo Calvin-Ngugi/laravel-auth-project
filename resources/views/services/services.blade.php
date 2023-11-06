@@ -54,8 +54,7 @@
             </table>
             {{ $services->links('pagination::bootstrap-4') }}
         @else
-            <h4>No users found
-                </h2>
+            <h4>No services found
         @endif
 
     </div>

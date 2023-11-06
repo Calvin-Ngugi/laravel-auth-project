@@ -18,6 +18,7 @@ class CreateMedicinesTable extends Migration
             $table->string('name')->unique();
             $table->decimal('unit_cost', 10, 2);
             $table->integer('no_in_inventory')->default(5);
+            $table->string('type');
             $table->timestamps();
         });
     }

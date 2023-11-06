@@ -13,5 +13,6 @@ class Medicine extends Model
         'name',
         'unit_cost',
         'no_in_inventory',
+        'type'
     ];
 }
