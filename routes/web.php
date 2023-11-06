@@ -109,10 +109,24 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/services/create', [ServiceController::class, 'create'])->name('services.create');
     
     Route::post('/services', [ServiceController::class, 'post'])->name('services.post');
-
-    Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
+    
+    Route::get('/services/{id}', [ServiceController::class, 'show'])->name('services.show');
+    
+    Route::get('/services/{id}/edit', [ServiceController::class, 'edit'])->name('services.edit');
+    
+    Route::put('/services/{id}', [ServiceController::class, 'update'])->name('services.update');
     
     Route::get('/medicine', [MedicineController::class, 'index'])->name('medicine.index');
+    
+    Route::get('/medicine/create', [MedicineController::class, 'create'])->name('medicine.create');
+
+    Route::post('/medicine', [MedicineController::class, 'post'])->name('medicine.post');
+
+    Route::get('/medicine/{id}', [MedicineController::class, 'show'])->name('medicine.show');
+
+    Route::get('/medicine/{id}/edit', [MedicineController::class, 'edit'])->name('medicine.edit');
+    
+    Route::put('/medicine/{id}', [MedicineController::class, 'update'])->name('medicine.update');
 });
 
 

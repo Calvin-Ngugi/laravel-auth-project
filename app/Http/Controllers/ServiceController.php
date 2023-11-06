@@ -44,17 +44,35 @@ class ServiceController extends Controller
     
     public function show($id)
     {
-        //
+        $service = Service::findOrFail($id);
+        return view('services.service', compact('service'));
     }
 
     
     public function edit($id)
     {
-        //
+        $service = Service::findOrFail($id);
+        return view('services.editService', compact('service'));
     }
 
     public function update(Request $request, $id)
     {
-        //
+        $service = Service::findOrFail($id);
+        $validatedData = $request->validate([
+            'name' => 'required',
+            'unit_cost' => 'required',
+            'status' => 'required'
+        ]);
+
+        $insertedData = [
+            'name' => $validatedData['name'],
+            'unit_cost' => $validatedData['unit_cost'],
+            'status' => $validatedData['status'],
+            'updated_at' => now(),
+        ];
+
+        $service->update($insertedData);
+
+        return redirect()->route('services.index')->with('success', 'Service updated');
     }
 }

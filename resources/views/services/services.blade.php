@@ -43,8 +43,8 @@
                                         <i class="fa-solid fa-ellipsis-vertical"></i>
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="#">Edit</a>
-                                        <a class="dropdown-item" href="#">View</a>
+                                        <a class="dropdown-item" href="{{route('services.edit', ['id' => $service['id']]) }}">Edit</a>
+                                        <a class="dropdown-item" href="{{route('services.show', ['id' => $service['id']]) }}">View</a>
                                     </div>
                                 </div>
                             </td>
