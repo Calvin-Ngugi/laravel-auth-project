@@ -23,6 +23,10 @@
                         <div class="alert alert-danger">
                             {{ session('error') }}
                         </div>
+                    @else
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
                     @endif
                     @error('email')
                         <span class="alert alert-danger" role="alert" class="text-danger">{{ $message }}</span>
@@ -58,11 +62,13 @@
                     <div class="form-group d-flex mb-2">
                         <div class="me-3">
                             <label for="pressure">Blood Pressure:</label>
-                            <input type="text" name="blood_pressure" class="form-control" required placeholder="Enter blood pressure">
+                            <input type="text" name="blood_pressure" class="form-control" required
+                                placeholder="Enter blood pressure">
                         </div>
                         <div class="me-3">
                             <label for="pressure">Blood sugar:</label>
-                            <input type="text" name="blood_sugar" class="form-control" required placeholder="Enter blood sugar">
+                            <input type="text" name="blood_sugar" class="form-control" required
+                                placeholder="Enter blood sugar">
                         </div>
                     </div>
 

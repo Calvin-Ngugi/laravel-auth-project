@@ -23,6 +23,10 @@
                         <div class="alert alert-danger">
                             {{ session('error') }}
                         </div>
+                    @else
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
                     @endif
                     @error('email')
                         <span class="alert alert-danger" role="alert" class="text-danger">{{ $message }}</span>
@@ -62,8 +66,8 @@
                         </div>
                         <div>
                             <label for="name">Email:</label>
-                        <input type="email" name="email" class="form-control" id="exampleInputEmail1"
-                            aria-describedby="emailHelp" placeholder="Enter email">
+                            <input type="email" name="email" class="form-control" id="exampleInputEmail1"
+                                aria-describedby="emailHelp" placeholder="Enter email">
                         </div>
                     </div>
                     <div class="form-group d-flex mb-2">

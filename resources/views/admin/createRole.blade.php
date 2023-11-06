@@ -14,6 +14,9 @@
     @section('content')
         <div class="mt-2">
             <h2>Create Role</h2>
+            @if (session('success'))
+                <div class="alert alert-success">{{ session('success') }}</div>
+            @endif
             <form class="form" action="{{ route('admin.createRole') }}" method="post">
                 @csrf
                 <div class="form-group">

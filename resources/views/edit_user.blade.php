@@ -19,6 +19,10 @@
                             <div class="alert alert-danger">
                                 {{ session('error') }}
                             </div>
+                        @else
+                            <div class="alert alert-success">
+                                {{ session('success') }}
+                            </div>
                         @endif
                     </div>
                     @csrf

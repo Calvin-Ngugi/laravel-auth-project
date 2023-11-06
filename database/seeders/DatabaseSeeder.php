@@ -34,6 +34,12 @@ class DatabaseSeeder extends Seeder
         Permission::create(['name' => 'view checkups']);
         Permission::create(['name' => 'create checkups']);
         Permission::create(['name' => 'edit checkups']);
+        Permission::create(['name' => 'view services']);
+        Permission::create(['name' => 'create services']);
+        Permission::create(['name' => 'edit services']);
+        Permission::create(['name' => 'view medicine']);
+        Permission::create(['name' => 'create medicine']);
+        Permission::create(['name' => 'edit medicine']);
 
         // Create roles
         $superAdminRole = Role::create(['name' => 'super-admin']);
@@ -41,7 +47,8 @@ class DatabaseSeeder extends Seeder
         $nurseRole = Role::create(['name' => 'nurse']);
         $financeRole = Role::create(['name' => 'finance']);
         $labTechRole = Role::create(['name' => 'lab-tech']);
-        // $checkerRole = Role::create(['name' => 'checker']);
+        $pharmacistRole = Role::create(['name' => 'pharmacist']);
+        $checkerRole = Role::create(['name' => 'checker']);
         $receptionistRole = Role::create(['name' => 'receptionist']);
 
         // Assign permissions to roles
@@ -61,6 +68,12 @@ class DatabaseSeeder extends Seeder
             'view checkups',
             'create checkups',
             'edit checkups',
+            'view medicine',
+            'edit medicine',
+            'create medicine',
+            'view services',
+            'edit services',
+            'create services',
         ]);
 
         $doctorRole->syncPermissions([
@@ -85,6 +98,34 @@ class DatabaseSeeder extends Seeder
             'edit checkups',
         ]);
 
+        $checkerRole->syncPermissions([
+            'view users',
+            'view listings',
+            'approve changes',
+            'edit users'
+        ]);
+
+        $financeRole->syncPermissions([
+            'view users',
+            'view listings',
+        ]);
+
+        $labTechRole->syncPermissions([
+            'view listings',
+            'view users',
+            'view services',
+            'edit services',
+            'create services',
+        ]);
+
+        $pharmacistRole->syncPermissions([
+            'view listings',
+            'view users',
+            'view medicine',
+            'edit medicine',
+            'create medicine',
+        ]);
+        
         $receptionistRole->syncPermissions([
             'view users',
             'view listings',

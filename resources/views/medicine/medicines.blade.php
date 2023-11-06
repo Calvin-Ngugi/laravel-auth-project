@@ -4,7 +4,9 @@
     <div class="contain">
         <div class="d-flex justify-content-between align-items-center w-100">
             <h2>Pharmacy</h1>
-                <a class="btn btn-success" href="{{ route('medicine.create') }}">Add New Medicine</a>
+                @can('create medicine')
+                    <a class="btn btn-success" href="{{ route('medicine.create') }}">Add New Medicine</a>
+                @endcan
         </div>
         @if (count($medicines) > 0)
             <table class="table table-striped mt-3">

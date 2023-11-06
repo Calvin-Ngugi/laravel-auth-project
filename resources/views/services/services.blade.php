@@ -4,7 +4,9 @@
     <div>
         <div class="d-flex justify-content-between align-items-center w-100">
             <h2>Services</h1>
-                <a class="btn btn-success" href="{{ route('services.create') }}">Add Service</a>
+                @can('create services')
+                    <a class="btn btn-success" href="{{ route('services.create') }}">Add Service</a>
+                @endcan
         </div>
         @if (count($services) > 0)
             <table class="table table-striped mt-3">
@@ -15,7 +17,7 @@
                         </th>
                         <th scope="col">
                             Unit cost
-                        </th>                
+                        </th>
                         <th scope="col">
                             Status
                         </th>
@@ -43,8 +45,10 @@
                                         <i class="fa-solid fa-ellipsis-vertical"></i>
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        <a class="dropdown-item" href="{{route('services.edit', ['id' => $service['id']]) }}">Edit</a>
-                                        <a class="dropdown-item" href="{{route('services.show', ['id' => $service['id']]) }}">View</a>
+                                        <a class="dropdown-item"
+                                            href="{{ route('services.edit', ['id' => $service['id']]) }}">Edit</a>
+                                        <a class="dropdown-item"
+                                            href="{{ route('services.show', ['id' => $service['id']]) }}">View</a>
                                     </div>
                                 </div>
                             </td>

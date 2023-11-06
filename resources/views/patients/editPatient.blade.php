@@ -25,6 +25,10 @@
                         <div class="alert alert-danger">
                             {{ session('error') }}
                         </div>
+                    @else
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
                     @endif
                     @error('phone')
                         <span class="alert alert-danger" role="alert" class="text-danger">{{ $message }}</span>

@@ -24,6 +24,10 @@
                         <div class="alert alert-danger">
                             {{ session('error') }}
                         </div>
+                    @else
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
                     @endif
                     @error('name')
                         <span class="alert alert-danger" role="alert" class="text-danger">{{ $message }}</span>
@@ -40,14 +44,14 @@
                     <div class="form-group mb-2">
                         <div>
                             <label for="name">Name:</label>
-                            <input type="text" name="name" class="form-control" value={{$service->name}} id="name" required
-                                placeholder="Enter services's name">
+                            <input type="text" name="name" class="form-control" value={{ $service->name }}
+                                id="name" required placeholder="Enter services's name">
                         </div>
                     </div>
                     <div class="form-group mb-2">
                         <label for="cost">Unit cost:</label>
-                        <input type="text" name="unit_cost" class="form-control" value={{$service->unit_cost}} id="unit_cost" required
-                            placeholder="Enter Unit Cost">
+                        <input type="text" name="unit_cost" class="form-control" value={{ $service->unit_cost }}
+                            id="unit_cost" required placeholder="Enter Unit Cost">
                     </div>
                     <div class="form-group mb-2">
                         <label for="status">Status:</label>

@@ -24,6 +24,10 @@
                         <div class="alert alert-danger">
                             {{ session('error') }}
                         </div>
+                    @else
+                        <div class="alert alert-success">
+                            {{ session('success') }}
+                        </div>
                     @endif
                     @error('email')
                         <span class="alert alert-danger" role="alert" class="text-danger">{{ $message }}</span>
@@ -33,35 +37,39 @@
                 <div class="column">
                     <div class="form-group mb-2">
                         <label for="height">Height:</label>
-                        <input type="text" name="height" value="{{$checkup->height}}" class="form-control" placeholder="Enter Height" required>
+                        <input type="text" name="height" value="{{ $checkup->height }}" class="form-control"
+                            placeholder="Enter Height" required>
                     </div>
 
                     <div class="form-group mb-2">
                         <label for="weight">Weight:</label>
-                        <input type="text" name="weight" value="{{$checkup->weight}}" class="form-control" required placeholder="Enter Weight">
+                        <input type="text" name="weight" value="{{ $checkup->weight }}" class="form-control" required
+                            placeholder="Enter Weight">
                     </div>
 
                     <div class="form-group mb-2">
                         <label for="temperature">Temperature:</label>
-                        <input type="text" name="temperature" value="{{$checkup->temperature}}" class="form-control" required
-                            placeholder="Enter temperature">
+                        <input type="text" name="temperature" value="{{ $checkup->temperature }}" class="form-control"
+                            required placeholder="Enter temperature">
                     </div>
 
                     <div class="form-group d-flex mb-2">
                         <div class="me-3">
                             <label for="pressure">Blood Pressure:</label>
-                            <input type="text" name="blood_pressure" value="{{$checkup->blood_pressure}}" class="form-control" required placeholder="Enter blood pressure">
+                            <input type="text" name="blood_pressure" value="{{ $checkup->blood_pressure }}"
+                                class="form-control" required placeholder="Enter blood pressure">
                         </div>
                         <div class="me-3">
                             <label for="pressure">Blood sugar:</label>
-                            <input type="text" name="blood_sugar" value="{{$checkup->blood_sugar}}" class="form-control" required placeholder="Enter blood sugar">
+                            <input type="text" name="blood_sugar" value="{{ $checkup->blood_sugar }}"
+                                class="form-control" required placeholder="Enter blood sugar">
                         </div>
                     </div>
 
                     <div class="form-group mb-2">
                         <label for="heart_rate">Heart Rate:</label>
-                        <input type="text" name="heart_rate" value="{{$checkup->heart_rate}}" class="form-control" required
-                            placeholder="Enter heart rate">
+                        <input type="text" name="heart_rate" value="{{ $checkup->heart_rate }}" class="form-control"
+                            required placeholder="Enter heart rate">
                     </div>
                 </div>
                 <button class="btn btn-success" type="submit">Submit</button>
