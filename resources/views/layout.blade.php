@@ -137,6 +137,11 @@
                                     </ul>
                                 </li>
                                 @endcan
+                                <li class="nav-item">
+                                        <a class="nav-link align-middle {{ Route::currentRouteName() === 'rooms.index' ? 'active' : '' }}"
+                                            href="{{ route('rooms.index') }}"><i class="fs-4 bi-hospital"></i><span
+                                                class="ms-1 d-none d-sm-inline">Room Management</span></a>
+                                    </li>
                                 @can('edit users')
                                     <li class="nav-item">
                                         <a class="nav-link align-middle {{ Route::currentRouteName() === 'users.index' ? 'active' : '' }}"

@@ -6,10 +6,9 @@ use App\Http\Controllers\CheckUpController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\PatientController;
+use App\Http\Controllers\RoomController;
 use App\Http\Controllers\ServiceController;
-use App\Models\CheckUp;
 use App\Models\Listing;
-use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -131,6 +130,18 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/medicine/{id}', [MedicineController::class, 'update'])->name('medicine.update');
 
     Route::get('/medicine-search', [MedicineController::class, 'liveSearch'])->name('medicine.live-search');
+
+    Route::get('/rooms', [RoomController::class, 'index'])->name('rooms.index');
+
+    Route::get('/rooms/create', [RoomController::class, 'create'])->name('rooms.create');
+
+    Route::post('/rooms', [RoomController::class, 'post'])->name('rooms.post');
+    
+    Route::get('/rooms/{id}', [RoomController::class, 'show'])->name('rooms.show');
+
+    Route::get('/rooms/{id}/edit', [RoomController::class, 'edit'])->name('rooms.edit');
+
+    Route::put('/rooms/{id}', [RoomController::class, 'update'])->name('rooms.update');
 });
 
 
