@@ -7,11 +7,31 @@ use Illuminate\Http\Request;
 
 class ServiceController extends Controller
 {  
-    public function index()
+    public function index(Request $request)
     {
-        $services = Service::paginate(8);
+        $query = Service::query();
 
-        return view('services.services', compact('services'));
+        // Check if a search term and column are provided
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where('name', 'like', '%' . $search . '%');
+        }
+
+        // Handle sorting
+        $sortColumn = $request->input('sort_by', 'id');
+        $sortOrder = $request->input('sort_order', 'asc');
+
+        if (in_array($sortColumn, ['name', 'unit_cost', 'status'])) {
+            $query->orderBy($sortColumn, $sortOrder);
+        } else {
+            $sortColumn = 'id'; // Default sorting column
+            $sortOrder = 'asc';  // Default sorting order
+        }
+
+        // Retrieve paginated services
+        $services = $query->paginate(8);
+
+        return view('services.services', compact('services', 'sortColumn', 'sortOrder'));
     }
 
     public function create()
@@ -74,5 +94,13 @@ class ServiceController extends Controller
         $service->update($insertedData);
 
         return redirect()->route('services.index')->with('success', 'Service updated');
+    }
+
+    public function liveSearch(Request $request)
+    {
+        $query = $request->input('query');
+        $results = Service::where('name', 'like', '%' . $query . '%')->get();
+
+        return $results;
     }
 }

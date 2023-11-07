@@ -7,11 +7,31 @@ use Illuminate\Http\Request;
 
 class MedicineController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $medicines = Medicine::paginate(8);
-        
-        return view('medicine.medicines', compact('medicines'));
+        $query = Medicine::query();
+
+        // Check if a search term and column are provided
+        if ($request->has('search')) {
+            $search = $request->input('search');
+            $query->where('id_number', 'like', '%' . $search . '%');
+        }
+
+        // Handle sorting
+        $sortColumn = $request->input('sort_by', 'id');
+        $sortOrder = $request->input('sort_order', 'asc');
+
+        if (in_array($sortColumn, ['name', 'unit_cost', 'no_in_inventory', 'type'])) {
+            $query->orderBy($sortColumn, $sortOrder);
+        } else {
+            $sortColumn = 'id'; // Default sorting column
+            $sortOrder = 'asc';  // Default sorting order
+        }
+
+        // Retrieve paginated medicines
+        $medicines = $query->paginate(8);
+
+        return view('medicine.medicines', compact('medicines', 'sortColumn', 'sortOrder'));
     }
 
     public function create()
@@ -75,5 +95,13 @@ class MedicineController extends Controller
         $medicine->update($insertedData);
 
         return redirect()->route('medicine.index')->with('success', 'Medicine updated');
+    }
+
+    public function liveSearch(Request $request)
+    {
+        $query = $request->input('query');
+        $results = Medicine::where('name', 'like', '%' . $query . '%')->get();
+
+        return $results;
     }
 }

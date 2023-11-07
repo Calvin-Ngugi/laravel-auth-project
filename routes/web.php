@@ -115,6 +115,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/services/{id}/edit', [ServiceController::class, 'edit'])->name('services.edit');
     
     Route::put('/services/{id}', [ServiceController::class, 'update'])->name('services.update');
+
+    Route::get('/services-search', [ServiceController::class, 'liveSearch'])->name('services.live-search');
     
     Route::get('/medicine', [MedicineController::class, 'index'])->name('medicine.index');
     
@@ -127,6 +129,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/medicine/{id}/edit', [MedicineController::class, 'edit'])->name('medicine.edit');
     
     Route::put('/medicine/{id}', [MedicineController::class, 'update'])->name('medicine.update');
+
+    Route::get('/medicine-search', [MedicineController::class, 'liveSearch'])->name('medicine.live-search');
 });
 
 

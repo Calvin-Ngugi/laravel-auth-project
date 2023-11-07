@@ -153,9 +153,9 @@
                                 </button>
                                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                     <a class="dropdown-item"
-                                        href="{{ route('patients.edit', ['id' => $patient['id']]) }}">Edit</a>
+                                        href="/patients/${result.id}/edit">Edit</a>
                                     <a class="dropdown-item"
-                                        href="{{ route('patients.show', ['id' => $patient['id']]) }}">View</a>
+                                        href="/patients/${result.id}">View</a>
                                 </div>
                             </div>
                         </td>

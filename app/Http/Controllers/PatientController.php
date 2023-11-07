@@ -126,7 +126,7 @@ class PatientController extends Controller
         ];
 
         // Use the update method to update the patient's data
-        
+
         $patient->update($editedData);
 
         return redirect()->route('patients.index')->with('success', 'Patient updated successfully');
