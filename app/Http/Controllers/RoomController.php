@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Room;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Role;
 
 class RoomController extends Controller
 {
@@ -16,21 +17,22 @@ class RoomController extends Controller
 
     public function create()
     {
-        return view('rooms.createRoom');
+        $roles = Role::whereNotIn('name', ['super-admin'])->get();
+        return view('rooms.createRoom', compact('roles'));
     }
 
     public function post(Request $request)
     {
         $validatedData = $request->validate([
             'name' => 'required',
-            'role_assigned' => 'required',
+            'role_id' => 'required',
             'status' => 'required',
             'capacity' => 'required',
         ]);
 
         $insertedData = [
             'name' => $validatedData['name'],
-            'role_assigned' => $validatedData['role_assigned'],
+            'role_id' => $validatedData['role_id'],
             'status' => $validatedData['status'],
             'capacity' => $validatedData['capacity'],
             'created_at' => now(),
@@ -51,7 +53,9 @@ class RoomController extends Controller
     public function edit($id)
     {
         $room = Room::findOrFail($id);
-        return view('rooms.editRoom', compact('room'));
+        $roles = Role::whereNotIn('name', ['super-admin'])->get();
+        
+        return view('rooms.editRoom', compact('room', 'roles'));
     }
 
     public function update(Request $request, $id)
@@ -59,16 +63,16 @@ class RoomController extends Controller
         $room = Room::findOrFail($id);
         $validatedData = $request->validate([
             'name' => 'required',
-            'role_assigned' => 'required',
-            'no_in_inventory' => 'required',
-            'type' => 'required',
+            'role_id' => 'required',
+            'capacity' => 'required',
+            'status' => 'required',
         ]);
 
         $insertedData = [
             'name' => $validatedData['name'],
-            'role_assigned' => $validatedData['role_assigned'],
-            'no_in_inventory' => $validatedData['no_in_inventory'],
-            'type' => $validatedData['type'],
+            'role_id' => $validatedData['role_id'],
+            'capacity' => $validatedData['capacity'],
+            'status' => $validatedData['status'],
             'updated_at' => now(),
         ];
 

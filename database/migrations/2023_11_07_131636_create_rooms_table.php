@@ -16,12 +16,12 @@ class CreateRoomsTable extends Migration
         Schema::create('rooms', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->unsignedBigInteger('role_assigned');
-            $table->string('status')->default('available');
+            $table->unsignedBigInteger('role_id');
+            $table->enum('status', ['Available', 'Occupied', 'Under Maintenance'])->default('Available');
             $table->integer('capacity');
             $table->timestamps();
 
-            $table->foreign('role_assigned')->references('id')->on('roles');
+            $table->foreign('role_id')->references('id')->on('roles');
         });
     }
 
