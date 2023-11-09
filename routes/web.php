@@ -144,9 +144,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::put('/rooms/{id}', [RoomController::class, 'update'])->name('rooms.update');
 
-    Route::post('/diagnosis/{id}', [DiagnosisController::class, 'update'])->name('diagnosis.update');
+    Route::get('/diagnosis/create', [DiagnosisController::class, 'create'])->name('diagnosis.create');
     
-    Route::put('/diagnosis/{id}', [DiagnosisController::class, 'update'])->name('diagnosis.update');
+    Route::post('/diagnosis', [DiagnosisController::class, 'post'])->name('diagnosis.post');
 });
 
 

@@ -20,9 +20,12 @@ class Diagnosis extends Model
     }
 
     protected $fillable = [
-        'notes',
+        'patient_id',
+        'doctor_id',
+        'symptoms',
         'disease',
         'test',
-        'test_results'
+        'test_results',
+        'treatments',
     ];
 }
