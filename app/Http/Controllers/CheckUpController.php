@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\CheckUp;
 use App\Models\Patient;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CheckUpController extends Controller
 {
@@ -58,8 +59,19 @@ class CheckUpController extends Controller
             'heart_rate' => 'required',
         ]);
 
+        $insertedData = [
+            'patient_id' => $validatedData['patient_id'],
+            'height' => $validatedData['height'],
+            'weight' => $validatedData['weight'],
+            'temperature' => $validatedData['temperature'],
+            'blood_pressure' => $validatedData['blood_pressure'],
+            'blood_sugar' => $validatedData['blood_sugar'],
+            'heart_rate' => $validatedData['heart_rate'],
+            'nurse_id' => Auth::user()->id,
+        ];
         // Create a new checkup record
-        CheckUp::create($validatedData);
+        
+        CheckUp::create($insertedData);
 
         return redirect()->route('checkups.index')->with('success', 'Checkup added successfully');
     }

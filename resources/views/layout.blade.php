@@ -113,35 +113,40 @@
                                         </ul>
                                     </li>
                                 @endcan
-                                @can('view services', 'view medicine')
                                 <li class="nav-item">
-                                    <a class="nav-link align-middle {{ Route::currentRouteName() === 'services.index' ? 'active' : '' }} {{ Route::currentRouteName() === 'medicine.index' ? 'active' : '' }}"
-                                        href="#sub2" data-toggle="collapse" aria-expanded="false"><i
-                                            class="fs-4 bi-gear"></i><span class="ms-1 d-none d-sm-inline">Service
-                                            Management</span></a>
-                                    <ul class="collapse nav flex-column ms-1" id="sub2" data-bs-parent="#menu">
-                                        @can('view services')
-                                        <li class="w-100">
-                                            <a href="{{ route('services.index') }}" class="nav-link ">- <span
-                                                    class="d-none d-sm-inline {{ Route::currentRouteName() === 'services.index' ? 'text-decoration-underline' : '' }}">Services</span></a>
-                                        </li>
-                                        @endcan
-                                        @can('view medicine')
-                                        <li>
-                                            <a href="{{ route('medicine.index') }}" class="nav-link">-
-                                                <span
-                                                    class="d-none d-sm-inline {{ Route::currentRouteName() === 'medicine.index' ? 'text-decoration-underline' : '' }}">
-                                                    Pharmacy</span></a>
-                                        </li>
-                                        @endcan
-                                    </ul>
+                                    <a class="nav-link align-middle"
+                                        href="{{ route('rooms.index') }}"><i class="fs-4 bi-file-medical"></i><span
+                                            class="ms-1 d-none d-sm-inline">Appointments</span></a>
                                 </li>
+                                @can('view services', 'view medicine')
+                                    <li class="nav-item">
+                                        <a class="nav-link align-middle {{ Route::currentRouteName() === 'services.index' ? 'active' : '' }} {{ Route::currentRouteName() === 'medicine.index' ? 'active' : '' }}"
+                                            href="#sub2" data-toggle="collapse" aria-expanded="false"><i
+                                                class="fs-4 bi-gear"></i><span class="ms-1 d-none d-sm-inline">Service
+                                                Management</span></a>
+                                        <ul class="collapse nav flex-column ms-1" id="sub2" data-bs-parent="#menu">
+                                            @can('view services')
+                                                <li class="w-100">
+                                                    <a href="{{ route('services.index') }}" class="nav-link ">- <span
+                                                            class="d-none d-sm-inline {{ Route::currentRouteName() === 'services.index' ? 'text-decoration-underline' : '' }}">Services</span></a>
+                                                </li>
+                                            @endcan
+                                            @can('view medicine')
+                                                <li>
+                                                    <a href="{{ route('medicine.index') }}" class="nav-link">-
+                                                        <span
+                                                            class="d-none d-sm-inline {{ Route::currentRouteName() === 'medicine.index' ? 'text-decoration-underline' : '' }}">
+                                                            Pharmacy</span></a>
+                                                </li>
+                                            @endcan
+                                        </ul>
+                                    </li>
                                 @endcan
                                 <li class="nav-item">
-                                        <a class="nav-link align-middle {{ Route::currentRouteName() === 'rooms.index' ? 'active' : '' }}"
-                                            href="{{ route('rooms.index') }}"><i class="fs-4 bi-hospital"></i><span
-                                                class="ms-1 d-none d-sm-inline">Room Management</span></a>
-                                    </li>
+                                    <a class="nav-link align-middle {{ Route::currentRouteName() === 'rooms.index' ? 'active' : '' }}"
+                                        href="{{ route('rooms.index') }}"><i class="fs-4 bi-hospital"></i><span
+                                            class="ms-1 d-none d-sm-inline">Room Management</span></a>
+                                </li>
                                 @can('edit users')
                                     <li class="nav-item">
                                         <a class="nav-link align-middle {{ Route::currentRouteName() === 'users.index' ? 'active' : '' }}"

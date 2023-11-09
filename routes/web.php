@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CheckUpController;
+use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\ListingController;
 use App\Http\Controllers\MedicineController;
 use App\Http\Controllers\PatientController;
@@ -142,6 +143,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/rooms/{id}/edit', [RoomController::class, 'edit'])->name('rooms.edit');
 
     Route::put('/rooms/{id}', [RoomController::class, 'update'])->name('rooms.update');
+
+    Route::post('/diagnosis/{id}', [DiagnosisController::class, 'update'])->name('diagnosis.update');
+    
+    Route::put('/diagnosis/{id}', [DiagnosisController::class, 'update'])->name('diagnosis.update');
 });
 
 
