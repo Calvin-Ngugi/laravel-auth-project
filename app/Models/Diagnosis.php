@@ -19,6 +19,11 @@ class Diagnosis extends Model
         return $this->belongsTo(Patient::class);
     }
 
+    public function doctor()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     protected $fillable = [
         'patient_id',
         'doctor_id',

@@ -14,6 +14,11 @@ class CheckUp extends Model
         return $this->belongsTo(Patient::class);
     }
 
+    public function nurse()
+    {
+        return $this->belongsTo(User::class);
+    }
+
     protected $fillable = [
         'patient_id',
         'nurse_id',

@@ -115,7 +115,7 @@
                                 @endcan
                                 <li class="nav-item">
                                     <a class="nav-link align-middle"
-                                        href="{{ route('rooms.index') }}"><i class="fs-4 bi-file-medical"></i><span
+                                        href="{{ route('appointment.index') }}"><i class="fs-4 bi-file-medical"></i><span
                                             class="ms-1 d-none d-sm-inline">Appointments</span></a>
                                 </li>
                                 @can('view services', 'view medicine')

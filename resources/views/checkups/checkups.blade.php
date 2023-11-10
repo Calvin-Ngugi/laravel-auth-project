@@ -45,7 +45,7 @@
                                 @endif
                             </a>
                         </th>
-
+                        <th>Nurse</th>
                         <th scope="col">
                             <a href="{{ route('checkups.index', ['sort_by' => 'height', 'sort_order' => $sortColumn == 'height' && $sortOrder == 'asc' ? 'desc' : 'asc']) }}"
                                 class="text-light text-decoration-none">
@@ -134,6 +134,7 @@
                         <tr>
                             <td>{{ $checkup->patient->name }}</td>
                             <td>{{ $checkup->patient->id_number }}</td>
+                            <td>{{ optional($checkup->nurse)->username }}</td>
                             <td>{{ $checkup['height'] }}</td>
                             <td>{{ $checkup['weight'] }}</td>
                             <td>{{ $checkup['temperature'] }}</td>

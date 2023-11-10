@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\CheckUpController;
 use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\ListingController;
@@ -147,6 +148,14 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/diagnosis/create', [DiagnosisController::class, 'create'])->name('diagnosis.create');
     
     Route::post('/diagnosis', [DiagnosisController::class, 'post'])->name('diagnosis.post');
+
+    Route::get('/appointments/create', [AppointmentController::class, 'create'])->name('appointment.create');
+
+    Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointment.index');
+    
+    Route::get('/appointments/{patient_id}/checkup/{id}', [AppointmentController::class, 'checkup'])->name('appointment.checkup');
+
+    Route::post('/appointments', [AppointmentController::class, 'post'])->name('appointment.post');
 });
 
 
