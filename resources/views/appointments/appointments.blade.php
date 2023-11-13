@@ -37,7 +37,7 @@
                             </td>
                             <td>
                                 <span
-                                    class="px-2 rounded-3 py-1 {{ $appointment->status === 'available' ? 'bg-success' : ($appointment->status === 'occupied' ? 'bg-warning' : 'bg-danger') }}">
+                                    class="px-2 rounded-3 py-1 {{ $appointment->status === 'completed' ? 'bg-success' : ($appointment->status === 'ongoing' ? 'bg-warning' : 'bg-danger') }}">
                                     {{ $appointment['status'] }}
                                 </span>
                             </td>
@@ -49,8 +49,17 @@
                                         <i class="fa-solid fa-ellipsis-vertical"></i>
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        @if ($appointment['status'] == 'completed')
+                                        @else
                                         <a class="dropdown-item"
-                                            href="{{ route('appointment.checkup', ['patient_id' => $appointment['patient_id'], 'id' => $appointment['id']]) }}">Begin</a>
+                                            href="{{ route('appointment.checkup', ['patient_id' => $appointment['patient_id'], 'id' => $appointment['id']]) }}">
+                                            @if ($appointment['status'] == 'pending')
+                                                Begin
+                                            @else
+                                                Continue
+                                            @endif
+                                        </a>    
+                                        @endif
                                         <a class="dropdown-item" href="#">Edit</a>
                                         <a class="dropdown-item" href="#">View</a>
                                     </div>

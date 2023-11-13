@@ -214,7 +214,7 @@
                 </div>
             </div>
             <div class="col py-3">
-                <div class="ml-25 container">
+                <div class="ml-25">
                     <div class="content">
                         @yield('content')
                     </div>
