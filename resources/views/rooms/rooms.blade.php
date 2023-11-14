@@ -60,8 +60,7 @@
             </table>
             {{ $rooms->links('pagination::bootstrap-4') }}
         @else
-            <h4>No rooms found
-                </h2>
+            <h5 class="mt-3">No rooms found</h5>
         @endif
     </div>
 @endsection

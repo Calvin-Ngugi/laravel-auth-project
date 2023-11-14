@@ -114,31 +114,30 @@
                 </table>
                 {{ $patients->appends(request()->input())->links('pagination::bootstrap-4') }}
             @else
-                <h4>No patients found
-                    </h2>
+                <h5 class="mt-3">No patients found</h5>
             @endif
         @endunless
     </div>
-    
+
     @unless (count($patients) == 0)
-    <script defer>
-        // Listen to the input event on the search input field
-        document.getElementById('live-search').addEventListener('input', function() {
-            const query = this.value;
-            console.log(query);
-            const resultsContainer = document.getElementById('live-search-results');
+        <script defer>
+            // Listen to the input event on the search input field
+            document.getElementById('live-search').addEventListener('input', function() {
+                const query = this.value;
+                console.log(query);
+                const resultsContainer = document.getElementById('live-search-results');
 
-            // Make an AJAX request to fetch live search results
-            fetch('{{ route('patients.live-search') }}?query=' + query)
-                .then(response => response.json())
-                .then(results => {
-                    // Clear previous results
-                    resultsContainer.innerHTML = '';
+                // Make an AJAX request to fetch live search results
+                fetch('{{ route('patients.live-search') }}?query=' + query)
+                    .then(response => response.json())
+                    .then(results => {
+                        // Clear previous results
+                        resultsContainer.innerHTML = '';
 
-                    // Display the new results within the table format
-                    results.forEach(result => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
+                        // Display the new results within the table format
+                        results.forEach(result => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
                         <td>${result.name}</td>
                         <td>${result.gender}</td>
                         <td>${result.dob}</td>
@@ -160,14 +159,14 @@
                             </div>
                         </td>
                     `;
-                        resultsContainer.appendChild(row);
+                            resultsContainer.appendChild(row);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Live search failed:', error);
                     });
-                })
-                .catch(error => {
-                    console.error('Live search failed:', error);
-                });
-        });
-    </script>
+            });
+        </script>
     @endunless
 
 @endsection

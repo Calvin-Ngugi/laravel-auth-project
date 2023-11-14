@@ -92,7 +92,7 @@
             </table>
             {{ $services->links('pagination::bootstrap-4') }}
         @else
-            <h4>No services found
+            <h5 class="mt-3">No services found</h5>
         @endif
     </div>
     <script defer>

@@ -97,8 +97,7 @@
                     </table>
                     {{ $users->links('pagination::bootstrap-4') }}
                 @else
-                    <h4>No users found
-                        </h2>
+                    <h5 class="mt-3">No users found</h5>
                 @endif
             @endunless
         </div>

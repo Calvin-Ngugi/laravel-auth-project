@@ -114,7 +114,7 @@
                                     </li>
                                 @endcan
                                 <li class="nav-item">
-                                    <a class="nav-link align-middle"
+                                    <a class="nav-link align-middle {{ Route::currentRouteName() === 'appointment.index' ? 'active' : '' }}"
                                         href="{{ route('appointment.index') }}"><i class="fs-4 bi-file-medical"></i><span
                                             class="ms-1 d-none d-sm-inline">Appointments</span></a>
                                 </li>

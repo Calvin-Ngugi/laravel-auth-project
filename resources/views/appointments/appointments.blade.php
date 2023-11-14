@@ -13,6 +13,9 @@
                         <th scope="col">
                             Patient Name
                         </th>
+                        <th>
+                            Receptionist
+                        </th>
                         <th scope="col">
                             Nurse Attendant
                         </th>
@@ -31,6 +34,7 @@
                     @foreach ($appointments as $appointment)
                         <tr>
                             <td>{{ $appointment->patient->name }}</td>
+                            <td>{{ $appointment->receptionist->first_name }}</td>
                             <td>{{ optional($appointment->checkup)->nurse ? $appointment->checkup->nurse->first_name : 'N/A' }}
                             </td>
                             <td>{{ optional($appointment->diagnosis)->doctor ? $appointment->diagnosis->doctor->first_name : 'N/A' }}

@@ -6,7 +6,7 @@
             <a class="nav-link {{ Route::currentRouteName() === 'appointment.checkup' ? 'active fw-bold' : '' }}"
                 aria-current="page" href="{{ route('appointment.checkup', ['patient_id' => $appointment['patient_id'], 'id' => $appointment['id']]) }}">checkup</a>
             <a class="nav-link {{ Route::currentRouteName() === 'appointment.create' ? 'active fw-bold' : '' }}"
-                aria-current="page" href="{{ route('appointment.checkup', ['patient_id' => $appointment['patient_id'], 'id' => $appointment['id']]) }}">diagnosis</a>
+                aria-current="page" href="{{ route('appointment.diagnosis', ['patient_id' => $appointment['patient_id'], 'id' => $appointment['id']]) }}">diagnosis</a>
             <a class="nav-link {{ Route::currentRouteName() === 'appointment.index' ? 'active fw-bold' : '' }}"
                 aria-current="page" href="{{ route('appointment.create') }}">billing</a>
             <a class="nav-link {{ Route::currentRouteName() === 'appointment.index' ? 'active fw-bold' : '' }}"
@@ -14,10 +14,10 @@
         </div>
     </nav>
     <div class="w-50 m-auto">
-        <form class="form" action="{{ route('appointments.postCheckup', ['appointmentId' => $appointment->id]) }}"
+        <form class="form" action="{{ route('appointment.postCheckup', ['appointmentId' => $appointment->id]) }}"
             method="post">
             @csrf
-            <h1 class="title">Add New Checkup</h1>
+            <h1 class="title">Patient Checkup</h1>
             {{-- error handling --}}
             <div class="errors">
                 @if (session('error'))
@@ -45,35 +45,37 @@
 
                 <div class="form-group mb-2">
                     <label for="height">Height:</label>
-                    <input type="text" name="height" class="form-control" placeholder="Enter Height" required>
+                    <input type="text" name="height" class="form-control" placeholder="Enter Height" value="{{ old('height', $previousCheckup->height ?? '') }}" required>
                 </div>
 
                 <div class="form-group mb-2">
                     <label for="weight">Weight:</label>
-                    <input type="text" name="weight" class="form-control" required placeholder="Enter Weight">
+                    <input type="text" name="weight" class="form-control" required  value="{{ old('weight', $previousCheckup->weight ?? '') }}" placeholder="Enter Weight">
                 </div>
 
                 <div class="form-group mb-2">
                     <label for="temperature">Temperature:</label>
-                    <input type="text" name="temperature" class="form-control" required placeholder="Enter temperature">
+                    <input type="text" name="temperature" class="form-control" required value="{{ old('temperature', $previousCheckup->temperature ?? '') }}" placeholder="Enter temperature">
                 </div>
 
                 <div class="form-group mb-2">
                     <label for="pressure">Blood Pressure:</label>
-                    <input type="text" name="blood_pressure" class="form-control" required
+                    <input type="text" name="blood_pressure" class="form-control" value="{{ old('blood_pressure', $previousCheckup->blood_pressure ?? '') }}" required
                         placeholder="Enter blood pressure">
                 </div>
                 <div class="form-group mb-2">
                     <label for="pressure">Blood sugar:</label>
-                    <input type="text" name="blood_sugar" class="form-control" required placeholder="Enter blood sugar">
+                    <input type="text" name="blood_sugar" class="form-control" value="{{ old('blood_sugar', $previousCheckup->blood_sugar ?? '') }}" required placeholder="Enter blood sugar">
                 </div>
 
                 <div class="form-group mb-2">
                     <label for="heart_rate">Heart Rate:</label>
-                    <input type="text" name="heart_rate" class="form-control" required placeholder="Enter heart rate">
+                    <input type="text" name="heart_rate" class="form-control" value="{{ old('heart_rate', $previousCheckup->heart_rate ?? '') }}" required placeholder="Enter heart rate">
                 </div>
             </div>
-            <button class="btn btn-success" type="submit">Submit</button>
+            @can('create checkups')
+            <button class="btn btn-success" type="submit">Proceed to Diagnosis</button>
+            @endcan
         </form>
     </div>
 @endsection

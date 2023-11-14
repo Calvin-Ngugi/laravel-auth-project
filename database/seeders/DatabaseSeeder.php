@@ -40,6 +40,12 @@ class DatabaseSeeder extends Seeder
         Permission::create(['name' => 'view medicine']);
         Permission::create(['name' => 'create medicine']);
         Permission::create(['name' => 'edit medicine']);
+        Permission::create(['name' => 'create diagnosis']);
+        Permission::create(['name' => 'edit diagnosis']);
+        Permission::create(['name' => 'view diagnosis']);
+        Permission::create(['name' => 'create rooms']);
+        Permission::create(['name' => 'edit rooms']);
+        Permission::create(['name' => 'view rooms']);
 
         // Create roles
         $superAdminRole = Role::create(['name' => 'super-admin']);
@@ -74,24 +80,27 @@ class DatabaseSeeder extends Seeder
             'view services',
             'edit services',
             'create services',
+            'view diagnosis',
+            'edit diagnosis',
+            'create diagnosis',
+            'create rooms',
+            'edit rooms',
+            'view rooms'
         ]);
 
         $doctorRole->syncPermissions([
             'view users',    
             'view listings',
-            'create patients',
-            'edit patients',
             'view patients',
             'view checkups',
-            'create checkups',
-            'edit checkups',
+            'view diagnosis',
+            'edit diagnosis',
+            'create diagnosis',
         ]);
 
         $nurseRole->syncPermissions([
             'view users',
             'view listings',
-            'create patients',
-            'edit patients',
             'view patients',
             'view checkups',
             'create checkups',
@@ -130,6 +139,7 @@ class DatabaseSeeder extends Seeder
             'view users',
             'view listings',
             'view patients',
+            'edit patients',
             'create patients',
         ]);
 
@@ -137,7 +147,7 @@ class DatabaseSeeder extends Seeder
         $superAdminUser = User::create([
             'username' => 'Valcin',
             'email' => 'ncalvin67@gmail.com',
-            'password' => Hash::make('Protection'),
+            'password' => Hash::make('12345678'),
             'first_name' => 'Calvin',
             'last_name' => 'Ngugi',
             'change_pass' => 1,

@@ -4,7 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Appointment;
 use App\Models\CheckUp;
+use App\Models\Diagnosis;
+use App\Models\Medicine;
 use App\Models\Patient;
+use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -49,7 +52,9 @@ class AppointmentController extends Controller
         $patient = Patient::findorFail($patient_id);
         $appointment = Appointment::find($id);
 
-        return view('appointments.appointCheckup', compact('checkups', 'patient', 'appointment'));
+        $previousCheckup = $appointment->checkup;
+
+        return view('appointments.appointCheckup', compact('checkups', 'patient','appointment', 'previousCheckup'));
     }
 
     public function postCheckup(Request $request, $appointmentId)
@@ -104,11 +109,66 @@ class AppointmentController extends Controller
         }
     }
 
-    public function diagnosis(Request $request)
+    public function diagnosis($patient_id, $id)
     {
-        $checkups = CheckUp::all();
+        $diagnosis = Diagnosis::all();
+        $patient = Patient::findorFail($patient_id);
+        $appointment = Appointment::find($id);
+        $tests = Service::all();
+        $medicines = Medicine::all();
 
-        return view('appointments.appointCheckup', compact('patients'));
+        return view('appointments.appointDiagnosis', compact('diagnosis', 'patient', 'appointment', 'medicines', 'tests'));
+    }
+
+    public function postDiagnosis(Request $request, $appointmentId)
+    {
+        // Start a database transaction
+        DB::beginTransaction();
+        
+        try {
+            // Validate the request data
+            $validatedData = $request->validate([
+                'patient_id' => 'required',
+                'symptoms' => 'required',
+                'disease' => 'nullable',
+                'test' => 'nullable',
+                'test_results' => 'nullable',
+                'treatments' => 'nullable',
+            ]);
+            
+            // Create the diagnosis record
+            $insertedData = [
+                'patient_id' => $validatedData['patient_id'],
+                'doctor_id' => Auth::user()->id,
+                'symptoms' => $validatedData['symptoms'],
+                'test' => json_encode($validatedData['test']),
+                'test_results' => $validatedData['test_results'],
+                'disease' => $validatedData['disease'],
+                'treatments' => json_encode($validatedData['treatments']),
+            ];
+            
+            $diagnosis = Diagnosis::create($insertedData);
+            $diagnosisId = $diagnosis->id;
+            
+            // Update the appointment table with the diagnosis ID and status
+            $appointment = Appointment::findOrFail($appointmentId);
+            $appointment->update([
+                'diagnosis_id' => $diagnosisId,
+                'status' => 'ongoing',
+            ]);
+
+            // Commit the transaction
+            DB::commit();
+
+            // Return success response or redirect
+            return redirect()->route('appointment.index')->with('success', 'Diagnosis created');
+        } catch (\Exception $e) {
+            // Something went wrong, rollback the transaction
+            DB::rollback();
+
+            // Return error response or redirect
+            return redirect()->back()->with('error', 'Error creating diagnosis. Please try again.');
+        }
     }
 
 }

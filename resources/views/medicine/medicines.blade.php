@@ -4,16 +4,16 @@
     <div class="contain">
         <div class="d-flex justify-content-between align-items-center w-100">
             <h2>Pharmacy</h1>
-            <form action="{{ route('medicine.index') }}" method="GET" class="align-items-end d-flex">
-                <div class="form-group">
-                    <input type="text" name="search" id="live-search" value="{{ request('search') }}"
-                        class="form-control" placeholder="Enter medicine name">
-                </div>
-                <button type="submit" class="btn btn-primary ms-2">Search</button>
-            </form>
-            @can('create medicine')
-                <a class="btn btn-success" href="{{ route('medicine.create') }}">Add New Medicine</a>
-            @endcan
+                <form action="{{ route('medicine.index') }}" method="GET" class="align-items-end d-flex">
+                    <div class="form-group">
+                        <input type="text" name="search" id="live-search" value="{{ request('search') }}"
+                            class="form-control" placeholder="Enter medicine name">
+                    </div>
+                    <button type="submit" class="btn btn-primary ms-2">Search</button>
+                </form>
+                @can('create medicine')
+                    <a class="btn btn-success" href="{{ route('medicine.create') }}">Add New Medicine</a>
+                @endcan
         </div>
         @if (count($medicines) > 0)
             <table class="table table-striped mt-3">
@@ -100,8 +100,7 @@
             </table>
             {{ $medicines->links('pagination::bootstrap-4') }}
         @else
-            <h4>No medicine found
-                </h2>
+            <h5 class="mt-3">No medicine found</h5>
         @endif
     </div>
     <script defer>

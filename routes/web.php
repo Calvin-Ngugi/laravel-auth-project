@@ -155,9 +155,11 @@ Route::middleware(['auth'])->group(function () {
     
     Route::get('/appointments/{patient_id}/checkup/{id}', [AppointmentController::class, 'checkup'])->name('appointment.checkup');
 
-    Route::post('/appointments/{appointmentId}/checkup', [AppointmentController::class, 'postCheckup'])->name('appointments.postCheckup');
+    Route::post('/appointments/{appointmentId}/checkup', [AppointmentController::class, 'postCheckup'])->name('appointment.postCheckup');
 
-    // Route::get('/appointments/{patient_id}/diagnosis/{id}', [AppointmentController::class, 'diagnosis'])->name('appointment.diagnosis');
+    Route::get('/appointments/{patient_id}/diagnosis/{id}', [AppointmentController::class, 'diagnosis'])->name('appointment.diagnosis');
+
+    Route::post('/appointments/{appointmentId}/diagnosis', [AppointmentController::class, 'postDiagnosis'])->name('appointment.postDiagnosis');
 
     Route::post('/appointments', [AppointmentController::class, 'post'])->name('appointment.post');
 });
