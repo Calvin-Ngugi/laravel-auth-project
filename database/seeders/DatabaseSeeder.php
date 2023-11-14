@@ -96,6 +96,7 @@ class DatabaseSeeder extends Seeder
             'view diagnosis',
             'edit diagnosis',
             'create diagnosis',
+            'view rooms'
         ]);
 
         $nurseRole->syncPermissions([
@@ -105,6 +106,7 @@ class DatabaseSeeder extends Seeder
             'view checkups',
             'create checkups',
             'edit checkups',
+            'view rooms'
         ]);
 
         $checkerRole->syncPermissions([
@@ -117,6 +119,7 @@ class DatabaseSeeder extends Seeder
         $financeRole->syncPermissions([
             'view users',
             'view listings',
+            'view rooms'
         ]);
 
         $labTechRole->syncPermissions([
@@ -125,6 +128,7 @@ class DatabaseSeeder extends Seeder
             'view services',
             'edit services',
             'create services',
+            'view rooms'
         ]);
 
         $pharmacistRole->syncPermissions([
@@ -133,6 +137,7 @@ class DatabaseSeeder extends Seeder
             'view medicine',
             'edit medicine',
             'create medicine',
+            'view rooms'
         ]);
         
         $receptionistRole->syncPermissions([
@@ -141,6 +146,7 @@ class DatabaseSeeder extends Seeder
             'view patients',
             'edit patients',
             'create patients',
+            'view rooms'
         ]);
 
         // Create a super admin user
