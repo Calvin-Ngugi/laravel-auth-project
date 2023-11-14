@@ -21,7 +21,7 @@ class CreateDiagnosesTable extends Migration
             $table->foreign('doctor_id')->references('id')->on('users')->onDelete('cascade');
             $table->string('disease')->nullable();
             $table->text('symptoms');
-            $table->json('test')->nullable();
+            $table->json('tests')->nullable();
             $table->text('test_results')->nullable();
             $table->json('treatments')->nullable();
             $table->timestamps();

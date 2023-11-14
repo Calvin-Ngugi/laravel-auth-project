@@ -32,7 +32,7 @@ class DiagnosisController extends Controller
             'patient_id' => 'required',
             'symptoms' => 'required',
             'disease' => 'nullable',
-            'test' => 'nullable',
+            'tests' => 'nullable',
             'test_results' => 'nullable',
             'treatments' => 'nullable',
         ]);
@@ -41,7 +41,7 @@ class DiagnosisController extends Controller
             'patient_id' => $validatedData['patient_id'],
             'doctor_id' => Auth::user()->id,
             'symptoms' => $validatedData['symptoms'],
-            'test' => json_encode($validatedData['test']),
+            'tests' => json_encode($validatedData['tests']),
             'test_results' => $validatedData['test_results'],
             'disease' => $validatedData['disease'],
             'treatments' => json_encode($validatedData['treatments']),

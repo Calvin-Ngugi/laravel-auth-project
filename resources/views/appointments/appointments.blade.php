@@ -75,8 +75,7 @@
             </table>
             {{ $appointments->links('pagination::bootstrap-4') }}
         @else
-            <h4>No appointments found
-                </h2>
+            <h5 class="mt-3">No appointments found</h5>
         @endif
     </div>
 @endsection

@@ -105,7 +105,7 @@ Route::middleware(['auth'])->group(function () {
     
     Route::get('/checkups-search', [CheckUpController::class, 'liveSearch'])->name('checkups.live-search');
 
-    Route::get('/services', [ServiceController::class, 'index'])->name('services.index');
+    Route::get('/services', [ServiceController::class, 'index'])->middleware('permission:view services')->name('services.index');
     
     Route::get('/services/create', [ServiceController::class, 'create'])->name('services.create');
     

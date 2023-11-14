@@ -96,6 +96,8 @@ class DatabaseSeeder extends Seeder
             'view diagnosis',
             'edit diagnosis',
             'create diagnosis',
+            'view services',
+            'view medicine',
             'view rooms'
         ]);
 
@@ -106,6 +108,8 @@ class DatabaseSeeder extends Seeder
             'view checkups',
             'create checkups',
             'edit checkups',
+            'view services',
+            'view medicine',
             'view rooms'
         ]);
 
@@ -119,6 +123,8 @@ class DatabaseSeeder extends Seeder
         $financeRole->syncPermissions([
             'view users',
             'view listings',
+            'view services',
+            'view medicine',
             'view rooms'
         ]);
 
@@ -128,6 +134,8 @@ class DatabaseSeeder extends Seeder
             'view services',
             'edit services',
             'create services',
+            'edit diagnosis',
+            'view diagnosis',
             'view rooms'
         ]);
 
@@ -137,6 +145,7 @@ class DatabaseSeeder extends Seeder
             'view medicine',
             'edit medicine',
             'create medicine',
+            'view diagnosis',
             'view rooms'
         ]);
         
@@ -146,6 +155,8 @@ class DatabaseSeeder extends Seeder
             'view patients',
             'edit patients',
             'create patients',
+            'view medicine',
+            'view services',
             'view rooms'
         ]);
 

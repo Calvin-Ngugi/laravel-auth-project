@@ -29,7 +29,7 @@ class Diagnosis extends Model
         'doctor_id',
         'symptoms',
         'disease',
-        'test',
+        'tests',
         'test_results',
         'treatments',
     ];

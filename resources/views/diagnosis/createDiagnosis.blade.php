@@ -36,7 +36,7 @@
                     <label for="tests">Tests:</label>
                     @foreach ($tests as $test)
                         <div class="form-check">
-                            <input type="checkbox" name="test[]" value="{{ $test->name }}"
+                            <input type="checkbox" name="tests[]" value="{{ $test->name }}"
                                 id="test{{ $test->name }}">
                             <label for="test{{ $test->name }}"
                                 class="form-check-label">{{ $test->name }}</label>

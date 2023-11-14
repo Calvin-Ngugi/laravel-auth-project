@@ -63,7 +63,7 @@ class AppointmentController extends Controller
         DB::beginTransaction();
 
         try {
-            // Create the checkup table
+            // Validate the request data
             $validatedData = $request->validate([
                 'patient_id' => 'required',
                 'height' => 'required',
@@ -73,33 +73,33 @@ class AppointmentController extends Controller
                 'blood_sugar' => 'required',
                 'heart_rate' => 'required',
             ]);
-            
-            $insertedData = [
-                'patient_id' => $validatedData['patient_id'],
-                'height' => $validatedData['height'],
-                'weight' => $validatedData['weight'],
-                'temperature' => $validatedData['temperature'],
-                'blood_pressure' => $validatedData['blood_pressure'],
-                'blood_sugar' => $validatedData['blood_sugar'],
-                'heart_rate' => $validatedData['heart_rate'],
-                'nurse_id' => Auth::user()->id,
-            ];
-            
-            
-            $checkup = CheckUp::create($insertedData);
-            $checkupId = $checkup->id;
-            // Update the appointment table with the checkup ID and status
+
+            // Check if the patient already has a checkup
             $appointment = Appointment::findOrFail($appointmentId);
-            $appointment->update([
-                'checkup_id' => $checkupId,
-                'status' => 'ongoing',
-            ]);
-            // dd($insertedData);
+
+            if ($appointment->checkup_id) {
+                // Patient already has a checkup, update the existing checkup
+                $checkup = CheckUp::findOrFail($appointment->checkup_id);
+                $checkup->update($validatedData);
+            } else {
+                // Create a new checkup
+                $insertedData = array_merge($validatedData, [
+                    'nurse_id' => Auth::user()->id,
+                ]);
+                $checkup = CheckUp::create($insertedData);
+
+                // Update the appointment table with the new checkup ID and status
+                $appointment->update([
+                    'checkup_id' => $checkup->id,
+                    'status' => 'ongoing',
+                ]);
+            }
+
             // Commit the transaction
             DB::commit();
 
             // Return success response or redirect
-            return redirect()->back()->with('success', 'Checkup started successfully');
+            return redirect()->back()->with('success', 'Checkup updated successfully');
         } catch (\Exception $e) {
             // Something went wrong, rollback the transaction
             DB::rollback();
@@ -116,58 +116,67 @@ class AppointmentController extends Controller
         $appointment = Appointment::find($id);
         $tests = Service::all();
         $medicines = Medicine::all();
+        $previousDiagnosis = $appointment->diagnosis;
 
-        return view('appointments.appointDiagnosis', compact('diagnosis', 'patient', 'appointment', 'medicines', 'tests'));
+        return view('appointments.appointDiagnosis', compact('diagnosis', 'patient', 'appointment', 'medicines', 'tests', 'previousDiagnosis'));
     }
 
     public function postDiagnosis(Request $request, $appointmentId)
     {
         // Start a database transaction
         DB::beginTransaction();
-        
+
         try {
             // Validate the request data
-            $validatedData = $request->validate([
+            $insertedData = $request->validate([
                 'patient_id' => 'required',
                 'symptoms' => 'required',
                 'disease' => 'nullable',
-                'test' => 'nullable',
+                'tests' => 'nullable',
                 'test_results' => 'nullable',
                 'treatments' => 'nullable',
             ]);
-            
-            // Create the diagnosis record
-            $insertedData = [
-                'patient_id' => $validatedData['patient_id'],
-                'doctor_id' => Auth::user()->id,
-                'symptoms' => $validatedData['symptoms'],
-                'test' => json_encode($validatedData['test']),
-                'test_results' => $validatedData['test_results'],
-                'disease' => $validatedData['disease'],
-                'treatments' => json_encode($validatedData['treatments']),
+
+            $validatedData = [
+                'patient_id' => $insertedData['patient_id'],
+                'symptoms' => $insertedData['symptoms'],
+                'disease' => $insertedData['disease'],
+                'tests' => json_encode($insertedData['tests']),
+                'test_results' => $insertedData['test_results'],
+                'treatments' => json_encode($insertedData['treatments']),
             ];
-            
-            $diagnosis = Diagnosis::create($insertedData);
-            $diagnosisId = $diagnosis->id;
-            
-            // Update the appointment table with the diagnosis ID and status
+
             $appointment = Appointment::findOrFail($appointmentId);
-            $appointment->update([
-                'diagnosis_id' => $diagnosisId,
-                'status' => 'ongoing',
-            ]);
+
+            if ($appointment->diagnosis_id) {
+                // Patient already has a checkup, update the existing checkup
+                $diagnosis = Diagnosis::findOrFail($appointment->diagnosis_id);
+                $diagnosis->update($validatedData);
+            } else {
+                // Create a new checkup
+                $newData = array_merge($validatedData, [
+                    'doctor_id' => Auth::user()->id,
+                ]);
+                $diagnosis = Diagnosis::create($newData);
+
+                // Update the appointment table with the new checkup ID and status
+                $appointment->update([
+                    'diagnosis_id' => $diagnosis->id,
+                    'status' => 'ongoing',
+                ]);
+            }
 
             // Commit the transaction
             DB::commit();
 
             // Return success response or redirect
-            return redirect()->route('appointment.index')->with('success', 'Diagnosis created');
+            return redirect()->back()->with('success', 'Diagnosis created or updated successfully');
         } catch (\Exception $e) {
             // Something went wrong, rollback the transaction
             DB::rollback();
 
             // Return error response or redirect
-            return redirect()->back()->with('error', 'Error creating diagnosis. Please try again.');
+            return redirect()->back()->with('error', 'Error creating or updating diagnosis. Please try again.');
         }
     }
 
