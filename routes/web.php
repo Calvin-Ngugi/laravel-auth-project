@@ -162,6 +162,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/appointments/{appointmentId}/diagnosis', [AppointmentController::class, 'postDiagnosis'])->name('appointment.postDiagnosis');
 
     Route::post('/appointments', [AppointmentController::class, 'post'])->name('appointment.post');
+
+    Route::post('/appointments/{appointmentId}/assign-room', [RoomController::class, 'assign-room'])->name('rooms.assignRoom');
 });
 
 

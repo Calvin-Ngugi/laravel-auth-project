@@ -19,6 +19,7 @@ class CreateAppointmentsTable extends Migration
             $table->unsignedBigInteger('checkup_id')->nullable();
             $table->unsignedBigInteger('diagnosis_id')->nullable();
             $table->unsignedBigInteger('patient_id')->nullable();
+            $table->unsignedBigInteger('room_id')->nullable();
             $table->enum('status', ['pending', 'ongoing', 'completed'])->default('pending');
             $table->decimal('billing', 8, 2)->nullable();
             $table->timestamps();
@@ -27,6 +28,7 @@ class CreateAppointmentsTable extends Migration
             $table->foreign('checkup_id')->references('id')->on('check_ups')->onDelete('no action')->onUpdate('no action');
             $table->foreign('diagnosis_id')->references('id')->on('diagnoses')->onDelete('no action')->onUpdate('no action');
             $table->foreign('patient_id')->references('id')->on('patients')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreign('room_id')->references('id')->on('rooms')->onDelete('cascade')->onUpdate('cascade');
         });
     }
 

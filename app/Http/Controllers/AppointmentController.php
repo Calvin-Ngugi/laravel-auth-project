@@ -41,9 +41,9 @@ class AppointmentController extends Controller
             'updated_at' => now()
         ];
 
-        Appointment::create($insertedData);
-
-        return redirect()->route('appointment.index')->with('success', 'Appointment created');
+        $appointment = Appointment::create($insertedData);
+        $appointmentId = $appointment->id;
+        return redirect()->route('assignRoom', ['appointmentId' => $appointmentId])->with('success', 'Appointment created');
     }
 
     public function checkup($patient_id, $id)

@@ -18,5 +18,13 @@
             </div>
             <button type="submit" class="btn btn-primary">Create Appointment</button>
         </form>
+        
+        @if (isset($appointment) && $appointment->id)
+            <!-- Show the assign room button only if the appointment is created -->
+            <form class="form" action="{{ route('appointments.assignRoom', ['appointmentId' => $appointment->id]) }}" method="post">
+                @csrf
+                <button type="submit" class="btn btn-success mt-3">Assign Room</button>
+            </form>
+        @endif
     </div>
 @endsection

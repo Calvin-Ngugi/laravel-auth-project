@@ -88,7 +88,7 @@
                 @can('create checkups')
                     <button class="btn btn-success" type="submit">Submit</button>
                 @endcan
-                @if ($previousCheckup->id)
+                @if ($previousCheckup)
                     <a href="{{ route('appointment.diagnosis', ['patient_id' => $appointment['patient_id'], 'id' => $appointment['id']]) }}"
                         class="btn btn-primary">
                         <span>Proceed to Diagnosis</span>

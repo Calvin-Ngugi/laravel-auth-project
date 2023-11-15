@@ -83,10 +83,10 @@
                 @endforeach
             </div>
             <div class="justify-content-between d-flex">
-                @can('create diagnosis')
+                @can('edit diagnosis')
                     <button type="submit" class="btn btn-success">Submit</button>
                 @endcan
-                @if ($previousDiagnosis->id)
+                @if ($previousDiagnosis)
                     <a href="{{ route('appointment.diagnosis', ['patient_id' => $appointment['patient_id'], 'id' => $appointment['id']]) }}"
                         class="btn btn-primary">
                         <span>Proceed to Billing</span>
