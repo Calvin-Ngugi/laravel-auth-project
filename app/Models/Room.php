@@ -19,6 +19,7 @@ class Room extends Model
         'name',
         'role_id',
         'capacity',
+        'quantity',
         'status',
     ];
 }

@@ -7,10 +7,12 @@ use App\Models\CheckUp;
 use App\Models\Diagnosis;
 use App\Models\Medicine;
 use App\Models\Patient;
+use App\Models\Room;
 use App\Models\Service;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Spatie\Permission\Models\Role;
 
 class AppointmentController extends Controller
 {
@@ -33,6 +35,8 @@ class AppointmentController extends Controller
             'patient_id' => 'required',
         ]);
 
+        
+
         $insertedData = [
             'patient_id' => $validatedData['patient_id'],
             'receptionist_id' => Auth::user()->id,
@@ -41,9 +45,8 @@ class AppointmentController extends Controller
             'updated_at' => now()
         ];
 
-        $appointment = Appointment::create($insertedData);
-        $appointmentId = $appointment->id;
-        return redirect()->route('assignRoom', ['appointmentId' => $appointmentId])->with('success', 'Appointment created');
+        Appointment::create($insertedData);
+        return redirect()->route('appointment.index')->with('success', 'Appointment created');
     }
 
     public function checkup($patient_id, $id)
@@ -107,6 +110,45 @@ class AppointmentController extends Controller
             // Return error response or redirect
             return redirect()->back()->with('error', 'Error updating checkup. Please try again.');
         }
+    }
+
+    public function proceedToDiagnosis($appointmentId)
+    {
+        // Find the appointment
+        $appointment = Appointment::findOrFail($appointmentId);
+
+        // Check if the appointment has a room assigned
+        if (!$appointment->room_id) {
+            return redirect()->back()->with('error', 'No room assigned. Please assign a room first.');
+        }
+
+        // Find the current room
+        $currentRoom = Room::findOrFail($appointment->room_id);
+
+        // Find an available room with a doctor role
+        $doctorRoom = Room::where('role_id', Role::where('name', 'doctor')->first()->id)
+        ->where('status', 'available')
+        ->first();
+
+        // Check if a doctor room is available
+        if (!$doctorRoom) {
+            return redirect()->back()->with('error', 'No doctor room available. Please try again later.');
+        }
+
+        // Transfer quantity from the current room to the doctor room
+        $transferQuantity = min($currentRoom->quantity, $doctorRoom->capacity - $doctorRoom->quantity);
+        $currentRoom->update(['quantity' => $currentRoom->quantity - $transferQuantity]);
+        $doctorRoom->update(['quantity' => $doctorRoom->quantity + $transferQuantity]);
+
+        // Update the appointment with the doctor room
+        $appointment->update([
+            'room_id' => $doctorRoom->id,
+        ]);
+
+        $doctorRoom->update(['status' => 'occupied']);
+
+        return redirect()->route('appointment.diagnosis', ['patient_id' => $appointment['patient_id'], 'id' => $appointment['id']])
+        ->with('success', 'Proceeding to Diagnosis. Room assigned successfully.');
     }
 
     public function diagnosis($patient_id, $id)

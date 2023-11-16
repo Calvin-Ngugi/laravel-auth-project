@@ -29,12 +29,18 @@ class Appointment extends Model
         return $this->belongsTo(Diagnosis::class);
     }
 
+    public function room()
+    {
+        return $this->belongsTo(Room::class);
+    }
+
     protected $fillable = [
         'receptionist_id',
-        'checkup_id',
         'diagnosis_id',
+        'checkup_id',
         'patient_id',
-        'status',
+        'room_id',
         'billing',
+        'status',
     ];
 }

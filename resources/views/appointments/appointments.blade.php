@@ -2,6 +2,11 @@
 
 @section('content')
     <div class="contain">
+        @if (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @endif
         <div class="d-flex justify-content-between align-items-center w-100">
             <h2>Appointments</h1>
                 <a class="btn btn-success" href="{{ route('appointment.create') }}">Add New Appointment</a>
@@ -22,6 +27,9 @@
                         <th scope="col">
                             Doctor Attendant
                         </th>
+                        <th>
+                            Room
+                        </th>
                         <th scope="col">
                             Status
                         </th>
@@ -39,6 +47,7 @@
                             </td>
                             <td>{{ optional($appointment->diagnosis)->doctor ? $appointment->diagnosis->doctor->first_name : 'N/A' }}
                             </td>
+                            <td>{{ optional($appointment->room)->name ? $appointment->room->name : 'N/A' }}</td>
                             <td>
                                 <span
                                     class="px-2 rounded-3 py-1 {{ $appointment->status === 'completed' ? 'bg-success' : ($appointment->status === 'ongoing' ? 'bg-warning' : 'bg-danger') }}">
@@ -53,16 +62,25 @@
                                         <i class="fa-solid fa-ellipsis-vertical"></i>
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        @if ($appointment['status'] == 'completed')
-                                        @else
-                                        <a class="dropdown-item"
-                                            href="{{ route('appointment.checkup', ['patient_id' => $appointment['patient_id'], 'id' => $appointment['id']]) }}">
-                                            @if ($appointment['status'] == 'pending')
-                                                Begin
+                                        @if ($appointment['room_id'] != null)
+                                            @if ($appointment['status'] == 'completed')
                                             @else
-                                                Continue
+                                                <a class="dropdown-item"
+                                                    href="{{ route('appointment.checkup', ['patient_id' => $appointment['patient_id'], 'id' => $appointment['id']]) }}">
+                                                    @if ($appointment['status'] == 'pending')
+                                                        Begin
+                                                    @else
+                                                        Continue
+                                                    @endif
+                                                </a>
                                             @endif
-                                        </a>    
+                                        @else
+                                            <form
+                                                action="{{ route('rooms.assignRoom', ['appointmentId' => $appointment->id]) }}"
+                                                method="post">
+                                                @csrf
+                                                <button class="dropdown-item">Assign Room</button>
+                                            </form>
                                         @endif
                                         <a class="dropdown-item" href="#">Edit</a>
                                         <a class="dropdown-item" href="#">View</a>

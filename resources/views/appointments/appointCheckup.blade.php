@@ -88,14 +88,17 @@
                 @can('create checkups')
                     <button class="btn btn-success" type="submit">Submit</button>
                 @endcan
-                @if ($previousCheckup)
-                    <a href="{{ route('appointment.diagnosis', ['patient_id' => $appointment['patient_id'], 'id' => $appointment['id']]) }}"
-                        class="btn btn-primary">
-                        <span>Proceed to Diagnosis</span>
-                        <i class="bi bi-arrow-right-circle"></i>
-                    </a>
-                @endif
-            </div>
         </form>
+        @if ($previousCheckup)
+            <form action="{{ route('appointments.proceedToDiagnosis', ['appointmentId' => $appointment->id]) }}"
+                method="post">
+                @csrf
+                <button class="btn btn-primary" type="submit">
+                    <span>Proceed to Diagnosis</span>
+                    <i class="bi bi-arrow-right-circle"></i>
+                </button>
+            </form>
+        @endif
+    </div>
     </div>
 @endsection

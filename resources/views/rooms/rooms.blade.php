@@ -20,6 +20,9 @@
                             Capacity
                         </th>
                         <th scope="col">
+                            Quantity
+                        </th>
+                        <th scope="col">
                             Status
                         </th>
                         <th scope="col">
@@ -33,6 +36,7 @@
                             <td>{{ $room['name'] }}</td>
                             <td>{{ $room->role->name }}</td>
                             <td>{{ $room['capacity'] }}</td>
+                            <td>{{ $room['quantity'] }}</td>
                             <td>
                                 <span
                                     class="px-2 rounded-3 py-1 {{ $room->status === 'available' ? 'bg-success' : ($room->status === 'occupied' ? 'bg-warning' : 'bg-danger') }}">

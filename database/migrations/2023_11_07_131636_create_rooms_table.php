@@ -19,6 +19,7 @@ class CreateRoomsTable extends Migration
             $table->unsignedBigInteger('role_id');
             $table->enum('status', ['Available', 'Occupied', 'Under Maintenance'])->default('Available');
             $table->integer('capacity');
+            $table->integer('quantity')->default(0);
             $table->timestamps();
 
             $table->foreign('role_id')->references('id')->on('roles');

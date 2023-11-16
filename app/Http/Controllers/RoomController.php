@@ -82,21 +82,20 @@ class RoomController extends Controller
         return redirect()->route('rooms.index')->with('success', 'Room updated');
     }
 
-    public function assignRoom(Request $request, $appointmentId)
+    public function assignRoom($appointmentId)
     {
         // Find the appointment
         $appointment = Appointment::findOrFail($appointmentId);
 
         // Check if the appointment already has a room assigned
         if ($appointment->room_id) {
-            return redirect()->route('appointments.index')->with('error', 'Appointment already has a room assigned.');
+            return redirect()->back()->with('error', 'Appointment already has a room assigned.');
         }
 
         // Find an available room based on your criteria (you need to implement this logic)
         $room = $this->findAvailableRoom();
-
         if (!$room) {
-            return redirect()->route('appointments.index')->with('error', 'No available rooms. Please try again later.');
+            return redirect()->back()->with('error', 'No available rooms. Please try again later.');
         }
 
         // Update the appointment with the selected room
@@ -105,9 +104,17 @@ class RoomController extends Controller
             // You might want to update other fields like status here
         ]);
 
-        $room->update(['status' => 'occupied']);
+        // Update the room quantity
+        $room->update([
+            'quantity' => $room->quantity + 1,
+        ]);
 
-        return redirect()->route('appointments.index')->with('success', 'Room assigned successfully.');
+        // Check if the room has reached its capacity
+        if ($room->quantity >= $room->capacity) {
+            $room->update(['status' => 'occupied']);
+        }
+
+        return redirect()->back()->with('success', 'Room assigned successfully.');
     }
 
     private function findAvailableRoom()
@@ -116,7 +123,6 @@ class RoomController extends Controller
         $room = Room::where('role_id', Role::where('name', 'nurse')->first()->id)
             ->where('status', 'available')
             ->first();
-
         return $room;
     }
 }

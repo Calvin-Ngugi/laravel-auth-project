@@ -163,7 +163,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/appointments', [AppointmentController::class, 'post'])->name('appointment.post');
 
-    Route::post('/appointments/{appointmentId}/assign-room', [RoomController::class, 'assign-room'])->name('rooms.assignRoom');
+    Route::post('/appointments/{appointmentId}/assign-room', [RoomController::class, 'assignRoom'])->name('rooms.assignRoom');
+
+    Route::post('/appointments/{appointmentId}/proceed-to-diagnosis', [AppointmentController::class, 'proceedToDiagnosis'])->name('appointments.proceedToDiagnosis');
 });
 
 
