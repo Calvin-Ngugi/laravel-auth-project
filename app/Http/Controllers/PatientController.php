@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Appointment;
 use App\Models\CheckUp;
 use App\Models\Patient;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PatientController extends Controller
 {
@@ -151,5 +153,27 @@ class PatientController extends Controller
         $results = Patient::where('id_number', 'like', '%' . $query . '%')->get();
 
         return $results;
+    }
+
+    public function createAppointment($id)
+    {
+        // Find the patient
+        $patient = Patient::findOrFail($id);
+
+        // Check if the patient already has an existing appointment or has a completed appointment
+        if (!$patient->hasAppointment() || $patient->hasCompletedAppointment()) {
+            // Create the appointment
+            $appointment = new Appointment([
+                'patient_id' => $patient->id,
+                'receptionist_id' => Auth::user()->id,
+                'status' => 'pending',
+            ]);
+
+            $appointment->save();
+
+            return redirect()->route('appointment.index')->with('success', 'Appointment created successfully');
+        } else {
+            return redirect()->route('appointment.index')->with('error', 'Patient already has an appointment or has a completed appointment.');
+        }
     }
 }

@@ -34,6 +34,11 @@ class Appointment extends Model
         return $this->belongsTo(Room::class);
     }
 
+    public function billing()
+    {
+        return $this->hasOne(Billing::class);
+    }
+
     protected $fillable = [
         'receptionist_id',
         'diagnosis_id',

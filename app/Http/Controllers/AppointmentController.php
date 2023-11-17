@@ -30,15 +30,21 @@ class AppointmentController extends Controller
         return view('appointments.createAppointment', compact('patients'));
     }
 
-    public function post(Request $request){
+    public function post(Request $request)
+    {
         $validatedData = $request->validate([
             'patient_id' => 'required',
         ]);
 
-        
+        $patientId = $validatedData['patient_id'];
+        $patient = Patient::findOrFail($patientId);
+
+        if ($patient->hasUnpaidBillings()) {
+            return redirect()->route('appointment.index')->with('error', 'Patient has unpaid billings. Cannot create a new appointment.');
+        }
 
         $insertedData = [
-            'patient_id' => $validatedData['patient_id'],
+            'patient_id' => $patientId,
             'receptionist_id' => Auth::user()->id,
             'status' => 'pending',
             'created_at' => now(),
@@ -57,7 +63,7 @@ class AppointmentController extends Controller
 
         $previousCheckup = $appointment->checkup;
 
-        return view('appointments.appointCheckup', compact('checkups', 'patient','appointment', 'previousCheckup'));
+        return view('appointments.appointCheckup', compact('checkups', 'patient', 'appointment', 'previousCheckup'));
     }
 
     public function postCheckup(Request $request, $appointmentId)
@@ -127,8 +133,8 @@ class AppointmentController extends Controller
 
         // Find an available room with a doctor role
         $doctorRoom = Room::where('role_id', Role::where('name', 'doctor')->first()->id)
-        ->where('status', 'available')
-        ->first();
+            ->where('status', 'available')
+            ->first();
 
         // Check if a doctor room is available
         if (!$doctorRoom) {
@@ -148,7 +154,7 @@ class AppointmentController extends Controller
         $doctorRoom->update(['status' => 'occupied']);
 
         return redirect()->route('appointment.diagnosis', ['patient_id' => $appointment['patient_id'], 'id' => $appointment['id']])
-        ->with('success', 'Proceeding to Diagnosis. Room assigned successfully.');
+            ->with('success', 'Proceeding to Diagnosis. Room assigned successfully.');
     }
 
     public function diagnosis($patient_id, $id)
@@ -221,5 +227,4 @@ class AppointmentController extends Controller
             return redirect()->back()->with('error', 'Error creating or updating diagnosis. Please try again.');
         }
     }
-
 }

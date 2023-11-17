@@ -9,6 +9,21 @@ class Patient extends Model
 {
     use HasFactory;
 
+    public function hasAppointment()
+    {
+        return $this->appointments()->exists();
+    }
+
+    public function hasCompletedAppointment()
+    {
+        return $this->appointments()->where('status', 'completed')->exists();
+    }
+
+    public function appointments()
+    {
+        return $this->hasMany(Appointment::class);
+    }
+
     protected $fillable = [
         'name',
         'gender',
