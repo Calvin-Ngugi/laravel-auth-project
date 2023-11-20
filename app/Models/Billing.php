@@ -11,7 +11,12 @@ class Billing extends Model
 
     public function appointment()
     {
-        return $this->belongsTo(Appointment::class);
+        return $this->hasOne(Appointment::class);
+    }
+
+    public function finance()
+    {
+        return $this->belongsTo(User::class);
     }
 
     public function getTotalAttribute()
@@ -34,6 +39,7 @@ class Billing extends Model
         'appointment_id',
         'consultation_fee',
         'status',
-        'total'
+        'total',
+        'finance_id'
     ];
 }

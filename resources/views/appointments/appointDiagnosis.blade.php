@@ -9,8 +9,8 @@
             <a class="nav-link {{ Route::currentRouteName() === 'appointment.diagnosis' ? 'active fw-bold' : '' }}"
                 aria-current="page"
                 href="{{ route('appointment.diagnosis', ['patient_id' => $appointment['patient_id'], 'id' => $appointment['id']]) }}">diagnosis</a>
-            <a class="nav-link {{ Route::currentRouteName() === 'appointment.index' ? 'active fw-bold' : '' }}"
-                aria-current="page" href="{{ route('appointment.create') }}">billing</a>
+            <a class="nav-link {{ Route::currentRouteName() === 'appointment.billing' ? 'active fw-bold' : '' }}"
+                aria-current="page" href="{{ route('appointment.billing') }}">billing</a>
             <a class="nav-link {{ Route::currentRouteName() === 'appointment.index' ? 'active fw-bold' : '' }}"
                 aria-current="page" href="{{ route('appointment.index') }}">pharmacy</a>
         </div>
@@ -86,14 +86,24 @@
                 @can('edit diagnosis')
                     <button type="submit" class="btn btn-success">Submit</button>
                 @endcan
-                @if ($previousDiagnosis)
-                    <a href="{{ route('appointment.diagnosis', ['patient_id' => $appointment['patient_id'], 'id' => $appointment['id']]) }}"
-                        class="btn btn-primary">
-                        <span>Proceed to Billing</span>
-                        <i class="bi bi-arrow-right-circle"></i>
-                    </a>
-                @endif
-            </div>
         </form>
+        @if ($previousDiagnosis)
+            <form action="{{ route('appointment.proceedToBilling', ['appointmentId' => $appointment->id]) }}"
+                method="post">
+                @csrf
+                <button class="btn btn-primary" type="submit">
+                    <span>Proceed to Billing</span>
+                    <i class="bi bi-arrow-right-circle"></i>
+                </button>
+            </form>
+        @endif
+    </div>
+    <form action="{{ route('appointment.checkout', ['appointmentId' => $appointment->id]) }}" method="post">
+        @csrf
+        <button class="btn btn-primary" type="submit">
+            <span>checkout</span>
+            <i class="bi bi-arrow-right-circle"></i>
+        </button>
+    </form>
     </div>
 @endsection

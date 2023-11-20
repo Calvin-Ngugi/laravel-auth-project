@@ -22,6 +22,9 @@
                             Receptionist
                         </th>
                         <th scope="col">
+                            Accounts Attendant
+                        </th>
+                        <th scope="col">
                             Nurse Attendant
                         </th>
                         <th scope="col">
@@ -43,6 +46,8 @@
                         <tr>
                             <td>{{ $appointment->patient->name }}</td>
                             <td>{{ $appointment->receptionist->first_name }}</td>
+                            <td>{{ optional($appointment->billing)->finance ? $appointment->billing->finance->first_name : 'N/A' }}
+                            </td>
                             <td>{{ optional($appointment->checkup)->nurse ? $appointment->checkup->nurse->first_name : 'N/A' }}
                             </td>
                             <td>{{ optional($appointment->diagnosis)->doctor ? $appointment->diagnosis->doctor->first_name : 'N/A' }}
@@ -62,9 +67,9 @@
                                         <i class="fa-solid fa-ellipsis-vertical"></i>
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                        @if ($appointment['room_id'] != null)
-                                            @if ($appointment['status'] == 'completed')
-                                            @else
+                                        @if ($appointment['status'] == 'completed')
+                                        @else
+                                            @if ($appointment['room_id'] != null)
                                                 <a class="dropdown-item"
                                                     href="{{ route('appointment.checkup', ['patient_id' => $appointment['patient_id'], 'id' => $appointment['id']]) }}">
                                                     @if ($appointment['status'] == 'pending')
@@ -73,14 +78,23 @@
                                                         Continue
                                                     @endif
                                                 </a>
+                                            @else
+                                                @if ($appointment['billing_id'] != null)
+                                                    <form
+                                                        action="{{ route('rooms.assignRoom', ['appointmentId' => $appointment->id]) }}"
+                                                        method="post">
+                                                        @csrf
+                                                        <button class="dropdown-item">Assign Room</button>
+                                                    </form>
+                                                @else
+                                                    <form
+                                                        action="{{ route('appointments.payCheckup', ['appointmentId' => $appointment->id]) }}"
+                                                        method="post">
+                                                        @csrf
+                                                        <button class="dropdown-item">Pay Checkup</button>
+                                                    </form>
+                                                @endif
                                             @endif
-                                        @else
-                                            <form
-                                                action="{{ route('rooms.assignRoom', ['appointmentId' => $appointment->id]) }}"
-                                                method="post">
-                                                @csrf
-                                                <button class="dropdown-item">Assign Room</button>
-                                            </form>
                                         @endif
                                         <a class="dropdown-item" href="#">Edit</a>
                                         <a class="dropdown-item" href="#">View</a>

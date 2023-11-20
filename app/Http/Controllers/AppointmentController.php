@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Appointment;
+use App\Models\Billing;
 use App\Models\CheckUp;
 use App\Models\Diagnosis;
 use App\Models\Medicine;
@@ -36,15 +37,8 @@ class AppointmentController extends Controller
             'patient_id' => 'required',
         ]);
 
-        $patientId = $validatedData['patient_id'];
-        $patient = Patient::findOrFail($patientId);
-
-        if ($patient->hasUnpaidBillings()) {
-            return redirect()->route('appointment.index')->with('error', 'Patient has unpaid billings. Cannot create a new appointment.');
-        }
-
         $insertedData = [
-            'patient_id' => $patientId,
+            'patient_id' => $validatedData['patient_id'],
             'receptionist_id' => Auth::user()->id,
             'status' => 'pending',
             'created_at' => now(),
@@ -146,15 +140,20 @@ class AppointmentController extends Controller
         $currentRoom->update(['quantity' => $currentRoom->quantity - $transferQuantity]);
         $doctorRoom->update(['quantity' => $doctorRoom->quantity + $transferQuantity]);
 
+        $currentRoom->update(['status' => 'available']);
+
         // Update the appointment with the doctor room
         $appointment->update([
             'room_id' => $doctorRoom->id,
         ]);
 
-        $doctorRoom->update(['status' => 'occupied']);
+        if ($doctorRoom['quantity'] == $doctorRoom['capacity']) {
+            $doctorRoom->update(['status' => 'occupied']);
+        }
+
 
         return redirect()->route('appointment.diagnosis', ['patient_id' => $appointment['patient_id'], 'id' => $appointment['id']])
-            ->with('success', 'Proceeding to Diagnosis. Room assigned successfully.');
+            ->with('success', 'Diagnosis Room assigned successfully.');
     }
 
     public function diagnosis($patient_id, $id)
@@ -226,5 +225,102 @@ class AppointmentController extends Controller
             // Return error response or redirect
             return redirect()->back()->with('error', 'Error creating or updating diagnosis. Please try again.');
         }
+    }
+
+    public function proceedToBilling($appointmentId)
+    {
+        // Find the appointment
+        $appointment = Appointment::findOrFail($appointmentId);
+
+        // Check if the appointment has a room assigned
+        if (!$appointment->room_id) {
+            return redirect()->back()->with('error', 'No room assigned. Please assign a room first.');
+        }
+
+        // Find the current room
+        $currentRoom = Room::findOrFail($appointment->room_id);
+
+        // Find an available room with a finance role
+        $financeRoom = Room::where('role_id', Role::where('name', 'finance')->first()->id)
+            ->where('status', 'available')
+            ->first();
+
+        // Check if a finance room is available
+        if (!$financeRoom) {
+            return redirect()->back()->with('error', 'Please try again later.');
+        }
+
+        // Transfer quantity from the current room to the finance room
+        $transferQuantity = min($currentRoom->quantity, $financeRoom->capacity - $financeRoom->quantity);
+        $currentRoom->update(['quantity' => $currentRoom->quantity - $transferQuantity]);
+        $financeRoom->update(['quantity' => $financeRoom->quantity + $transferQuantity]);
+
+        $currentRoom->update(['status' => 'available']);
+
+        // Update the appointment with the finance room
+        $appointment->update([
+            'room_id' => $financeRoom->id,
+        ]);
+
+        if ($financeRoom['quantity'] == $financeRoom['capacity']) {
+            $financeRoom->update(['status' => 'occupied']);
+        }
+
+        return redirect()->route('appointment.billing')->with('success', 'Accounts Room assigned successfully.');
+    }
+
+    public function payCheckup($appointmentId)
+    {
+        $appointment = Appointment::findOrFail($appointmentId);
+
+        if ($appointment->billing_id) {
+            return redirect()->route('appointments.index')->with('error', 'Checkup already paid.');
+        }
+
+        // Create a new billing record
+        $billing = Billing::create([
+            'appointment_id' => $appointment->id,
+            'consultation_fee' => 'paid', // Adjust this based on your enum or string values
+            'status' => 'unpaid', // Adjust this based on your enum or string values
+            'finance_id' => Auth::user()->id,
+        ]);
+
+        // Update the appointment with the billing ID
+        $appointment->update([
+            'billing_id' => $billing->id,
+        ]);
+
+        return redirect()->route('appointment.index')->with('success', 'Checkup paid successfully.');
+    }
+
+
+    public function checkout($appointmentId)
+    {
+        // Find the appointment
+        $appointment = Appointment::findOrFail($appointmentId);
+
+        // Check if the appointment has a room assigned
+        if (!$appointment->room_id) {
+            return redirect()->back()->with('error', 'No room assigned. Please assign a room first.');
+        }
+
+        // Find the current room
+        $currentRoom = Room::findOrFail($appointment->room_id);
+
+        if ($currentRoom->role_id == Role::where('name', 'finance')->first()->id) {
+            $currentRoom->update(['status' => 'available']);
+        }
+
+        if ($currentRoom->quantity > 0) {
+            $currentRoom->update(['quantity' => $currentRoom->quantity - 1]);
+        }
+
+        // Update the appointment with no room assigned
+        $appointment->update([
+            'room_id' => null,
+            'status' => 'completed'
+        ]);
+
+        return redirect()->route('appointment.index')->with('success', 'Patient removed from the room successfully.');
     }
 }

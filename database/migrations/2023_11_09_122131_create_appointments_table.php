@@ -21,7 +21,7 @@ class CreateAppointmentsTable extends Migration
             $table->unsignedBigInteger('patient_id')->nullable();
             $table->unsignedBigInteger('room_id')->nullable();
             $table->enum('status', ['pending', 'ongoing', 'completed'])->default('pending');
-            $table->decimal('billing', 8, 2)->nullable();
+            
             $table->timestamps();
 
             $table->foreign('receptionist_id')->references('id')->on('users')->onDelete('no action');

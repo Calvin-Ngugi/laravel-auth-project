@@ -101,12 +101,6 @@
                                             <i class="fa-solid fa-ellipsis-vertical"></i>
                                         </button>
                                         <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                                            @if ($patient->billing->consultation_fee === 'unpaid')
-                                                <form action="#" method="post">
-                                                    @csrf
-                                                    <button class="dropdown-item">Pay Consultation</button>
-                                                </form>
-                                            @endif
                                             @if (!$patient->hasAppointment() || $patient->hasCompletedAppointment())
                                                 <form action="{{ route('patients.createAppointment', ['id' => $patient['id']]) }}" method="post">
                                                     @csrf

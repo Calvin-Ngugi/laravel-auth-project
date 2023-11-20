@@ -4,7 +4,9 @@
     <div class="contain">
         <div class="d-flex justify-content-between align-items-center w-100">
             <h2>Rooms</h1>
-                <a class="btn btn-success" href="{{ route('rooms.create') }}">Add New Room</a>
+                @can('create rooms')
+                    <a class="btn btn-success" href="{{ route('rooms.create') }}">Add New Room</a>
+                @endcan
         </div>
         @if (count($rooms) > 0)
             <table class="table table-striped mt-3">

@@ -15,10 +15,9 @@ class CreateBillingsTable extends Migration
     {
         Schema::create('billings', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('appointment_id')->constrained(); // Assuming you have an 'appointments' table
             $table->decimal('medicine_cost', 8, 2)->default(0);
             $table->decimal('services_cost', 8, 2)->default(0);
-            $table->decimal('total', 10, 2);
+            $table->decimal('total', 10, 2)->default(0);
             $table->enum('consultation_fee', ['paid', 'unpaid'])->default('unpaid');
             $table->enum('status', ['paid', 'unpaid'])->default('unpaid');
             $table->timestamps();

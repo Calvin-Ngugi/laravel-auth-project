@@ -12,7 +12,7 @@ class BillingController extends Controller
     {
         $billings = Billing::all();
 
-        return view('billings.index', compact('billings'));
+        return view('billings.showBills', compact('billings'));
     }
 
     public function calculateTotal($appointmentId)

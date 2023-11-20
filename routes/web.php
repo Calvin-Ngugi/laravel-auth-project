@@ -3,6 +3,7 @@
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AppointmentController;
+use App\Http\Controllers\BillingController;
 use App\Http\Controllers\CheckUpController;
 use App\Http\Controllers\DiagnosisController;
 use App\Http\Controllers\ListingController;
@@ -86,41 +87,41 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/patients/{id}', [PatientController::class, 'show'])->middleware('permission:view patients')->name('patients.show');
 
     Route::put('/patients/{id}', [PatientController::class, 'update'])->middleware('permission:edit patients')->name('patients.update');
-    
+
     Route::get('/patients/{id}/edit', [PatientController::class, 'edit'])->middleware('permission:edit patients')->name('patients.edit');
 
     Route::get('/patients-search', [PatientController::class, 'liveSearch'])->name('patients.live-search');
-    
+
     Route::get('/checkups', [CheckUpController::class, 'index'])->middleware('permission:view checkups')->name('checkups.index');
-    
+
     Route::get('checkups/create', [CheckUpController::class, 'create'])->middleware('permission:create checkups')->name('checkups.create');
-    
+
     Route::post('/checkups', [CheckUpController::class, 'post'])->middleware('permission:create checkups')->name('checkups.post');
-    
+
     Route::get('/checkups/{id}', [CheckUpController::class, 'show'])->middleware('permission:view checkups')->name('checkups.show');
-    
+
     Route::get('/checkups/{id}/edit', [CheckUpController::class, 'edit'])->middleware('permission:edit checkups')->name('checkups.edit');
-    
+
     Route::put('/checkups/{id}', [CheckUpController::class, 'update'])->middleware('permission:edit checkups')->name('checkups.update');
-    
+
     Route::get('/checkups-search', [CheckUpController::class, 'liveSearch'])->name('checkups.live-search');
 
     Route::get('/services', [ServiceController::class, 'index'])->middleware('permission:view services')->name('services.index');
-    
+
     Route::get('/services/create', [ServiceController::class, 'create'])->name('services.create');
-    
+
     Route::post('/services', [ServiceController::class, 'post'])->name('services.post');
-    
+
     Route::get('/services/{id}', [ServiceController::class, 'show'])->name('services.show');
-    
+
     Route::get('/services/{id}/edit', [ServiceController::class, 'edit'])->name('services.edit');
-    
+
     Route::put('/services/{id}', [ServiceController::class, 'update'])->name('services.update');
 
     Route::get('/services-search', [ServiceController::class, 'liveSearch'])->name('services.live-search');
-    
+
     Route::get('/medicine', [MedicineController::class, 'index'])->name('medicine.index');
-    
+
     Route::get('/medicine/create', [MedicineController::class, 'create'])->name('medicine.create');
 
     Route::post('/medicine', [MedicineController::class, 'post'])->name('medicine.post');
@@ -128,7 +129,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/medicine/{id}', [MedicineController::class, 'show'])->name('medicine.show');
 
     Route::get('/medicine/{id}/edit', [MedicineController::class, 'edit'])->name('medicine.edit');
-    
+
     Route::put('/medicine/{id}', [MedicineController::class, 'update'])->name('medicine.update');
 
     Route::get('/medicine-search', [MedicineController::class, 'liveSearch'])->name('medicine.live-search');
@@ -138,7 +139,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/rooms/create', [RoomController::class, 'create'])->name('rooms.create');
 
     Route::post('/rooms', [RoomController::class, 'post'])->name('rooms.post');
-    
+
     Route::get('/rooms/{id}', [RoomController::class, 'show'])->name('rooms.show');
 
     Route::get('/rooms/{id}/edit', [RoomController::class, 'edit'])->name('rooms.edit');
@@ -146,13 +147,13 @@ Route::middleware(['auth'])->group(function () {
     Route::put('/rooms/{id}', [RoomController::class, 'update'])->name('rooms.update');
 
     Route::get('/diagnosis/create', [DiagnosisController::class, 'create'])->name('diagnosis.create');
-    
+
     Route::post('/diagnosis', [DiagnosisController::class, 'post'])->name('diagnosis.post');
 
     Route::get('/appointments/create', [AppointmentController::class, 'create'])->name('appointment.create');
 
     Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointment.index');
-    
+
     Route::get('/appointments/{patient_id}/checkup/{id}', [AppointmentController::class, 'checkup'])->name('appointment.checkup');
 
     Route::post('/appointments/{appointmentId}/checkup', [AppointmentController::class, 'postCheckup'])->name('appointment.postCheckup');
@@ -167,7 +168,15 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/appointments/{appointmentId}/proceed-to-diagnosis', [AppointmentController::class, 'proceedToDiagnosis'])->name('appointments.proceedToDiagnosis');
 
+    Route::post('/appointments/{appointmentId}/proceed-to-billing', [AppointmentController::class, 'proceedToBilling'])->name('appointment.proceedToBilling');
+
+    Route::post('/appointments/{appointmentId}/checkout', [AppointmentController::class, 'checkout'])->name('appointment.checkout');
+
     Route::post('/patients/{id}/create-appointment', [PatientController::class, 'createAppointment'])->name('patients.createAppointment');
+
+    Route::get('/appointments/billing', [BillingController::class, 'index'])->name('appointment.billing');
+
+    Route::post('/appointments/{appointmentId}/pay-checkup', [AppointmentController::class, 'payCheckup'])->name('appointments.payCheckup');
 });
 
 

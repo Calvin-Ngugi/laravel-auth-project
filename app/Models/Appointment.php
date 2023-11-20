@@ -36,7 +36,7 @@ class Appointment extends Model
 
     public function billing()
     {
-        return $this->hasOne(Billing::class);
+        return $this->belongsTo(Billing::class);
     }
 
     protected $fillable = [
@@ -45,7 +45,7 @@ class Appointment extends Model
         'checkup_id',
         'patient_id',
         'room_id',
-        'billing',
+        'billing_id',
         'status',
     ];
 }
