@@ -159,8 +159,10 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/appointments/{appointmentId}/checkup', [AppointmentController::class, 'postCheckup'])->name('appointment.postCheckup');
 
     Route::get('/appointments/{patient_id}/diagnosis/{id}', [AppointmentController::class, 'diagnosis'])->name('appointment.diagnosis');
-
+    
     Route::post('/appointments/{appointmentId}/diagnosis', [AppointmentController::class, 'postDiagnosis'])->name('appointment.postDiagnosis');
+    
+    Route::get('/appointments/{patient_id}/billing/{id}', [AppointmentController::class, 'billing'])->name('appointment.billing');
 
     Route::post('/appointments', [AppointmentController::class, 'post'])->name('appointment.post');
 
@@ -174,7 +176,7 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/patients/{id}/create-appointment', [PatientController::class, 'createAppointment'])->name('patients.createAppointment');
 
-    Route::get('/appointments/billing', [BillingController::class, 'index'])->name('appointment.billing');
+    Route::get('/billings', [BillingController::class, 'index'])->name('billings.index');
 
     Route::post('/appointments/{appointmentId}/pay-checkup', [AppointmentController::class, 'payCheckup'])->name('appointments.payCheckup');
 });

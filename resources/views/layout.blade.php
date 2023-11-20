@@ -142,6 +142,11 @@
                                         </ul>
                                     </li>
                                 @endcan
+                                <li class="nav-item">
+                                    <a class="nav-link align-middle {{ Route::currentRouteName() === 'billings.index' ? 'active' : '' }}"
+                                        href="{{ route('billings.index') }}"><i class="fs-4 bi-cash-coin"></i><span
+                                            class="ms-1 d-none d-sm-inline">Accounts</span></a>
+                                </li>
                                 @can('view rooms')
                                     <li class="nav-item">
                                         <a class="nav-link align-middle {{ Route::currentRouteName() === 'rooms.index' ? 'active' : '' }}"

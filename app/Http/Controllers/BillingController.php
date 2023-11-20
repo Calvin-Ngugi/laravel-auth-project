@@ -10,7 +10,7 @@ class BillingController extends Controller
 {
     public function index()
     {
-        $billings = Billing::all();
+        $billings = Billing::paginate(10);
 
         return view('billings.showBills', compact('billings'));
     }

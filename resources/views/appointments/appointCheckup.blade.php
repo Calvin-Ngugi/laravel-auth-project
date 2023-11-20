@@ -9,8 +9,9 @@
             <a class="nav-link {{ Route::currentRouteName() === 'appointment.create' ? 'active fw-bold' : '' }}"
                 aria-current="page"
                 href="{{ route('appointment.diagnosis', ['patient_id' => $appointment['patient_id'], 'id' => $appointment['id']]) }}">diagnosis</a>
-            <a class="nav-link {{ Route::currentRouteName() === 'appointment.index' ? 'active fw-bold' : '' }}"
-                aria-current="page" href="{{ route('appointment.create') }}">billing</a>
+            <a class="nav-link {{ Route::currentRouteName() === 'appointment.billing ' ? 'active fw-bold' : '' }}"
+                aria-current="page"
+                href="{{ route('appointment.billing', ['patient_id' => $appointment['patient_id'], 'id' => $appointment['id']]) }}">billing</a>
             <a class="nav-link {{ Route::currentRouteName() === 'appointment.index' ? 'active fw-bold' : '' }}"
                 aria-current="page" href="{{ route('appointment.index') }}">pharmacy</a>
         </div>

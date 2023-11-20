@@ -266,7 +266,16 @@ class AppointmentController extends Controller
             $financeRoom->update(['status' => 'occupied']);
         }
 
-        return redirect()->route('appointment.billing')->with('success', 'Accounts Room assigned successfully.');
+        return redirect()->route('appointment.billing', ['patient_id' => $appointment['patient_id'], 'id' => $appointment['id']])->with('success', 'Accounts Room assigned successfully.');
+    }
+
+    public function billing($patient_id, $id)
+    {
+        $billings = Billing::all();
+        $patient = Patient::findorFail($patient_id);
+        $appointment = Appointment::find($id);
+
+        return view('appointments.appointBilling', compact('billings', 'patient', 'appointment'));
     }
 
     public function payCheckup($appointmentId)

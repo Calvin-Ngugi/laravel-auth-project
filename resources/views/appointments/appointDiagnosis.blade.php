@@ -9,8 +9,9 @@
             <a class="nav-link {{ Route::currentRouteName() === 'appointment.diagnosis' ? 'active fw-bold' : '' }}"
                 aria-current="page"
                 href="{{ route('appointment.diagnosis', ['patient_id' => $appointment['patient_id'], 'id' => $appointment['id']]) }}">diagnosis</a>
-            <a class="nav-link {{ Route::currentRouteName() === 'appointment.billing' ? 'active fw-bold' : '' }}"
-                aria-current="page" href="{{ route('appointment.billing') }}">billing</a>
+            <a class="nav-link {{ Route::currentRouteName() === 'appointment.billing ' ? 'active fw-bold' : '' }}"
+                aria-current="page"
+                href="{{ route('appointment.billing', ['patient_id' => $appointment['patient_id'], 'id' => $appointment['id']]) }}">billing</a>
             <a class="nav-link {{ Route::currentRouteName() === 'appointment.index' ? 'active fw-bold' : '' }}"
                 aria-current="page" href="{{ route('appointment.index') }}">pharmacy</a>
         </div>
@@ -74,11 +75,18 @@
             <div class="form-group mt-3 mb-3">
                 <label for="treatments">Treatments:</label>
                 @foreach ($medicines as $medicine)
-                    <div class="form-check">
-                        <input type="checkbox" name="treatments[]" value="{{ $medicine->name }}"
-                            id="medicine{{ $medicine->name }}"
-                            {{ in_array($medicine->name, old('treatments', json_decode($previousDiagnosis->treatments ?? '[]', true))) ? 'checked' : '' }}>
-                        <label for="medicine{{ $medicine->name }}" class="form-check-label">{{ $medicine->name }}</label>
+                    <div class="form-check d-flex align-items-center justify-content-between">
+                        <div>
+                            <input type="checkbox" name="treatments[]" value="{{ $medicine->name }}"
+                                id="medicine{{ $medicine->name }}"
+                                {{ in_array($medicine->name, old('treatments', json_decode($previousDiagnosis->treatments ?? '[]', true))) ? 'checked' : '' }}>
+                            <label for="medicine{{ $medicine->name }}"
+                                class="form-check-label">{{ $medicine->name }}</label>
+                        </div>
+                        <div class="mt-1">
+                            <label for="quantity">Quantity</label>
+                            <input type="number" class="form-control" name="quantity[]" id="quantity">
+                        </div>
                     </div>
                 @endforeach
             </div>
@@ -98,12 +106,16 @@
             </form>
         @endif
     </div>
-    <form action="{{ route('appointment.checkout', ['appointmentId' => $appointment->id]) }}" method="post">
-        @csrf
-        <button class="btn btn-primary" type="submit">
-            <span>checkout</span>
-            <i class="bi bi-arrow-right-circle"></i>
-        </button>
-    </form>
     </div>
+    <script defer>
+        $(document).ready(function () {
+            $('input[name="treatments[]"]').change(function () {
+                // Find the corresponding quantity input
+                var quantityInput = $(this).closest('div').find('input[name="quantity[]"]');
+                
+                // Enable/disable the quantity input based on checkbox state
+                quantityInput.prop('disabled', !$(this).prop('checked'));
+            });
+        });
+    </script>
 @endsection
