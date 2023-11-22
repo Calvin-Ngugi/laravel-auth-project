@@ -174,7 +174,6 @@ class AppointmentController extends Controller
     {
         // Start a database transaction
         DB::beginTransaction();
-
         try {
             // Validate the request data
             $insertedData = $request->validate([
@@ -197,9 +196,6 @@ class AppointmentController extends Controller
 
             $appointment = Appointment::findOrFail($appointmentId);
             $quantity = $request->quantity;
-            // $billing = Billing::findOrFail($appointment->billing_id);
-            // $billing->calculateAndUpdateMedicineCost();
-            // dd($billing);
 
             if ($appointment->diagnosis_id) {
                 // Patient already has a checkup, update the existing checkup
@@ -270,14 +266,15 @@ class AppointmentController extends Controller
             // Commit the transaction
             DB::commit();
 
+            $appointment = Appointment::findOrFail($appointment_id);
+            $this->updateMedicineCostInBilling($appointment);
+            $this->calculateServicesCostInDiagnosis($appointment);
+            
             // Return success response or redirect
             return redirect()->back()->with('success', 'Diagnosis created or updated successfully');
         } catch (\Exception $e) {
-            // Something went wrong, rollback the transaction
             DB::rollback();
-
-            // Return error response or redirect
-            return redirect()->back()->with('error', 'Error creating or updating diagnosis. Please try again.');
+            return redirect()->back()->with('error', $e->getMessage());
         }
     }
 
@@ -385,5 +382,51 @@ class AppointmentController extends Controller
         ]);
 
         return redirect()->route('appointment.index')->with('success', 'Patient removed from the room successfully.');
+    }
+
+    private function updateMedicineCostInBilling($appointment)
+    {
+        // Calculate the total medicine cost and update the billing record
+        $totalMedicineCost = 0;
+        // Loop through associated prescriptions
+        foreach ($appointment->diagnosis->prescriptions as $prescription) {
+            // Calculate the cost for the current prescription and add to the total
+            if($prescription->is_valid){
+                $medicineCost = $prescription->quantity * $prescription->medicine->unit_cost;
+                $totalMedicineCost += $medicineCost;
+            }
+        }
+
+        // Update the billing record with the total medicine cost
+        $billing = $appointment->billing;
+        $billing->update([
+            'medicine_cost' => $totalMedicineCost,
+        ]);
+    }
+
+    private function calculateServicesCostInDiagnosis($appointment)
+    {
+        // Decode the JSON string in the 'tests' field
+        $tests = json_decode($appointment->diagnosis->tests);
+        $billing = $appointment->billing;
+        // Initialize the total services cost
+        $totalServicesCost = 0;
+
+        // Check if 'tests' is not empty and is an array
+        if (!empty($tests) && is_array($tests)) {
+            // Loop through the tests array and sum up the 'services_cost'
+            foreach ($tests as $test) {
+                $service = Service::findOrFail($test);
+                // dd($service);
+                if (isset($service['unit_cost'])) {
+                    $totalServicesCost += $service['unit_cost'];
+                }
+            }
+        }
+
+        // Update the diagnosis record with the total services cost
+        $billing->update([
+            'services_cost' => $totalServicesCost,
+        ]);
     }
 }

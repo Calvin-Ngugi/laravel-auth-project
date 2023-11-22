@@ -29,7 +29,6 @@ class Diagnosis extends Model
         return $this->hasMany(Prescription::class, 'diagnosis_id');
     }
 
-
     protected $fillable = [
         'patient_id',
         'doctor_id',

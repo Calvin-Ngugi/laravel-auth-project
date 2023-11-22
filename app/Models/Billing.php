@@ -32,7 +32,7 @@ class Billing extends Model
         // Loop through associated prescriptions
         foreach ($this->prescriptions as $prescription) {
             // Calculate the cost for the current prescription and add to the total
-            $medicineCost = $prescription->quantity * $prescription->medicine->cost;
+            $medicineCost = $prescription->quantity * $prescription->medicine->unit_cost;
             $totalMedicineCost += $medicineCost;
         }
 

@@ -117,20 +117,3 @@
         });
     </script>
 @endsection
-
-
-{{-- @foreach ($medicines as $medicine)
-    <div class="form-check d-flex align-items-center justify-content-between">
-        <div>
-            <input type="checkbox" name="treatments[]" value="{{ $medicine->id }}" id="medicine{{ $medicine->id }}"
-                {{ in_array($medicine->id, old('treatments', json_decode($previousDiagnosis->treatments ?? '[]'))) ? 'checked' : '' }}>
-            <label for="medicine{{ $medicine->id }}" class="form-check-label">{{ $medicine->name }}</label>
-        </div>
-        <div class="mt-1">
-            <label for="quantity">Quantity</label>
-            <input type="number" class="form-control" name="quantity[]" id="quantity{{ $medicine->id }}"
-                value="{{ old('quantity.' . $loop->index, isset($previousDiagnosis->quantities[$loop->index]) ? $previousDiagnosis->quantities[$loop->index] : '') }}"
-                {{ in_array($medicine->id, old('treatments', json_decode($previousDiagnosis->treatments ?? '[]'))) ? '' : 'disabled' }}>
-        </div>
-    </div>
-@endforeach --}}
