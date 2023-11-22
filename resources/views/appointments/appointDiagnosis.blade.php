@@ -57,9 +57,9 @@
                 <label for="tests">Tests:</label>
                 @foreach ($tests as $test)
                     <div class="form-check">
-                        <input type="checkbox" name="tests[]" value="{{ $test->name }}" id="tests{{ $test->name }}"
-                            {{ in_array($test->name, old('tests', json_decode($previousDiagnosis->tests ?? '[]', true))) ? 'checked' : '' }}>
-                        <label for="test{{ $test->name }}" class="form-check-label">{{ $test->name }}</label>
+                        <input type="checkbox" name="tests[]" value="{{ $test->id }}" id="tests{{ $test->id }}"
+                            {{ in_array($test->id, old('tests', json_decode($previousDiagnosis->tests ?? '[]', true))) ? 'checked' : '' }}>
+                        <label for="test{{ $test->id }}" class="form-check-label">{{ $test->name }}</label>
                     </div>
                 @endforeach
             </div>
@@ -74,18 +74,17 @@
             </div>
             <div class="form-group mt-3 mb-3">
                 <label for="treatments">Treatments:</label>
-                @foreach ($medicines as $medicine)
+                @foreach ($medicines as $index => $medicine)
                     <div class="form-check d-flex align-items-center justify-content-between">
-                        <div>
-                            <input type="checkbox" name="treatments[]" value="{{ $medicine->name }}"
-                                id="medicine{{ $medicine->name }}"
-                                {{ in_array($medicine->name, old('treatments', json_decode($previousDiagnosis->treatments ?? '[]', true))) ? 'checked' : '' }}>
-                            <label for="medicine{{ $medicine->name }}"
-                                class="form-check-label">{{ $medicine->name }}</label>
-                        </div>
+                        <label class="form-check-label d-flex align-items-center justify-content-center" style="gap: 2px;">
+                            <input class="form-check-input" type="checkbox" name="treatments[]" value={{ $medicine->id }}
+                                {{ in_array($medicine->id, old('treatments', json_decode($previousDiagnosis->treatments ?? '[]'))) ? 'checked' : '' }}>
+                            {{ $medicine->name }} </label>
                         <div class="mt-1">
-                            <label for="quantity">Quantity</label>
-                            <input type="number" class="form-control" name="quantity[]" id="quantity">
+                            <label>Quantity</label>
+                            <input class="form-control" type="number" name="quantity[]" placeholder="Enter quantity"
+                                {{-- value="{{ $previousDiagnosis->prescriptions[$index]->quantity ?? '' }}"  --}}
+                                {{ in_array($medicine->id, old('treatments', json_decode($previousDiagnosis->treatments ?? '[]'))) ? '' : 'disabled' }}>
                         </div>
                     </div>
                 @endforeach
@@ -108,14 +107,30 @@
     </div>
     </div>
     <script defer>
-        $(document).ready(function () {
-            $('input[name="treatments[]"]').change(function () {
+        $(document).ready(function() {
+            $('input[name="treatments[]"]').change(function() {
                 // Find the corresponding quantity input
-                var quantityInput = $(this).closest('div').find('input[name="quantity[]"]');
-                
+                var quantityInput = $(this).closest('.form-check').find('input[name="quantity[]"]');
                 // Enable/disable the quantity input based on checkbox state
                 quantityInput.prop('disabled', !$(this).prop('checked'));
             });
         });
     </script>
 @endsection
+
+
+{{-- @foreach ($medicines as $medicine)
+    <div class="form-check d-flex align-items-center justify-content-between">
+        <div>
+            <input type="checkbox" name="treatments[]" value="{{ $medicine->id }}" id="medicine{{ $medicine->id }}"
+                {{ in_array($medicine->id, old('treatments', json_decode($previousDiagnosis->treatments ?? '[]'))) ? 'checked' : '' }}>
+            <label for="medicine{{ $medicine->id }}" class="form-check-label">{{ $medicine->name }}</label>
+        </div>
+        <div class="mt-1">
+            <label for="quantity">Quantity</label>
+            <input type="number" class="form-control" name="quantity[]" id="quantity{{ $medicine->id }}"
+                value="{{ old('quantity.' . $loop->index, isset($previousDiagnosis->quantities[$loop->index]) ? $previousDiagnosis->quantities[$loop->index] : '') }}"
+                {{ in_array($medicine->id, old('treatments', json_decode($previousDiagnosis->treatments ?? '[]'))) ? '' : 'disabled' }}>
+        </div>
+    </div>
+@endforeach --}}

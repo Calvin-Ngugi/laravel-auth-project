@@ -8,6 +8,7 @@ use App\Models\CheckUp;
 use App\Models\Diagnosis;
 use App\Models\Medicine;
 use App\Models\Patient;
+use App\Models\Prescription;
 use App\Models\Room;
 use App\Models\Service;
 use Illuminate\Http\Request;
@@ -164,8 +165,9 @@ class AppointmentController extends Controller
         $tests = Service::all();
         $medicines = Medicine::all();
         $previousDiagnosis = $appointment->diagnosis;
+        $prescriptions = Prescription::all();
 
-        return view('appointments.appointDiagnosis', compact('diagnosis', 'patient', 'appointment', 'medicines', 'tests', 'previousDiagnosis'));
+        return view('appointments.appointDiagnosis', compact('diagnosis', 'patient', 'appointment', 'medicines', 'tests', 'previousDiagnosis', 'prescriptions'));
     }
 
     public function postDiagnosis(Request $request, $appointmentId)
@@ -194,11 +196,46 @@ class AppointmentController extends Controller
             ];
 
             $appointment = Appointment::findOrFail($appointmentId);
+            $quantity = $request->quantity;
+            // $billing = Billing::findOrFail($appointment->billing_id);
+            // $billing->calculateAndUpdateMedicineCost();
+            // dd($billing);
 
             if ($appointment->diagnosis_id) {
                 // Patient already has a checkup, update the existing checkup
                 $diagnosis = Diagnosis::findOrFail($appointment->diagnosis_id);
                 $diagnosis->update($validatedData);
+                $diagnosis->prescriptions()->update(['is_valid' => 0]);
+
+                if (isset($request->treatments) && !empty($request->treatments)) {
+                    $medicines = $request->treatments;
+                    $patient_id = $validatedData['patient_id'];
+                    $appointment_id = $appointment['id'];
+                    $prescriptions = $diagnosis->prescriptions;
+
+                    foreach ($medicines as $index => $medicine_id) {
+                        // Check if there is an existing prescription for the medicine in the diagnosis
+                        $existingPrescription = $prescriptions->where('medicine_id', $medicine_id)->first();
+
+                        if ($existingPrescription) {
+                            // Update the existing prescription
+                            $existingPrescription->update([
+                                'is_valid' => 1,
+                                'quantity' => $quantity[$index],
+                            ]);
+                        } else {
+                            // Create a new prescription
+                            Prescription::create([
+                                'patient_id' => $patient_id,
+                                'appointment_id' => $appointment_id,
+                                'medicine_id' => $medicine_id,
+                                'quantity' => $quantity[$index],
+                                'diagnosis_id' => $diagnosis->id,
+                                'is_valid' => 1
+                            ]);
+                        }
+                    }
+                }
             } else {
                 // Create a new checkup
                 $newData = array_merge($validatedData, [
@@ -206,6 +243,23 @@ class AppointmentController extends Controller
                 ]);
                 $diagnosis = Diagnosis::create($newData);
 
+                if (isset($request->treatments) && !empty($request->treatments)) {
+                    $medicines = $request->treatments;
+                    $patient_id = $validatedData['patient_id'];
+                    $appointment_id = $appointment['id'];
+
+                    foreach ($medicines as $index => $medicine_id) {
+                        $medicine_id = $medicine_id;
+                        Prescription::create([
+                            'patient_id' => $patient_id,
+                            'appointment_id' => $appointment_id,
+                            'medicine_id' => $medicine_id,
+                            'quantity' => $quantity[$index],
+                            'diagnosis_id' => $diagnosis->id,
+                            'is_valid' => 1,
+                        ]);
+                    }
+                }
                 // Update the appointment table with the new checkup ID and status
                 $appointment->update([
                     'diagnosis_id' => $diagnosis->id,

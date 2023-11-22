@@ -20,6 +20,7 @@ class CreatePrescriptionsTable extends Migration
             $table->foreignId('diagnosis_id')->constrained();
             $table->foreignId('medicine_id')->constrained();
             $table->integer('quantity');
+            $table->integer('is_valid')->efault(0);
             $table->timestamps();
         });
     }
