@@ -41,9 +41,9 @@
                             <tr>
                                 <td>{{ $billing->finance->first_name }}</td>
                                 <td>{{ $billing->appointment->patient->name }}</td>
-                                <td>{{ $billing['services_cost'] }}</td>
-                                <td>{{ $billing['medicine_cost'] }}</td>
-                                <td>{{ $billing['total'] }}</td>
+                                <td data-services-cost="{{ $billing['services_cost'] }}">{{ $billing['services_cost'] }}</td>
+                                <td data-medicine-cost="{{ $billing['medicine_cost'] }}">{{ $billing['medicine_cost'] }}</td>
+                                <td data-total="{{ $billing['total'] }}">{{ $billing['total'] }}</td>
                                 <td>
                                     <span
                                         class="px-2 rounded-3 py-1 {{ $billing->consultation_fee === 'paid' ? 'bg-success' : ($billing->consultation_fee === 'unpaid' ? 'bg-warning' : 'bg-danger') }}">
@@ -79,4 +79,31 @@
             @endif
         @endunless
     </div>
+    <script>
+        $(document).ready(function() {
+            // Function to update the total
+            function updateTotal() {
+                var overallTotal = 0;
+
+                // Loop through each row in the table
+                $('tbody tr').each(function() {
+                    var servicesCost = parseFloat($(this).find('td[data-services-cost]').text()) || 0;
+                    var medicineCost = parseFloat($(this).find('td[data-medicine-cost]').text()) || 0;
+
+                    // Calculate the total for each row and add it to the overall total
+                    var rowTotal = servicesCost + medicineCost;
+                    overallTotal += rowTotal;
+
+                    // Update the total cell for the current row
+                    $(this).find('td[data-total]').text(rowTotal.toFixed(2));
+                });
+
+                // Display the overall total somewhere on the page
+                $('#overall-total').text('Overall Total: $' + overallTotal.toFixed(2));
+            }
+
+            // Initial call to updateTotal
+            updateTotal();
+        });
+    </script>
 @endsection

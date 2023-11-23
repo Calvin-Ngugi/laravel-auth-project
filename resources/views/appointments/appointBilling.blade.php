@@ -17,6 +17,16 @@
         </div>
     </nav>
     <div class="mt-4 w-50 m-auto">
+        @if (session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @elseif (session('success'))
+            <div class="alert alert-success">
+                {{ session('success') }}
+            </div>
+        @else
+        @endif
         <div class="card">
             <div class="card-header">
                 Patient Billing Information
@@ -30,27 +40,36 @@
                     </tr>
                     <tr>
                         <td>Consultation Fee</td>
-                        <td>2500</td>
-                        <td>paid</td>
+                        <td>2000.00</td>
+                        <td>{{ $appointment->billing->consultation_fee }}</td>
                     </tr>
                     <tr>
                         <td>Services Fee</td>
-                        <td>2500</td>
-                        <td>unpaid</td>
+                        <td data-services-cost="{{ $appointment->billing['services_cost'] }}">
+                            {{ $appointment->billing->services_cost }}</td>
+                        <td>{{ $appointment->billing->status }}</td>
                     </tr>
                     <tr>
                         <td>Medicines Fee</td>
-                        <td>2500</td>
-                        <td>unpaid</td>
+                        <td data-medicine-cost="{{ $appointment->billing['medicine_cost'] }}">
+                            {{ $appointment->billing->medicine_cost }}</td>
+                        <td>{{ $appointment->billing->status }}</td>
                     </tr>
                     <tr class="table-primary">
                         <td>Total</td>
-                        <td>2500</td>
-                        <td>unpaid</td>
+                        <td data-total="{{ $appointment->billing['total'] }}">{{ $appointment->billing->total }}</td>
+                        <td data-status="{{ $appointment->billing['status'] }}">{{ $appointment->billing->status }}</td>
                     </tr>
                 </table>
                 <div class="justify-content-between d-flex">
-                    <button class="btn btn-success"><i class="bi bi-currency-dollar"></i> <span>Checkout</span></button>
+                    <form action="{{ route('appointment.payTotal', ['appointmentId' => $appointment->id]) }}"
+                        method="post">
+                        @csrf
+                        <button class="btn btn-success" type="submit">
+                            <i class="bi bi-currency-dollar"></i>
+                            <span>Checkout</span>
+                        </button>
+                    </form>
                     <form action="{{ route('appointment.checkout', ['appointmentId' => $appointment->id]) }}"
                         method="post">
                         @csrf
@@ -63,4 +82,33 @@
             </div>
         </div>
     </div>
+    <script>
+        $(document).ready(function() {
+            // Function to update the total
+            function updateTotal() {
+                var overallTotal = 0;
+
+                // Loop through each row in the table
+                $('tbody').each(function() {
+                    var servicesCost = parseFloat($(this).find('td[data-services-cost]').text()) || 0;
+                    var medicineCost = parseFloat($(this).find('td[data-medicine-cost]').text()) || 0;
+                    var status = '{{ $appointment->billing->status }}';
+
+                    // Calculate the total for each row and add it to the overall total
+                    if (status == 'unpaid'){
+                        var rowTotal = servicesCost + medicineCost;
+                        overallTotal += rowTotal;
+    
+                        // Update the total cell for the current row
+                        $(this).find('td[data-total]').text(rowTotal.toFixed(2));
+                    }
+                });
+
+                // Display the overall total somewhere on the page
+                $('#overall-total').text('Overall Total: $' + overallTotal.toFixed(2));
+            }
+
+            updateTotal();
+        });
+    </script>
 @endsection

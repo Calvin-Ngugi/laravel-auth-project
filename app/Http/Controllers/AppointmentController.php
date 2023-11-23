@@ -269,7 +269,7 @@ class AppointmentController extends Controller
             $appointment = Appointment::findOrFail($appointment_id);
             $this->updateMedicineCostInBilling($appointment);
             $this->calculateServicesCostInDiagnosis($appointment);
-            
+
             // Return success response or redirect
             return redirect()->back()->with('success', 'Diagnosis created or updated successfully');
         } catch (\Exception $e) {
@@ -322,11 +322,10 @@ class AppointmentController extends Controller
 
     public function billing($patient_id, $id)
     {
-        $billings = Billing::all();
-        $patient = Patient::findorFail($patient_id);
-        $appointment = Appointment::find($id);
+        $patient = Patient::findOrFail($patient_id);
+        $appointment = Appointment::with('billing')->findOrFail($id);
 
-        return view('appointments.appointBilling', compact('billings', 'patient', 'appointment'));
+        return view('appointments.appointBilling', compact('patient', 'appointment'));
     }
 
     public function payCheckup($appointmentId)
@@ -353,6 +352,38 @@ class AppointmentController extends Controller
         return redirect()->route('appointment.index')->with('success', 'Checkup paid successfully.');
     }
 
+    public function payTotal($appointmentId)
+    {
+        try {
+            // Fetch the appointment
+            $appointment = Appointment::findOrFail($appointmentId);
+
+            // Fetch the associated billing
+            $billing = $appointment->billing;
+
+            if ($billing && $billing->status === 'unpaid') {
+                // Calculate the total by adding services_cost and medicine_cost
+                $total = $billing->services_cost + $billing->medicine_cost + 2000;
+
+                // Update the total field
+                // dd($total);
+                $billing->update([
+                    'total' => $total,
+                    'status' => 'paid',
+                    'finance_id' => Auth::user()->id
+                ]);
+
+                // Redirect back with success message
+                return redirect()->back()->with('success', 'Paid successfully');
+            }
+
+            // Redirect back with error message if billing doesn't exist or has already been paid
+            return redirect()->back()->with('error', 'Bill not found or already paid');
+        } catch (\Exception $e) {
+            // Handle exceptions, log errors, or redirect with an error message
+            return redirect()->back()->with('error', 'An error occurred during checkout. Please try again.');
+        }
+    }
 
     public function checkout($appointmentId)
     {
@@ -362,6 +393,10 @@ class AppointmentController extends Controller
         // Check if the appointment has a room assigned
         if (!$appointment->room_id) {
             return redirect()->back()->with('error', 'No room assigned. Please assign a room first.');
+        }
+
+        if ($appointment->billing->status != 'paid') {
+            return redirect()->back()->with('error', 'Pay up to checkout');
         }
 
         // Find the current room
@@ -391,7 +426,7 @@ class AppointmentController extends Controller
         // Loop through associated prescriptions
         foreach ($appointment->diagnosis->prescriptions as $prescription) {
             // Calculate the cost for the current prescription and add to the total
-            if($prescription->is_valid){
+            if ($prescription->is_valid) {
                 $medicineCost = $prescription->quantity * $prescription->medicine->unit_cost;
                 $totalMedicineCost += $medicineCost;
             }

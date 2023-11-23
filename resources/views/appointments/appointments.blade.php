@@ -96,7 +96,6 @@
                                                 @endif
                                             @endif
                                         @endif
-                                        <a class="dropdown-item" href="#">Edit</a>
                                         <a class="dropdown-item" href="#">View</a>
                                     </div>
                                 </div>

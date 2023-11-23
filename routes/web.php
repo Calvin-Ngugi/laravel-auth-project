@@ -174,11 +174,13 @@ Route::middleware(['auth'])->group(function () {
 
     Route::post('/appointments/{appointmentId}/checkout', [AppointmentController::class, 'checkout'])->name('appointment.checkout');
 
-    Route::post('/patients/{id}/create-appointment', [PatientController::class, 'createAppointment'])->name('patients.createAppointment');
-
-    Route::get('/billings', [BillingController::class, 'index'])->name('billings.index');
-
     Route::post('/appointments/{appointmentId}/pay-checkup', [AppointmentController::class, 'payCheckup'])->name('appointments.payCheckup');
+
+    Route::post('/appointments/{appointmentId}/pay-total', [AppointmentController::class, 'payTotal'])->name('appointment.payTotal');
+    
+    Route::post('/patients/{id}/create-appointment', [PatientController::class, 'createAppointment'])->name('patients.createAppointment');
+    
+    Route::get('/billings', [BillingController::class, 'index'])->name('billings.index');
 });
 
 
