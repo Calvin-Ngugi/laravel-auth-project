@@ -50,6 +50,15 @@ class AppointmentController extends Controller
         return redirect()->route('appointment.index')->with('success', 'Appointment created');
     }
 
+    public function show($id)
+    {
+        $appointment = Appointment::findOrFail($id);
+        $medicines = Medicine::all();
+        $services = Service::all();
+
+        return view('appointments.appointment', compact('appointment', 'services', 'medicines'));
+    }
+
     public function checkup($patient_id, $id)
     {
         $checkups = CheckUp::all();
@@ -274,7 +283,7 @@ class AppointmentController extends Controller
             return redirect()->back()->with('success', 'Diagnosis created or updated successfully');
         } catch (\Exception $e) {
             DB::rollback();
-            return redirect()->back()->with('error', $e->getMessage());
+            return redirect()->back()->with('error', 'Enter quantity to proceed');
         }
     }
 
@@ -436,6 +445,7 @@ class AppointmentController extends Controller
         $billing = $appointment->billing;
         $billing->update([
             'medicine_cost' => $totalMedicineCost,
+            'status' => 'unpaid'
         ]);
     }
 

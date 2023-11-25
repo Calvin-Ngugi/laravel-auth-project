@@ -153,6 +153,8 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/appointments/create', [AppointmentController::class, 'create'])->name('appointment.create');
 
     Route::get('/appointments', [AppointmentController::class, 'index'])->name('appointment.index');
+    
+    Route::get('/appointments/{id}', [AppointmentController::class, 'show'])->name('appointment.show');
 
     Route::get('/appointments/{patient_id}/checkup/{id}', [AppointmentController::class, 'checkup'])->name('appointment.checkup');
 

@@ -96,7 +96,7 @@
                                                 @endif
                                             @endif
                                         @endif
-                                        <a class="dropdown-item" href="#">View</a>
+                                        <a class="dropdown-item" href="{{ route('appointment.show', ['id' => $appointment->id]) }}">View</a>
                                     </div>
                                 </div>
                             </td>

@@ -29,6 +29,11 @@ class Diagnosis extends Model
         return $this->hasMany(Prescription::class, 'diagnosis_id');
     }
 
+    public function services()
+    {
+        return $this->hasMany(Service::class, 'tests');
+    }
+
     protected $fillable = [
         'patient_id',
         'doctor_id',
