@@ -404,6 +404,7 @@ class AppointmentController extends Controller
             return redirect()->back()->with('error', 'No room assigned. Please assign a room first.');
         }
 
+        // Check if the billing is paid
         if ($appointment->billing->status != 'paid') {
             return redirect()->back()->with('error', 'Pay up to checkout');
         }
@@ -424,6 +425,16 @@ class AppointmentController extends Controller
             'room_id' => null,
             'status' => 'completed'
         ]);
+
+        // Decrement the no_in_inventory for each medicine associated with the prescriptions
+        foreach ($appointment->diagnosis->prescriptions as $prescription) {
+            $medicine = $prescription->medicine;
+
+            // Assuming you have a 'no_in_inventory' column in your medicines table
+            if ($medicine->no_in_inventory > 0) {
+                $medicine->decrement('no_in_inventory');
+            }
+        }
 
         return redirect()->route('appointment.index')->with('success', 'Patient removed from the room successfully.');
     }

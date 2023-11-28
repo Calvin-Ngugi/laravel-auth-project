@@ -70,6 +70,7 @@
                             <span>Checkout</span>
                         </button>
                     </form>
+                    @if ($appointment->billing->total > 0)
                     <form action="{{ route('appointment.checkout', ['appointmentId' => $appointment->id]) }}"
                         method="post">
                         @csrf
@@ -78,6 +79,7 @@
                             <i class="bi bi-arrow-right-circle"></i>
                         </button>
                     </form>
+                    @endif
                 </div>
             </div>
         </div>
