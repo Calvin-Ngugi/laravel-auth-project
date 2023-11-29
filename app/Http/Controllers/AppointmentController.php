@@ -18,11 +18,28 @@ use Spatie\Permission\Models\Role;
 
 class AppointmentController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $appointments = Appointment::paginate(8);
+        $query = Appointment::query();
 
-        return view('appointments.appointments', compact('appointments'));
+        // Handle sorting
+        $sortColumn = $request->input('sort_by', 'id');
+        $sortOrder = $request->input('sort_order', 'asc');
+
+        $validSortColumns = ['patient_name', 'receptionist_name', 'finance_name', 'nurse_name', 'doctor_name', 'room_name', 'status'];
+
+        if (in_array($sortColumn, $validSortColumns)) {
+            // Modify the sorting logic based on your relationships
+            $query->orderBy($sortColumn, $sortOrder);
+        } else {
+            $sortColumn = 'id'; // Default sorting column
+            $sortOrder = 'asc';  // Default sorting order
+        }
+
+        // Retrieve paginated appointments with eager-loaded relationships
+        $appointments = $query->with(['patient', 'receptionist', 'billing.finance', 'checkup.nurse', 'diagnosis.doctor', 'room'])->paginate(8);
+
+        return view('appointments.appointments', compact('appointments', 'sortColumn', 'sortOrder'));
     }
 
     public function create()

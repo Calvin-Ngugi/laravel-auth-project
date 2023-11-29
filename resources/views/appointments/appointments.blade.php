@@ -30,11 +30,20 @@
                         <th scope="col">
                             Doctor Attendant
                         </th>
-                        <th>
+                        <th scope="col">
                             Room
                         </th>
                         <th scope="col">
-                            Status
+                            <a href="{{ route('appointment.index', ['sort_by' => 'status', 'sort_order' => $sortColumn === 'status' ? ($sortOrder === 'asc' ? 'desc' : 'asc') : 'asc']) }}"
+                                class="text-light text-decoration-none">Status
+                                @if ($sortColumn == 'status')
+                                    @if ($sortOrder == 'asc')
+                                        <i class="bi-caret-up-fill"></i>
+                                    @else
+                                        <i class="bi-caret-down-fill"></i>
+                                    @endif
+                                @endif
+                            </a>
                         </th>
                         <th scope="col">
                             Actions
