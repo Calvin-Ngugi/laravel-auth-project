@@ -27,7 +27,13 @@ class CheckUpController extends Controller
             $query->orderBy('patient_id', $sortOrder);
         } elseif ($sortColumn == 'height') {
             $query->orderBy('height', $sortOrder);
-        } // Add more conditions for other columns
+        } elseif ($sortColumn == 'weight') {
+            $query->orderBy('weight', $sortOrder);
+        } elseif ($sortColumn == 'temperature') {
+            $query->orderBy('temperature', $sortOrder);
+        } elseif ($sortColumn == 'blood_pressure') {
+            $query->orderBy('blood_pressure', $sortOrder);
+        }
 
         // Handle search
         if ($request->has('search')) {
